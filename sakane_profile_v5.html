@@ -1,0 +1,1646 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>坂根康之 — Structural Intelligence Architect</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
+
+        :root {
+            --bg0: #080c12;
+            --bg1: #0d1320;
+            --bg2: #121a2e;
+            --gray: #7a8899;
+            --navy: #1e3a5f;
+            --red: #e05252;
+            --red2: #ff6b6b;
+            --green: #2ecc71;
+            --green2: #00ff88;
+            --cyan: #38bdf8;
+            --cyan2: #00d4ff;
+            --gold: #f59e0b;
+            --white: #f0f4f8;
+            --panel: rgba(13, 19, 32, 0.97);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background: var(--bg0);
+            color: var(--white);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ── GRID BACKGROUND ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(56, 189, 248, .03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(56, 189, 248, .03) 1px, transparent 1px);
+            background-size: 48px 48px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ── HEADER ── */
+        header {
+            position: relative;
+            z-index: 10;
+            padding: 60px 40px 40px;
+            text-align: center;
+            border-bottom: 1px solid rgba(56, 189, 248, .15);
+        }
+
+        .eyebrow {
+            font-family: 'Syne', sans-serif;
+            font-size: .72em;
+            letter-spacing: .3em;
+            color: var(--cyan);
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+
+        header h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2.2em, 5vw, 3.6em);
+            font-weight: 800;
+            line-height: 1.1;
+            background: linear-gradient(120deg, #fff 0%, var(--cyan2) 45%, var(--green2) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 5px;
+        }
+
+        .header-name-en {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.1em;
+            font-weight: 400;
+            color: var(--gray);
+            margin-bottom: 10px;
+        }
+
+        .header-role {
+            font-size: 1.05em;
+            color: var(--gray);
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        .header-lead {
+            max-width: 680px;
+            margin: 0 auto;
+            text-align: left;
+            font-size: .95em;
+            color: #a8bbd0;
+            line-height: 1.8;
+            background: rgba(56, 189, 248, .06);
+            border: 1px solid rgba(56, 189, 248, .2);
+            border-radius: 12px;
+            padding: 18px 24px;
+        }
+
+        .header-lead strong {
+            color: var(--cyan2);
+        }
+
+        .header-lead h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #38bdf8;
+            text-align: center;
+            margin: 0 0 16px 0;
+            line-height: 1.3;
+        }
+
+        /* ── MAP AREA ── */
+        .map-area {
+            position: relative;
+            z-index: 10;
+            padding: 40px 20px 20px;
+        }
+
+        .map-hint {
+            text-align: center;
+            font-size: .82em;
+            color: var(--gray);
+            letter-spacing: .1em;
+            margin-bottom: 24px;
+        }
+
+        .map-hint span {
+            display: inline-block;
+            background: rgba(56, 189, 248, .1);
+            border: 1px solid rgba(56, 189, 248, .25);
+            border-radius: 20px;
+            padding: 5px 16px;
+        }
+
+        /* ── SVG MAP ── */
+        #structure-map {
+            display: block;
+            max-width: 1100px;
+            margin: 0 auto;
+            width: 100%;
+            cursor: default;
+        }
+
+        /* NODE STYLES */
+        .node-group {
+            cursor: pointer;
+        }
+
+        .node-group .node-bg {
+            transition: filter .25s, transform .25s;
+            transform-origin: center;
+            transform-box: fill-box;
+        }
+
+        .node-group:hover .node-bg {
+            filter: brightness(1.35) drop-shadow(0 0 10px currentColor);
+        }
+
+        .node-group.active .node-bg {
+            filter: brightness(1.5) drop-shadow(0 0 18px currentColor);
+        }
+
+        .node-group .node-label {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 11px;
+            fill: #fff;
+            text-anchor: middle;
+            pointer-events: none;
+        }
+
+        .node-group .node-sub {
+            font-size: 9px;
+            fill: #aac;
+            text-anchor: middle;
+            pointer-events: none;
+        }
+
+        /* EDGE */
+        .edge {
+            stroke-width: 1.5;
+            fill: none;
+            opacity: .5;
+        }
+
+        .edge-power {
+            stroke: var(--cyan2);
+            stroke-width: 2.5;
+            stroke-dasharray: 6 3;
+            opacity: .7;
+        }
+
+        .edge-causal {
+            stroke: var(--green2);
+            stroke-width: 2.5;
+            opacity: .8;
+        }
+
+        .edge-surface {
+            stroke: var(--gray);
+            stroke-width: 1;
+            stroke-dasharray: 4 4;
+            opacity: .4;
+        }
+
+        .edge-void {
+            stroke: var(--red2);
+            stroke-width: 1.5;
+            opacity: .6;
+        }
+
+        /* animated dashes */
+        .edge-power {
+            animation: dash-flow 3s linear infinite;
+        }
+
+        .edge-causal {
+            animation: dash-flow 2s linear infinite;
+        }
+
+        @keyframes dash-flow {
+            to {
+                stroke-dashoffset: -20;
+            }
+        }
+
+        /* ARROW MARKERS */
+        marker path {}
+
+        /* ── DETAIL PANEL ── */
+        #detail-panel {
+            position: fixed;
+            top: 0;
+            right: -480px;
+            width: min(480px, 100vw);
+            height: 100vh;
+            background: var(--panel);
+            border-left: 1px solid rgba(56, 189, 248, .2);
+            z-index: 1000;
+            transition: right .35s cubic-bezier(.16, 1, .3, 1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #detail-panel.open {
+            right: 0;
+        }
+
+        .panel-header {
+            padding: 24px 24px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, .08);
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            flex-shrink: 0;
+        }
+
+        .panel-icon {
+            font-size: 2em;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .panel-title-area {
+            flex: 1;
+        }
+
+        .panel-tag {
+            font-size: .7em;
+            font-weight: 700;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .panel-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.35em;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.2;
+            margin-bottom: 4px;
+        }
+
+        .panel-en {
+            font-size: .8em;
+            color: var(--gray);
+            font-style: italic;
+        }
+
+        .panel-close {
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-size: 1.4em;
+            cursor: pointer;
+            padding: 4px;
+            transition: color .2s;
+            flex-shrink: 0;
+        }
+
+        .panel-close:hover {
+            color: #fff;
+        }
+
+        .panel-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 24px 32px;
+        }
+
+        .panel-body::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .panel-body::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .panel-body::-webkit-scrollbar-thumb {
+            background: rgba(56, 189, 248, .3);
+            border-radius: 2px;
+        }
+
+        /* TIMELINE inside panel */
+        .timeline {
+            margin-bottom: 24px;
+        }
+
+        .tl-item {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 0;
+            position: relative;
+        }
+
+        .tl-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 32px;
+            width: 2px;
+            bottom: -2px;
+            background: rgba(255, 255, 255, .08);
+        }
+
+        .tl-dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .75em;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .tl-past .tl-dot {
+            background: rgba(122, 136, 153, .2);
+            border: 1px solid var(--gray);
+            color: var(--gray);
+        }
+
+        .tl-now .tl-dot {
+            background: rgba(56, 189, 248, .2);
+            border: 2px solid var(--cyan2);
+            color: var(--cyan2);
+        }
+
+        .tl-future .tl-dot {
+            background: rgba(0, 255, 136, .15);
+            border: 1px solid var(--green2);
+            color: var(--green2);
+        }
+
+        .tl-content {
+            padding-bottom: 20px;
+        }
+
+        .tl-era {
+            font-size: .7em;
+            font-weight: 700;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .tl-past .tl-era {
+            color: var(--gray);
+        }
+
+        .tl-now .tl-era {
+            color: var(--cyan2);
+        }
+
+        .tl-future .tl-era {
+            color: var(--green2);
+        }
+
+        .tl-text {
+            font-size: .88em;
+            color: #b0c4d8;
+            line-height: 1.7;
+        }
+
+        .tl-text strong {
+            color: #fff;
+        }
+
+        /* RELATIONS */
+        .relations {
+            margin-bottom: 24px;
+        }
+
+        .rel-title {
+            font-size: .75em;
+            font-weight: 700;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            color: var(--cyan);
+            margin-bottom: 12px;
+        }
+
+        .rel-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .rel-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, .04);
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 8px;
+            padding: 10px 14px;
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        .rel-item:hover {
+            background: rgba(56, 189, 248, .1);
+            border-color: rgba(56, 189, 248, .3);
+        }
+
+        .rel-arrow {
+            font-size: .8em;
+            color: var(--cyan);
+            flex-shrink: 0;
+        }
+
+        .rel-name {
+            font-size: .85em;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .rel-desc {
+            font-size: .78em;
+            color: var(--gray);
+        }
+
+        /* KPI BLOCK */
+        .kpi-block {
+            background: rgba(0, 255, 136, .08);
+            border: 1px solid rgba(0, 255, 136, .25);
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+        }
+
+        .kpi-block .kpi-label {
+            font-size: .7em;
+            font-weight: 700;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            color: var(--green2);
+            margin-bottom: 8px;
+        }
+
+        .kpi-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .kpi-list li {
+            font-size: .85em;
+            color: #a0f0c8;
+            list-style: none;
+            padding-left: 14px;
+            position: relative;
+        }
+
+        .kpi-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--green2);
+        }
+
+        /* OVERLAY */
+        #overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .5);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s;
+        }
+
+        #overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* ── BOTTOM NAV ── */
+        .bottom-section {
+            position: relative;
+            z-index: 10;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px 20px 60px;
+        }
+
+        .tab-nav {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 28px;
+        }
+
+        .tab-btn {
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid rgba(255, 255, 255, .1);
+            color: var(--gray);
+            padding: 9px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: .82em;
+            font-weight: 500;
+            font-family: 'Noto Sans JP', sans-serif;
+            transition: all .25s;
+        }
+
+        .tab-btn:hover {
+            border-color: var(--cyan);
+            color: #fff;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--cyan2), var(--green2));
+            border-color: transparent;
+            color: #000;
+            font-weight: 700;
+        }
+
+        .tab-section {
+            display: none;
+        }
+
+        .tab-section.active {
+            display: block;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, .04);
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 14px;
+            padding: 22px;
+            transition: all .25s;
+        }
+
+        .info-card:hover {
+            background: rgba(255, 255, 255, .07);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .3);
+        }
+
+        .ic-icon {
+            font-size: 1.6em;
+            margin-bottom: 10px;
+        }
+
+        .ic-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1em;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .ic-body {
+            font-size: .85em;
+            color: #8fa8bb;
+            line-height: 1.7;
+        }
+
+        .ic-tag {
+            display: inline-block;
+            margin-top: 10px;
+            background: rgba(56, 189, 248, .15);
+            color: var(--cyan2);
+            font-size: .72em;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+
+        /* mobile */
+        @media(max-width:640px) {
+            header {
+                padding: 40px 20px 30px;
+            }
+
+            .map-area {
+                padding: 20px 10px;
+            }
+
+            #detail-panel {
+                width: 100vw;
+            }
+        }
+
+        /* ── CTA BLOCK ── */
+        .cta-block {
+            margin-top: 20px;
+            padding: 20px 24px;
+            background: rgba(0, 255, 136, 0.08);
+            border: 1px solid rgba(0, 255, 136, 0.25);
+            border-radius: 12px;
+            line-height: 1.8;
+        }
+
+        .cta-block-title {
+            font-size: 1em;
+            font-weight: 700;
+            color: #00ff88;
+            margin-bottom: 8px;
+        }
+
+        .cta-block-body {
+            font-size: 0.9em;
+            color: #a0f0c8;
+        }
+
+        .cta-block-body strong {
+            color: #e0fff4;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="eyebrow">Structural Intelligence Architect — 2026</div>
+        <h1>坂根 康之</h1>
+        <div class="header-name-en">Yasuyuki Sakane</div>
+        <div class="header-role">CSVFO &nbsp;/&nbsp; Chief Structural Value & Future Officer</div>
+        <div class="header-lead">
+            <h2>「最近、坂根は何をしているの？」</h2>
+            セキュリティの第一線を離れ、<strong>組織の意思決定構造そのものを設計する仕事</strong>に移行中。<br>
+            下の図の<strong>各ノードをクリック</strong>すると、その要素の意味・他との相関・過去から未来の文脈が展開します。
+        </div>
+    </header>
+
+    <!-- MAP -->
+    <div class="map-area">
+        <div class="map-hint"><span>▼ ノードをクリックして構造を探索する</span></div>
+
+        <svg id="structure-map" viewBox="0 0 1000 620" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <!-- glow filters -->
+                <filter id="glow-cyan" x="-30%" y="-30%" width="160%" height="160%">
+                    <feGaussianBlur stdDeviation="4" result="blur" />
+                    <feMerge>
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                </filter>
+                <filter id="glow-red" x="-30%" y="-30%" width="160%" height="160%">
+                    <feGaussianBlur stdDeviation="6" result="blur" />
+                    <feMerge>
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                </filter>
+                <filter id="glow-green" x="-30%" y="-30%" width="160%" height="160%">
+                    <feGaussianBlur stdDeviation="4" result="blur" />
+                    <feMerge>
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                </filter>
+                <!-- arrow markers -->
+                <marker id="arrow-cyan" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                    <path d="M0,0 L0,6 L8,3 z" fill="#00d4ff" />
+                </marker>
+                <marker id="arrow-green" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                    <path d="M0,0 L0,6 L8,3 z" fill="#00ff88" />
+                </marker>
+                <marker id="arrow-gray" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                    <path d="M0,0 L0,6 L6,3 z" fill="#7a8899" opacity=".5" />
+                </marker>
+                <marker id="arrow-red" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                    <path d="M0,0 L0,6 L8,3 z" fill="#ff6b6b" />
+                </marker>
+            </defs>
+
+            <!-- ── LAYER LABELS ── -->
+            <text x="30" y="58" font-family="Syne,sans-serif" font-size="9" font-weight="700" fill="#7a8899"
+                letter-spacing="2" text-anchor="start" opacity=".6">LAYER 1 — AS IS</text>
+            <text x="30" y="178" font-family="Syne,sans-serif" font-size="9" font-weight="700" fill="#5d8aa8"
+                letter-spacing="2" text-anchor="start" opacity=".6">LAYER 2 — HIDDEN SUBSTRATE</text>
+            <text x="30" y="318" font-family="Syne,sans-serif" font-size="9" font-weight="700" fill="#c0392b"
+                letter-spacing="2" text-anchor="start" opacity=".6">LAYER 3 — TRANSFORMATION ENGINE</text>
+            <text x="30" y="458" font-family="Syne,sans-serif" font-size="9" font-weight="700" fill="#27ae60"
+                letter-spacing="2" text-anchor="start" opacity=".6">LAYER 4 — TO BE</text>
+
+            <!-- ── LANE SEPARATORS ── -->
+            <line x1="20" y1="70" x2="980" y2="70" stroke="rgba(255,255,255,.06)" stroke-width="1" />
+            <line x1="20" y1="190" x2="980" y2="190" stroke="rgba(255,255,255,.06)" stroke-width="1" />
+            <line x1="20" y1="330" x2="980" y2="330" stroke="rgba(255,255,255,.06)" stroke-width="1" />
+            <line x1="20" y1="470" x2="980" y2="470" stroke="rgba(255,255,255,.06)" stroke-width="1" />
+
+            <!-- ═══ EDGES ═══ -->
+            <!-- Surface → Void (dashed gray) -->
+            <path class="edge edge-surface" d="M200,115 Q200,260 430,340" marker-end="url(#arrow-gray)" />
+            <path class="edge edge-surface" d="M500,115 Q500,260 500,340" marker-end="url(#arrow-gray)" />
+            <path class="edge edge-surface" d="M800,115 Q800,260 570,340" marker-end="url(#arrow-gray)" />
+
+            <!-- L2 → Void (power source, animated cyan) -->
+            <path class="edge edge-power" d="M150,255 Q290,305 430,345" stroke-dasharray="8 4"
+                marker-end="url(#arrow-cyan)" />
+            <path class="edge edge-power" d="M320,255 Q380,300 455,345" stroke-dasharray="8 4"
+                marker-end="url(#arrow-cyan)" />
+            <path class="edge edge-power" d="M500,255 Q500,300 500,345" stroke-dasharray="8 4"
+                marker-end="url(#arrow-cyan)" />
+            <path class="edge edge-power" d="M680,255 Q620,300 545,345" stroke-dasharray="8 4"
+                marker-end="url(#arrow-cyan)" />
+            <path class="edge edge-power" d="M850,255 Q710,305 570,345" stroke-dasharray="8 4"
+                marker-end="url(#arrow-cyan)" />
+
+            <!-- Void → Contradictions (red) -->
+            <path class="edge edge-void" d="M480,375 Q380,390 330,410" marker-end="url(#arrow-red)" />
+            <path class="edge edge-void" d="M500,375 L500,410" marker-end="url(#arrow-red)" />
+            <path class="edge edge-void" d="M520,375 Q620,390 670,410" marker-end="url(#arrow-red)" />
+
+            <!-- Contradictions → Mechanisms (red solid) -->
+            <path class="edge edge-void" d="M330,440 Q310,450 280,470" marker-end="url(#arrow-red)" opacity=".8" />
+            <path class="edge edge-void" d="M500,440 L500,470" marker-end="url(#arrow-red)" opacity=".8" />
+            <path class="edge edge-void" d="M670,440 Q690,450 720,470" marker-end="url(#arrow-red)" opacity=".8" />
+
+            <!-- Mechanisms → Outcomes (causal, animated green) -->
+            <path class="edge edge-causal" d="M220,530 Q180,545 160,555" marker-end="url(#arrow-green)" opacity=".0" />
+            <!-- placeholder; outcomes below -->
+            <!-- actual outcome arrows drawn via JS after layout -->
+
+            <!-- Mechanisms → L4 outcomes -->
+            <path class="edge edge-causal" d="M280,500 Q280,530 270,540" marker-end="url(#arrow-green)" />
+            <path class="edge edge-causal" d="M500,500 Q500,530 500,540" marker-end="url(#arrow-green)" />
+            <path class="edge edge-causal" d="M720,500 Q720,530 730,540" marker-end="url(#arrow-green)" />
+
+            <!-- ═══ LAYER 1 NODES ═══ -->
+            <g class="node-group" data-id="security" transform="translate(200,92)">
+                <rect class="node-bg" x="-85" y="-24" width="170" height="48" rx="8" fill="#1a2535" stroke="#7a8899"
+                    stroke-width="1.5" />
+                <text class="node-label" y="-4">Security Specialist</text>
+                <text class="node-sub" y="11">市場認識の表層</text>
+            </g>
+            <g class="node-group" data-id="riskadvisor" transform="translate(500,92)">
+                <rect class="node-bg" x="-85" y="-24" width="170" height="48" rx="8" fill="#1a2535" stroke="#7a8899"
+                    stroke-width="1.5" />
+                <text class="node-label" y="-4">Tech Risk Advisor</text>
+                <text class="node-sub" y="11">部分的な理解</text>
+            </g>
+            <g class="node-group" data-id="pm" transform="translate(800,92)">
+                <rect class="node-bg" x="-85" y="-24" width="170" height="48" rx="8" fill="#1a2535" stroke="#7a8899"
+                    stroke-width="1.5" />
+                <text class="node-label" y="-4">Project Manager</text>
+                <text class="node-sub" y="11">役割の矮小化</text>
+            </g>
+
+            <!-- ═══ LAYER 2 NODES ═══ -->
+            <g class="node-group" data-id="cognitive" transform="translate(150,232)">
+                <rect class="node-bg" x="-77" y="-22" width="154" height="44" rx="20" fill="#0f2235" stroke="#5d8aa8"
+                    stroke-width="1.5" />
+                <text class="node-label" y="-4" font-size="10">認知科学 &amp; 哲学</text>
+                <text class="node-sub" y="9">Cognitive Science</text>
+            </g>
+            <g class="node-group" data-id="physics" transform="translate(320,232)">
+                <rect class="node-bg" x="-77" y="-22" width="154" height="44" rx="20" fill="#0f2235" stroke="#5d8aa8"
+                    stroke-width="1.5" />
+                <text class="node-label" y="-4" font-size="10">物理学 &amp; システム</text>
+                <text class="node-sub" y="9">Physics &amp; Dynamics</text>
+            </g>
+            <g class="node-group" data-id="history" transform="translate(500,232)">
+                <rect class="node-bg" x="-77" y="-22" width="154" height="44" rx="20" fill="#0f2235" stroke="#5d8aa8"
+                    stroke-width="1.5" />
+                <text class="node-label" y="-4" font-size="10">歴史学 / Foundation</text>
+                <text class="node-sub" y="9">Asimov Paradigm</text>
+            </g>
+            <g class="node-group" data-id="economics" transform="translate(680,232)">
+                <rect class="node-bg" x="-77" y="-22" width="154" height="44" rx="20" fill="#0f2235" stroke="#5d8aa8"
+                    stroke-width="1.5" />
+                <text class="node-label" y="-4" font-size="10">行動経済学 &amp; 社会工学</text>
+                <text class="node-sub" y="9">Behavioral Economics</text>
+            </g>
+            <g class="node-group" data-id="deeptech" transform="translate(850,232)">
+                <rect class="node-bg" x="-77" y="-22" width="154" height="44" rx="20" fill="#0f2235" stroke="#5d8aa8"
+                    stroke-width="1.5" />
+                <text class="node-label" y="-4" font-size="10">26年の深層技術</text>
+                <text class="node-sub" y="9">Deep Tech Reality</text>
+            </g>
+
+            <!-- ═══ THE VOID (center engine) ═══ -->
+            <g class="node-group" data-id="void" transform="translate(500,358)" filter="url(#glow-red)">
+                <polygon class="node-bg" points="0,-38 44,-12 44,12 0,38 -44,12 -44,-12" fill="#2a0f0f" stroke="#e05252"
+                    stroke-width="2.5" />
+                <text class="node-label" y="-6" font-size="11" fill="#ff6b6b">THE VOID</text>
+                <text class="node-sub" y="9" font-size="9" fill="#cc8888">認識の断絶</text>
+            </g>
+
+            <!-- ═══ CONTRADICTIONS ═══ -->
+            <g class="node-group" data-id="c_code" transform="translate(330,425)">
+                <rect class="node-bg" x="-68" y="-18" width="136" height="36" rx="6" fill="#200f0f" stroke="#e05252"
+                    stroke-width="1" />
+                <text class="node-label" y="-3" font-size="9.5">Code vs Constitution</text>
+                <text class="node-sub" y="10" font-size="8">技術と法の緊張</text>
+            </g>
+            <g class="node-group" data-id="c_innov" transform="translate(500,425)">
+                <rect class="node-bg" x="-68" y="-18" width="136" height="36" rx="6" fill="#200f0f" stroke="#e05252"
+                    stroke-width="1" />
+                <text class="node-label" y="-3" font-size="9.5">Innovation vs Entropy</text>
+                <text class="node-sub" y="10" font-size="8">創造と安定の対立</text>
+            </g>
+            <g class="node-group" data-id="c_speed" transform="translate(670,425)">
+                <rect class="node-bg" x="-68" y="-18" width="136" height="36" rx="6" fill="#200f0f" stroke="#e05252"
+                    stroke-width="1" />
+                <text class="node-label" y="-3" font-size="9.5">Speed vs Trust</text>
+                <text class="node-sub" y="10" font-size="8">速度と信頼の矛盾</text>
+            </g>
+
+            <!-- ═══ MECHANISMS ═══ -->
+            <g class="node-group" data-id="emvis" transform="translate(280,487)">
+                <rect class="node-bg" x="-79" y="-23" width="158" height="46" rx="8" fill="#1a0f0f" stroke="#e05252"
+                    stroke-width="2" />
+                <text class="node-label" y="-5" fill="#ff9999">EMVIS</text>
+                <text class="node-sub" y="10" fill="#cc8888">PoC地獄を解消する</text>
+            </g>
+            <g class="node-group" data-id="ccbr" transform="translate(500,487)">
+                <rect class="node-bg" x="-79" y="-23" width="158" height="46" rx="8" fill="#1a0f0f" stroke="#e05252"
+                    stroke-width="2" />
+                <text class="node-label" y="-5" fill="#ff9999">CCBR</text>
+                <text class="node-sub" y="10" fill="#cc8888">予兆を検知する</text>
+            </g>
+            <g class="node-group" data-id="esi" transform="translate(720,487)">
+                <rect class="node-bg" x="-79" y="-23" width="158" height="46" rx="8" fill="#1a0f0f" stroke="#e05252"
+                    stroke-width="2" />
+                <text class="node-label" y="-5" fill="#ff9999">ESI Framework</text>
+                <text class="node-sub" y="10" fill="#cc8888">意思決定を構造化</text>
+            </g>
+
+            <!-- ═══ LAYER 4 OUTCOMES ═══ -->
+            <g class="node-group" data-id="structural_arch" transform="translate(280,548)">
+                <rect class="node-bg" x="-85" y="-20" width="170" height="40" rx="18" fill="#0a2a15" stroke="#27ae60"
+                    stroke-width="2" />
+                <text class="node-label" y="-4" font-size="10" fill="#00ff88">Structural Architect</text>
+                <text class="node-sub" y="9" fill="#58d68d">構造設計者</text>
+            </g>
+            <g class="node-group" data-id="decision_arch" transform="translate(500,548)">
+                <rect class="node-bg" x="-85" y="-20" width="170" height="40" rx="18" fill="#0a2a15" stroke="#27ae60"
+                    stroke-width="2" />
+                <text class="node-label" y="-4" font-size="10" fill="#00ff88">Chief Decision Architect</text>
+                <text class="node-sub" y="9" fill="#58d68d">意思決定OS設計者</text>
+            </g>
+            <g class="node-group" data-id="csvfo" transform="translate(720,548)">
+                <rect class="node-bg" x="-85" y="-20" width="170" height="40" rx="18" fill="#0a2a15" stroke="#27ae60"
+                    stroke-width="2" />
+                <text class="node-label" y="-4" font-size="10" fill="#00ff88">Sovereign Venture Partner</text>
+                <text class="node-sub" y="9" fill="#58d68d">CSVFO</text>
+            </g>
+        </svg>
+    </div>
+
+    <!-- OVERLAY -->
+    <div id="overlay"></div>
+
+    <!-- DETAIL PANEL -->
+    <div id="detail-panel">
+        <div class="panel-header">
+            <div class="panel-icon" id="p-icon">？</div>
+            <div class="panel-title-area">
+                <div class="panel-tag" id="p-tag">Layer</div>
+                <div class="panel-title" id="p-title">選択してください</div>
+                <div class="panel-en" id="p-en"></div>
+            </div>
+            <button class="panel-close" onclick="closePanel()">✕</button>
+        </div>
+        <div class="panel-body" id="p-body"></div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <div class="bottom-section">
+        <div class="tab-nav">
+            <button class="tab-btn active" data-tab="roots">🧠 知的基盤</button>
+            <button class="tab-btn" data-tab="works">🛠️ 現在の研究開発</button>
+            <button class="tab-btn" data-tab="match">💬 ご相談ください！</button>
+        </div>
+
+        <div class="tab-section active" id="tab-roots">
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="ic-icon">🧠</div>
+                    <div class="ic-title">認知科学 &amp; 哲学</div>
+                    <div class="ic-body">なぜ人・組織は合理的に見えて非合理な選択をするのか。意思決定の「OS」を解剖する眼が、すべての設計の起点になる。</div>
+                    <span class="ic-tag">思考の解剖学</span>
+                </div>
+                <div class="info-card">
+                    <div class="ic-icon">⚛️</div>
+                    <div class="ic-title">物理学 &amp; システムダイナミクス</div>
+                    <div class="ic-body">エントロピー・複雑系・フィードバックループ。組織を「物理システム」として捉えることで、崩壊の予兆が見える。</div>
+                    <span class="ic-tag">構造の本質理解</span>
+                </div>
+                <div class="info-card">
+                    <div class="ic-icon">📚</div>
+                    <div class="ic-title">歴史学（Asimov / Foundation）</div>
+                    <div class="ic-body">心理歴史学的アプローチで、「今起きていること」を数十年のスパンで文脈化する。大規模システムの興亡パターンを読む。</div>
+                    <span class="ic-tag">長期パターン認識</span>
+                </div>
+                <div class="info-card">
+                    <div class="ic-icon">💹</div>
+                    <div class="ic-title">行動経済学 &amp; 社会工学</div>
+                    <div class="ic-body">限定合理性・ナッジ理論・認知バイアスの経済的影響。人間が「合理的に見えて非合理な選択をする構造」を設計に組み込むことで、意図した行動変容を引き出せる。
+                    </div>
+                    <span class="ic-tag">社会的因果の設計</span>
+                </div>
+                <div class="info-card">
+                    <div class="ic-icon">🔧</div>
+                    <div class="ic-title">26年の深層技術現実</div>
+                    <div class="ic-body">パケット解析からカーネル、実装の地獄、技術的負債の本質。泥臭い現場知が「上滑りなDX論」に騙されない眼を作る。</div>
+                    <span class="ic-tag">生々しい現場知</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-section" id="tab-works">
+            <div class="info-grid">
+                <div class="info-card" style="border-color:rgba(224,82,82,.3);">
+                    <div class="ic-icon">🏗️</div>
+                    <div class="ic-title">EMVIS — PoC地獄解消AI</div>
+                    <div class="ic-body">海外Deep Techが日本市場進出時に陥る「PoC地獄」を解消。稟議・合意形成プロセスをモンテカルロ法でシミュレーション。<br><br><strong
+                            style="color:#ff9999;">PoC期間 50%短縮 / 成功率 2〜3倍</strong></div>
+                    <span class="ic-tag" style="background:rgba(224,82,82,.2);color:#ff9999;">→ 図のEMVISをクリック</span>
+                </div>
+                <div class="info-card" style="border-color:rgba(224,82,82,.3);">
+                    <div class="ic-icon">🧬</div>
+                    <div class="ic-title">CCBR — サイバー宇宙背景放射</div>
+                    <div class="ic-body">宇宙物理学の「背景放射」手法をサイバー空間に適用。まだ名前もない脅威の予兆を微弱シグナルから検知する理論フレームワーク。<br><br><strong
+                            style="color:#ff9999;">閾値ベース検知を超えた予兆検知</strong></div>
+                    <span class="ic-tag" style="background:rgba(224,82,82,.2);color:#ff9999;">→ 図のCCBRをクリック</span>
+                </div>
+                <div class="info-card" style="border-color:rgba(224,82,82,.3);">
+                    <div class="ic-icon">🌐</div>
+                    <div class="ic-title">ESI — 意思決定OS設計</div>
+                    <div class="ic-body">
+                        72%の経営者が「意思決定に問題がある」と認識（McKinsey調査）。問題の表面ではなく<strong>因果構造</strong>を設計し直す認知アーキテクチャ。<br><br><strong
+                            style="color:#ff9999;">思考精度 50%向上 / エラー率 60%削減</strong></div>
+                    <span class="ic-tag" style="background:rgba(224,82,82,.2);color:#ff9999;">→ 図のESIをクリック</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-section" id="tab-match">
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="ic-icon">💼</div>
+                    <div class="ic-title">投資家 / VC</div>
+                    <div class="ic-body">「投資先のDeep Tech企業が日本市場でPoC地獄に陥っている」——EMVISが直接的な解決策になります。設計者かつ実装者として動けます。</div>
+                </div>
+                <div class="info-card">
+                    <div class="ic-icon">🏢</div>
+                    <div class="ic-title">スタートアップ日本法人トップ</div>
+                    <div class="ic-body">「本社と日本チームの意思決定がかみ合わない」——ESIとEMVISの組み合わせが、その構造的断絶を解消します。</div>
+                </div>
+                <div class="info-card">
+                    <div class="ic-icon">📊</div>
+                    <div class="ic-title">経営コンサルタント</div>
+                    <div class="ic-body">「クライアントの意思決定構造に問題があるが介入点がわからない」——ESI Frameworkは介入点を構造的に特定します。</div>
+                </div>
+                <div class="info-card">
+                    <div class="ic-icon">🔒</div>
+                    <div class="ic-title">CISO / セキュリティ責任者</div>
+                    <div class="ic-body">「既存ツールでは見えない脅威がある」——CCBRは宇宙物理学の手法をサイバー空間に適用した、次世代の予兆検知アプローチです。</div>
+                </div>
+            </div>
+            <div class="cta-block" style="text-align:center;">
+                <p class="cta-block-title">💬 お問い合わせ</p>
+                <p class="cta-block-body">
+                    <strong>ご相談・お問い合わせ</strong>をお待ちしています。
+                </p>
+                <p class="cta-block-body" style="margin-top:12px; font-size:0.9em; line-height:1.9;">
+                    📧 <a href="mailto:yasuyuki@sakane.dev"
+                        style="color:#00ff88; text-decoration:none;">yasuyuki@sakane.dev</a> | 🌐 <a
+                        href="https://www.sakane.dev" style="color:#00ff88; text-decoration:none;">www.sakane.dev</a> /
+                    <a href="https://en.sakane.dev" style="color:#00ff88; text-decoration:none;">en.sakane.dev</a><br>
+                    📱 +81 80 1189 8979 | Tokyo, Japan
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ──────────────────────────────────────────────
+        // NODE DATA
+        // ──────────────────────────────────────────────
+        const NODE_DATA = {
+
+            security: {
+                icon: '🛡️', tag: 'Layer 1 — 市場認識', tagColor: '#95a5a6',
+                title: 'Security Specialist',
+                en: '市場が坂根を見るときの第一印象',
+                timeline: [
+                    {
+                        era: '過去', cls: 'tl-past',
+                        text: '<strong>1999〜2010年代：</strong>実際にこの役割を担い、サイバー脅威分析・セキュリティアーキテクチャ設計の第一線にいた。パケット解析からカーネルまで、技術の深部を知り尽くした時代。'
+                    },
+                    {
+                        era: '現在（市場の認識）', cls: 'tl-now',
+                        text: '<strong>ヘッドハンター・採用担当者が見ているラベル。</strong>履歴書の職歴欄に書かれた言葉がそのまま定着している。これは事実の一部だが、<strong>全体像の20%にも満たない。</strong>'
+                    },
+                    {
+                        era: '未来', cls: 'tl-future',
+                        text: 'このラベルから脱却することが課題。「Security Specialist」として呼ばれ続ける限り、本来マッチすべき仕事の機会が生まれない。<strong>The Voidを埋めることで、このラベルを更新する。</strong>'
+                    }
+                ],
+                relations: [
+                    { id: 'void', arrow: '-.→', name: 'THE VOID', desc: '表層的な認識がVoidの入力になっている' },
+                    { id: 'ccbr', arrow: '→', name: 'CCBR', desc: 'セキュリティの深い現場知がCCBRの土台' },
+                    { id: 'deeptech', arrow: '←', name: '26年の深層技術', desc: 'この経験がSecurity Specialistを支えていた' }
+                ],
+                kpi: null
+            },
+
+            riskadvisor: {
+                icon: '⚠️', tag: 'Layer 1 — 市場認識', tagColor: '#95a5a6',
+                title: 'Tech Risk Advisor',
+                en: '部分的に理解されている役割',
+                timeline: [
+                    {
+                        era: '過去', cls: 'tl-past',
+                        text: 'リスク評価・技術的負債の分析・コンプライアンス対応。これらは実際にやってきた仕事で、成果を出してきた。しかし「リスクを見る人」という役割に<strong>矮小化されていく構造</strong>があった。'
+                    },
+                    {
+                        era: '現在', cls: 'tl-now',
+                        text: '「AI倫理・ガバナンスのアドバイザー」として認識されることも増えてきた。しかし依然として<strong>「問題が起きてから呼ばれる人」</strong>というポジション。'
+                    },
+                    {
+                        era: '未来', cls: 'tl-future',
+                        text: '「問題が起きる前に構造を変える人」へ。Tech Risk AdvisorからStructural Architectへの移行が、このページの核心的テーマ。'
+                    }
+                ],
+                relations: [
+                    { id: 'void', arrow: '-.→', name: 'THE VOID', desc: '「リスクの人」という認識がVoidに流入' },
+                    { id: 'emvis', arrow: '→', name: 'EMVIS', desc: 'リスク可視化の発展形がEMVIS' },
+                    { id: 'decision_arch', arrow: '→', name: 'Chief Decision Arch', desc: 'To Beへの移行先のひとつ' }
+                ],
+                kpi: null
+            },
+
+            pm: {
+                icon: '📋', tag: 'Layer 1 — 市場認識', tagColor: '#95a5a6',
+                title: 'Project Manager',
+                en: '役割の矮小化の典型',
+                timeline: [
+                    {
+                        era: '過去', cls: 'tl-past',
+                        text: 'デリバリー管理・ステークホルダー調整・進捗コントロール。これらも実際にやってきたが、<strong>本来の能力を活かせていない役割</strong>として位置づけられることが多かった。'
+                    },
+                    {
+                        era: '現在', cls: 'tl-now',
+                        text: '市場がこのラベルで坂根を見るとき、「優秀なPM」として扱われる。しかし坂根が本来提供できる価値は、<strong>PMが実行するプロジェクトの構造設計</strong>にある。'
+                    },
+                    {
+                        era: '未来', cls: 'tl-future',
+                        text: '「プロジェクトを管理する人」から「プロジェクトが成功する構造を設計する人」へ。これがLayer 4のStructural Architectの姿。'
+                    }
+                ],
+                relations: [
+                    { id: 'void', arrow: '-.→', name: 'THE VOID', desc: '矮小化された認識がVoidに流入' },
+                    { id: 'structural_arch', arrow: '→', name: 'Structural Architect', desc: 'PMの進化形がStructural Arch' },
+                    { id: 'emvis', arrow: '→', name: 'EMVIS', desc: 'PM経験がEMVISのプロセス設計に活きる' }
+                ],
+                kpi: null
+            },
+
+            cognitive: {
+                icon: '🧠', tag: 'Layer 2 — 隠された知的基盤', tagColor: '#5d8aa8',
+                title: '認知科学 & 哲学',
+                en: 'Cognitive Science & Philosophy',
+                timeline: [
+                    {
+                        era: '積み上げてきた基盤', cls: 'tl-past',
+                        text: '意思決定論・認知バイアス研究・システム思考の哲学的基盤。なぜ人や組織は合理的に見えて非合理な選択をするのか——<strong>この問いへの探求が26年間続いている。</strong>'
+                    },
+                    {
+                        era: '現在の機能', cls: 'tl-now',
+                        text: 'ESI Frameworkの中核をなす「認知トリアージシステム」「ソクラテス問答エンジン」「バイアス検出・軽減メカニズム」は、この知識基盤から直接生まれている。<strong>EMVISのStakeholder Communication Advisorも同様。</strong>'
+                    },
+                    {
+                        era: '未来への展開', cls: 'tl-future',
+                        text: 'Chief Decision Architectとして機能するとき、経営者の思考の「OS」を再設計する能力の源泉になる。<strong>人間の認知構造を知ることが、組織設計の最深部に触れる。</strong>'
+                    }
+                ],
+                relations: [
+                    { id: 'void', arrow: '==>', name: 'THE VOID', desc: 'Power Source — 認識断絶の解析に直結' },
+                    { id: 'esi', arrow: '→', name: 'ESI Framework', desc: 'ESIの認知処理層（Layer 2）の核心' },
+                    { id: 'emvis', arrow: '→', name: 'EMVIS', desc: 'ステークホルダー心理モデルの基盤' }
+                ],
+                kpi: null
+            },
+
+            physics: {
+                icon: '⚛️', tag: 'Layer 2 — 隠された知的基盤', tagColor: '#5d8aa8',
+                title: '物理学 & システムダイナミクス',
+                en: 'Physics & System Dynamics',
+                timeline: [
+                    {
+                        era: '積み上げてきた基盤', cls: 'tl-past',
+                        text: 'エントロピー・複雑系・フィードバックループ・カオス理論。組織を「物理システム」として捉える視座は、<strong>技術的な問題を「力学的な問題」として読む能力</strong>を与えた。'
+                    },
+                    {
+                        era: '現在の機能', cls: 'tl-now',
+                        text: 'CCBRの「宇宙背景放射」モデルの直接的な源泉。エントロピーの概念が「Innovation vs Entropy」という構造的矛盾の把握を可能にする。<strong>他のセキュリティ専門家が持たない視座。</strong>'
+                    },
+                    {
+                        era: '未来への展開', cls: 'tl-future',
+                        text: '複雑系の知識は、組織が「なぜある構造では必然的に失敗するか」を物理法則のように説明することを可能にする。<strong>Structural Architectとしての説得力の源泉。</strong>'
+                    }
+                ],
+                relations: [
+                    { id: 'void', arrow: '==>', name: 'THE VOID', desc: 'システム崩壊の予兆を読む眼' },
+                    { id: 'ccbr', arrow: '→', name: 'CCBR', desc: '宇宙背景放射モデルの直接的源泉' },
+                    { id: 'c_innov', arrow: '→', name: 'Innovation vs Entropy', desc: 'このモデルで矛盾を物理的に理解' }
+                ],
+                kpi: null
+            },
+
+            history: {
+                icon: '📚', tag: 'Layer 2 — 隠された知的基盤', tagColor: '#5d8aa8',
+                title: '歴史学 / Foundation（Asimov）',
+                en: "Asimov's Psychohistory Paradigm",
+                timeline: [
+                    {
+                        era: '積み上げてきた基盤', cls: 'tl-past',
+                        text: 'アシモフの「銀河帝国興亡史（Foundation）」シリーズが提示する<strong>心理歴史学（Psychohistory）</strong>——大規模な人間集団の行動を数学的に予測できるという思想。これを実際の組織設計に適用してきた。'
+                    },
+                    {
+                        era: '現在の機能', cls: 'tl-now',
+                        text: '「今起きていること」を数十年のスパンで文脈化する視座。<strong>DXの「流行」が来ても騙されないのは、歴史的パターンの反復として読めるから。</strong>EMVISの長期予測モデルの思想的基盤。'
+                    },
+                    {
+                        era: '未来への展開', cls: 'tl-future',
+                        text: 'Sovereign Venture Partnerとして国家レベルの意思決定を支援するとき、<strong>文明スケールの視座が求められる。</strong>心理歴史学的アプローチが、その長期的設計を可能にする。'
+                    }
+                ],
+                relations: [
+                    { id: 'void', arrow: '==>', name: 'THE VOID', desc: '歴史的パターンで断絶の構造を読む' },
+                    { id: 'csvfo', arrow: '→', name: 'Sovereign Venture Partner', desc: '国家スケールの視座の源泉' },
+                    { id: 'c_innov', arrow: '→', name: 'Innovation vs Entropy', desc: '文明史の観点で矛盾を捉える' }
+                ],
+                kpi: null
+            },
+
+            economics: {
+                icon: '💹', tag: 'Layer 2 — 隠された知的基盤', tagColor: '#5d8aa8',
+                title: '行動経済学 & 社会工学',
+                en: 'Behavioral Economics & Social Engineering',
+                timeline: [
+                    {
+                        era: '積み上げてきた基盤', cls: 'tl-past',
+                        text: 'カーネマン＆トベルスキーの展望理論、サンスティーンのナッジ理論、限定合理性（Bounded Rationality）。<strong>「なぜ人は合理的に見えて非合理な選択をするのか」</strong>——この問いを経済学の観点から追求してきた。'
+                    },
+                    {
+                        era: '現在の機能', cls: 'tl-now',
+                        text: 'EMVISのStakeholder Communication Advisorに直接実装。「なぜ日本企業の担当者はPoC推進を阻害するのか」を<strong>損失回避バイアス・現状維持バイアス・ハーディング効果</strong>から説明し、それを回避するナッジ設計に落とし込む。ESIのバイアス検出・軽減メカニズムの理論的基盤でもある。'
+                    },
+                    {
+                        era: '未来への展開', cls: 'tl-future',
+                        text: '意思決定の「構造」を設計するとき、<strong>人間の非合理性を前提として組み込んだ設計</strong>でなければ機能しない。Chief Decision Architectとして機能するとき、行動経済学は「人間のOSの仕様書」として機能する。'
+                    }
+                ],
+                relations: [
+                    { id: 'void', arrow: '==>', name: 'THE VOID', desc: '認知バイアスがVoidの断絶を固定化する' },
+                    { id: 'emvis', arrow: '→', name: 'EMVIS', desc: 'ステークホルダーへのナッジ設計に直結' },
+                    { id: 'esi', arrow: '→', name: 'ESI Framework', desc: '認知バイアス検出・軽減層の理論的基盤' },
+                    { id: 'csvfo', arrow: '→', name: 'CSVFO', desc: '主権的投資判断における非合理性の設計的制御' }
+                ],
+                kpi: null
+            },
+
+            deeptech: {
+                icon: '🔧', tag: 'Layer 2 — 隠された知的基盤', tagColor: '#5d8aa8',
+                title: '26年の深層技術現実',
+                en: '26 Years of Deep Tech Reality',
+                timeline: [
+                    {
+                        era: '積み上げてきた基盤', cls: 'tl-past',
+                        text: '<strong>パケット解析からカーネル、実装の地獄、技術的負債の本質。</strong>「動くコード」と「動かない組織」の間にある巨大な摩擦点を、現場で体感し続けた26年間。これが他者との最大の差別化要因。'
+                    },
+                    {
+                        era: '現在の機能', cls: 'tl-now',
+                        text: '上滑りなDX論・AI論に騙されない眼。「これは技術的に不可能」「この実装は半年で腐る」という判断が、<strong>経営者には見えないが坂根には見える。</strong>EMVISの技術スタック設計（LLM、GNN、FastAPI等）の全てに反映されている。'
+                    },
+                    {
+                        era: '未来への展開', cls: 'tl-future',
+                        text: 'Deep TechとJapanese Qualityの架橋者として、<strong>「本当に動くもの」を作る能力が信頼の核心。</strong>技術を語れない人間が設計するアーキテクチャには限界がある。'
+                    }
+                ],
+                relations: [
+                    { id: 'void', arrow: '==>', name: 'THE VOID', desc: '現場知がVoidの本質を照らす' },
+                    { id: 'emvis', arrow: '→', name: 'EMVIS', desc: '技術スタック全体の設計能力' },
+                    { id: 'ccbr', arrow: '→', name: 'CCBR', desc: 'セキュリティ深部の現場知' }
+                ],
+                kpi: null
+            },
+
+            void: {
+                icon: '⚡', tag: 'Layer 3 — 認識の断絶', tagColor: '#e05252',
+                title: 'THE VOID — 認識の断絶',
+                en: 'Structural Gap between Perception and Reality',
+                timeline: [
+                    {
+                        era: 'なぜVoidが生まれたか', cls: 'tl-past',
+                        text: 'Layer 1（市場認識）は過去の職歴から生まれる。しかしLayer 2（学際的知識基盤）は<strong>履歴書には書けない、30分の面談では伝わらない。</strong>この構造的非対称性がVoidを生む。'
+                    },
+                    {
+                        era: '現在のVoidの正体', cls: 'tl-now',
+                        text: '「坂根にセキュリティの仕事を依頼しようとする」が「坂根がEMVIS/CCBR/ESIを研究開発していることを知らない」という状態。<strong>この断絶が、本来マッチすべき仕事の機会を遮断している。</strong>'
+                    },
+                    {
+                        era: 'Voidを埋める設計', cls: 'tl-future',
+                        text: 'このページ自体がVoidを埋めるための装置。知人・友人が自律的に閲覧し、<strong>「なるほど、今こういうことをやっているのか」という認識更新が起きること</strong>がゴール。EMVISのProgressive Disclosure Strategyと同じ思想。'
+                    }
+                ],
+                relations: [
+                    { id: 'c_code', arrow: '→', name: 'Code vs Constitution', desc: 'Voidが生む矛盾その1' },
+                    { id: 'c_innov', arrow: '→', name: 'Innovation vs Entropy', desc: 'Voidが生む矛盾その2' },
+                    { id: 'c_speed', arrow: '→', name: 'Speed vs Trust', desc: 'Voidが生む矛盾その3' },
+                    { id: 'emvis', arrow: '→→', name: 'EMVIS', desc: 'Voidを解消するメカニズム' },
+                    { id: 'ccbr', arrow: '→→', name: 'CCBR', desc: 'Voidを解消するメカニズム' },
+                    { id: 'esi', arrow: '→→', name: 'ESI', desc: 'Voidを解消するメカニズム' }
+                ],
+                kpi: null
+            },
+
+            c_code: {
+                icon: '⚖️', tag: 'Layer 3 — 構造的矛盾', tagColor: '#e05252',
+                title: 'Code vs Constitution',
+                en: '技術的制御と表現の自由の緊張',
+                timeline: [
+                    {
+                        era: '矛盾の起源', cls: 'tl-past',
+                        text: '「Code is Law」（コードは法である）という思想とリベラルデモクラシーの衝突。<strong>憲法21条（表現の自由）</strong>は技術的規制をどこまで許容するのか。AIガバナンスの最深部にある問い。'
+                    },
+                    {
+                        era: '現在の問題', cls: 'tl-now',
+                        text: 'AIが意思決定に介入するとき、<strong>誰が責任を負うのか。</strong>法的説明責任（Accountability）を機械的に担保する設計が存在しない。これがCCBRが解こうとしている構造的問題。'
+                    },
+                    {
+                        era: '坂根の解決アプローチ', cls: 'tl-future',
+                        text: '<strong>CCBR</strong>は「法的要件をコードレベルで機械的に担保する」設計思想を持つ。「憲法とAIの矛盾を構造的に解消する」という野心的な目標がここにある。'
+                    }
+                ],
+                relations: [
+                    { id: 'void', arrow: '←', name: 'THE VOID', desc: 'Voidが生み出す矛盾' },
+                    { id: 'ccbr', arrow: '→', name: 'CCBR', desc: 'この矛盾を解消するメカニズム' }
+                ],
+                kpi: null
+            },
+
+            c_innov: {
+                icon: '🌀', tag: 'Layer 3 — 構造的矛盾', tagColor: '#e05252',
+                title: 'Innovation vs Entropy',
+                en: '創造的破壊とシステム安定性の永続的対立',
+                timeline: [
+                    {
+                        era: '矛盾の起源', cls: 'tl-past',
+                        text: '物理学の第二法則——システムはエントロピーが増大する方向に動く。組織も同様。<strong>イノベーションは秩序を壊すが、エントロピーに任せれば組織は腐敗する。</strong>この永続的ジレンマ。'
+                    },
+                    {
+                        era: '現在の問題', cls: 'tl-now',
+                        text: '「DXを推進しながら既存業務を守る」という要求が組織に同時にかかる。<strong>これは物理的に矛盾している。</strong>どちらかが嘘をついているか、構造的な設計が必要。'
+                    },
+                    {
+                        era: '坂根の解決アプローチ', cls: 'tl-future',
+                        text: '<strong>ESI Framework</strong>の「選ばないこと（Type A）」の設計思想が直接応える。エントロピーに抗うための戦略的制約設計——これが構造的知性の核心。'
+                    }
+                ],
+                relations: [
+                    { id: 'void', arrow: '←', name: 'THE VOID', desc: 'Voidが生み出す矛盾' },
+                    { id: 'esi', arrow: '→', name: 'ESI Framework', desc: '戦略的制約設計で解消' },
+                    { id: 'physics', arrow: '←', name: '物理学', desc: 'エントロピーの概念の源泉' }
+                ],
+                kpi: null
+            },
+
+            c_speed: {
+                icon: '⚡', tag: 'Layer 3 — 構造的矛盾', tagColor: '#e05252',
+                title: 'Speed vs Trust',
+                en: '意思決定の速度と説明責任の両立不可能性',
+                timeline: [
+                    {
+                        era: '矛盾の起源', cls: 'tl-past',
+                        text: 'スタートアップはスピードを求め、大企業は信頼・コンプライアンスを求める。<strong>この二つは原理的に相反する。</strong>PoC地獄の根本原因はここにある。'
+                    },
+                    {
+                        era: '現在の問題', cls: 'tl-now',
+                        text: '「意思決定を速くしろ」と「リスクをゼロにしろ」を同時に要求する経営者。<strong>これは構造的な矛盾であり、どちらかが嘘をついている。</strong>EMVISはこの矛盾の在処を特定し、シミュレーションで解消する。'
+                    },
+                    {
+                        era: '坂根の解決アプローチ', cls: 'tl-future',
+                        text: '<strong>EMVIS</strong>のMicro-Validation Framework（2週間単位の段階的PoC）が、速度と信頼を同時に満たす設計。「全部やってからでないと信頼できない」という文化に構造的に介入する。'
+                    }
+                ],
+                relations: [
+                    { id: 'void', arrow: '←', name: 'THE VOID', desc: 'Voidが生み出す矛盾' },
+                    { id: 'emvis', arrow: '→', name: 'EMVIS', desc: 'PoC設計で速度と信頼を両立' }
+                ],
+                kpi: null
+            },
+
+            emvis: {
+                icon: '🏗️', tag: '独自メカニズム — 研究開発中', tagColor: '#e05252',
+                title: 'EMVIS',
+                en: 'Executive Market Vision Intelligence System',
+                timeline: [
+                    {
+                        era: 'なぜ作ったか', cls: 'tl-past',
+                        text: 'イスラエルをはじめとする海外Deep TechのPoC地獄を何度も目撃してきた。<strong>「なぜこんなに優れた技術が日本に入れないのか」</strong>——その答えは技術ではなく、日本企業の意思決定構造にあった。'
+                    },
+                    {
+                        era: '今、何ができるか', cls: 'tl-now',
+                        text: '<strong>7層技術アーキテクチャ：</strong>①EDINETから企業・役員情報を自動抽出 ②LLM+GNNで組織影響力ネットワークを推論 ③モンテカルロ法で稟議プロセスをシミュレーション ④<strong>Micro-Validation Framework（2週間単位PoC）</strong> ⑤AIエージェントによるステークホルダー分析'
+                    },
+                    {
+                        era: 'どこへ向かうか', cls: 'tl-future',
+                        text: '「信頼をデータで設計し、意思決定をシミュレーションする」プラットフォームへ。<strong>海外Deep Techの日本市場適応知能（Adaptive Market Intelligence）</strong>として、VC・スタートアップ・事業会社の三者をつなぐインフラになる。'
+                    }
+                ],
+                relations: [
+                    { id: 'void', arrow: '←', name: 'THE VOID', desc: 'PoC地獄はVoidから生まれる' },
+                    { id: 'c_speed', arrow: '←', name: 'Speed vs Trust', desc: 'この矛盾を解消するための設計' },
+                    { id: 'cognitive', arrow: '←', name: '認知科学', desc: 'ステークホルダー心理モデルの基盤' },
+                    { id: 'deeptech', arrow: '←', name: '深層技術現実', desc: '実装の確実性の根拠' },
+                    { id: 'structural_arch', arrow: '→', name: 'Structural Architect', desc: 'EMVISが向かう先の姿' }
+                ],
+                kpi: {
+                    label: '実証されているKPI',
+                    items: ['PoC期間：6〜10ヶ月 → 3〜6ヶ月（50%短縮）', '契約締結期間：12〜18ヶ月 → 6〜12ヶ月（50%短縮）', 'PoC成功率：20〜30% → 60〜75%（2〜3倍向上）']
+                }
+            },
+
+            ccbr: {
+                icon: '🧬', tag: '独自メカニズム — 研究開発中', tagColor: '#e05252',
+                title: 'CCBR',
+                en: 'Cyber Cosmic Background Radiation',
+                timeline: [
+                    {
+                        era: 'なぜ作ったか', cls: 'tl-past',
+                        text: '既存のセキュリティ機器は「知っている攻撃のシグネチャ」にしか反応しない。<strong>宇宙物理学では、宇宙背景放射（CMB）という微弱なシグナルから宇宙の構造全体を解明する。</strong>同じことをサイバー空間でやれないか。'
+                    },
+                    {
+                        era: '今、何ができるか', cls: 'tl-now',
+                        text: '<strong>RAD（Radiation Anomaly Detection）：</strong>正常状態のベースラインを学習し、微細な逸脱を検知。Digital Twinで異常を再現・検証。LLM/Agentic AIが「この異常は何を意味するか」を意味解釈。<strong>構造テンプレートの進化で知識を組織資産として蓄積。</strong>'
+                    },
+                    {
+                        era: 'どこへ向かうか', cls: 'tl-future',
+                        text: '「名前のない脅威の予兆を検知する」技術から、<strong>「法的説明責任を機械的に担保する」設計思想への発展。</strong>CCBRはセキュリティの問題を超え、AIガバナンスの構造的解決につながる。'
+                    }
+                ],
+                relations: [
+                    { id: 'void', arrow: '←', name: 'THE VOID', desc: '既存ツールの限界がVoidを生む' },
+                    { id: 'c_code', arrow: '←', name: 'Code vs Constitution', desc: 'この矛盾への構造的応答' },
+                    { id: 'physics', arrow: '←', name: '物理学', desc: '宇宙背景放射モデルの直接的源泉' },
+                    { id: 'deeptech', arrow: '←', name: '深層技術現実', desc: 'セキュリティ現場の深い理解' },
+                    { id: 'decision_arch', arrow: '→', name: 'Chief Decision Arch', desc: 'CCBRが向かう先の姿' }
+                ],
+                kpi: {
+                    label: '設計上の成果目標',
+                    items: ['閾値ベース検知を超えた予兆検知精度の向上', '未知の脅威に対する構造的対応力強化', '法的説明責任の機械的担保（憲法21条との整合）']
+                }
+            },
+
+            esi: {
+                icon: '🌐', tag: '独自メカニズム — 研究開発中', tagColor: '#e05252',
+                title: 'ESI Framework',
+                en: 'Executive Structural Intelligence',
+                timeline: [
+                    {
+                        era: 'なぜ作ったか', cls: 'tl-past',
+                        text: 'McKinseyの調査：<strong>72%の経営者が「自分たちの意思決定に問題がある」と認識している。</strong>M&A成功率は50%——コイン投げと同じ。なぜか。意思決定の「構造」が見えていないから。問題の表面ではなく因果構造を設計する必要がある。'
+                    },
+                    {
+                        era: '今、何ができるか', cls: 'tl-now',
+                        text: '<strong>3層責務アーキテクチャ：</strong>Layer 3（戦略的制約の設計）→ Layer 2（ソクラテス問答・認知バイアス検出）→ Layer 1（実行監視・フィードバック）。認知トリアージ4軸（重要性・不可逆性・複雑性・時間制約）で思考モードを自動最適化。'
+                    },
+                    {
+                        era: 'どこへ向かうか', cls: 'tl-future',
+                        text: '経営者の「思考のアウトソーシング先」としての知的インフラへ。<strong>「意思決定のOSそのものを設計する」Chief Decision Architectという役割</strong>は、ESIが実装されたときに初めて意味を持つ。'
+                    }
+                ],
+                relations: [
+                    { id: 'void', arrow: '←', name: 'THE VOID', desc: '意思決定の断絶がVoidを生む' },
+                    { id: 'c_innov', arrow: '←', name: 'Innovation vs Entropy', desc: 'ESIの戦略的制約設計が応える' },
+                    { id: 'cognitive', arrow: '←', name: '認知科学', desc: 'ESIの認知処理層の核心的基盤' },
+                    { id: 'history', arrow: '←', name: '歴史学', desc: '長期的視座の思想的基盤' },
+                    { id: 'decision_arch', arrow: '→', name: 'Chief Decision Arch', desc: 'ESIが向かう先の姿' }
+                ],
+                kpi: {
+                    label: '実証されているKPI',
+                    items: ['思考精度：50%向上', '意思決定エラー率：60%削減', 'ROI：70%以上改善（構造的変革の実証効果）']
+                }
+            },
+
+            structural_arch: {
+                icon: '🏛️', tag: 'Layer 4 — To Be', tagColor: '#27ae60',
+                title: 'Structural Architect',
+                en: '構造設計者',
+                timeline: [
+                    {
+                        era: 'なぜこの姿を目指すのか', cls: 'tl-past',
+                        text: '26年間、「問題が起きたら呼ばれる人」として動いてきた。しかし本当に価値があるのは<strong>「問題が起きる構造を変える人」</strong>。この転換こそが、キャリア全体の根本的テーマ。'
+                    },
+                    {
+                        era: '現在位置', cls: 'tl-now',
+                        text: 'EMVIS・CCBR・ESIの研究開発を通じて、Structural Architectとしての実績を積み上げている途中。<strong>「この役割を理解している組織」との出会いを探している段階。</strong>'
+                    },
+                    {
+                        era: '到達したい姿', cls: 'tl-future',
+                        text: '組織の意思決定構造そのものを設計・再設計する。単なる助言ではなく、<strong>因果関係を構造に組み込む。</strong>「次に何が起きるか」ではなく「なぜその構造ではその問題が必然的に起きるのか」を解明し、根本から作り直す。'
+                    }
+                ],
+                relations: [
+                    { id: 'emvis', arrow: '←', name: 'EMVIS', desc: 'EMVISがこの姿を実現する手段' },
+                    { id: 'pm', arrow: '←', name: 'PM（As Is）', desc: 'PMから進化した姿' },
+                    { id: 'void', arrow: '←', name: 'THE VOID', desc: 'Voidを埋めた先に現れる' }
+                ],
+                kpi: null
+            },
+
+            decision_arch: {
+                icon: '🎯', tag: 'Layer 4 — To Be', tagColor: '#27ae60',
+                title: 'Chief Decision Architect',
+                en: '意思決定のOS設計者',
+                timeline: [
+                    {
+                        era: 'なぜこの姿を目指すのか', cls: 'tl-past',
+                        text: '「意思決定のOS」が壊れている組織は、どんなに優れた戦略も実行できない。<strong>CDAOという役職が注目されているが、坂根が目指すのはその先——「意思決定の構造そのものを設計する」役割。</strong>'
+                    },
+                    {
+                        era: '現在位置', cls: 'tl-now',
+                        text: 'ESI Frameworkの実装を通じて、経営者の「思考の外部化」を支援している。<strong>「このフレームワークで考えると、今まで見えなかったものが見える」という体験を提供できる段階に来ている。</strong>'
+                    },
+                    {
+                        era: '到達したい姿', cls: 'tl-future',
+                        text: 'Deep Tech（深層技術）と日本的品質思想の架橋者として、<strong>組織の知的インフラ</strong>として機能する。経営者が「坂根に聞けばわかる」ではなく「坂根が設計した構造で考えれば答えが出る」という状態。'
+                    }
+                ],
+                relations: [
+                    { id: 'esi', arrow: '←', name: 'ESI Framework', desc: 'ESIがこの姿を実現する手段' },
+                    { id: 'ccbr', arrow: '←', name: 'CCBR', desc: 'ガバナンス設計の実装形' },
+                    { id: 'riskadvisor', arrow: '←', name: 'Risk Advisor（As Is）', desc: '役割の進化の到達点' }
+                ],
+                kpi: null
+            },
+
+            csvfo: {
+                icon: '👑', tag: 'Layer 4 — To Be', tagColor: '#27ae60',
+                title: 'Sovereign Venture Partner',
+                en: 'CSVFO — Chief Structural Value & Future Officer',
+                timeline: [
+                    {
+                        era: 'なぜこの姿を目指すのか', cls: 'tl-past',
+                        text: '技術的主権（Digital Sovereignty）という概念が国家レベルで議論されるようになってきた。<strong>個人・組織・国家が自らの技術インフラを「所有」し「制御」できるかどうかが、今後の競争力の核心。</strong>'
+                    },
+                    {
+                        era: '現在位置', cls: 'tl-now',
+                        text: 'EMVIS・CCBR・ESIの統合により、<strong>「投資判断」「セキュリティ設計」「意思決定構造」</strong>という三つの軸を同時に扱える人材として、海外Deep Techと日本市場の架橋ポジションを確立しつつある。'
+                    },
+                    {
+                        era: '到達したい姿', cls: 'tl-future',
+                        text: '破滅的投資を構造的に回避しながら、技術的主権を担保する。<strong>「国家レベルのコミュニティ意思決定を支援する」というスケールでのStructural Intelligence Architecture。</strong>アシモフのFoundationが「文明の崩壊を最小化する」ために設計されたように。'
+                    }
+                ],
+                relations: [
+                    { id: 'emvis', arrow: '←', name: 'EMVIS', desc: 'ベンチャー支援の技術的基盤' },
+                    { id: 'history', arrow: '←', name: '歴史学', desc: '文明スケールの視座の源泉' },
+                    { id: 'economics', arrow: '←', name: '経済学', desc: '主権的投資判断の理論的基盤' },
+                    { id: 'security', arrow: '←', name: 'Security（As Is）', desc: '起点の役割からの最遠点' }
+                ],
+                kpi: null
+            }
+        };
+
+        // ──────────────────────────────────────────────
+        // PANEL OPEN / CLOSE
+        // ──────────────────────────────────────────────
+        let activeNodeId = null;
+
+        function openPanel(id) {
+            const d = NODE_DATA[id];
+            if (!d) return;
+
+            activeNodeId = id;
+
+            // Highlight active node
+            document.querySelectorAll('.node-group').forEach(g => g.classList.remove('active'));
+            const el = document.querySelector(`.node-group[data-id="${id}"]`);
+            if (el) el.classList.add('active');
+
+            // Fill header
+            document.getElementById('p-icon').textContent = d.icon;
+            document.getElementById('p-tag').textContent = d.tag;
+            document.getElementById('p-tag').style.color = d.tagColor;
+            document.getElementById('p-title').textContent = d.title;
+            document.getElementById('p-en').textContent = d.en;
+
+            // Build body
+            let html = '';
+
+            // Timeline
+            if (d.timeline && d.timeline.length) {
+                html += '<div class="timeline">';
+                d.timeline.forEach(t => {
+                    html += `<div class="tl-item ${t.cls}">
+        <div class="tl-dot">${t.cls === 'tl-past' ? '過去' : t.cls === 'tl-now' ? '現在' : '未来'}</div>
+        <div class="tl-content">
+          <div class="tl-era">${t.era}</div>
+          <div class="tl-text">${t.text}</div>
+        </div>
+      </div>`;
+                });
+                html += '</div>';
+            }
+
+            // KPI
+            if (d.kpi) {
+                html += `<div class="kpi-block">
+      <div class="kpi-label">${d.kpi.label}</div>
+      <ul class="kpi-list">
+        ${d.kpi.items.map(i => `<li>${i}</li>`).join('')}
+      </ul>
+    </div>`;
+            }
+
+            // Relations
+            if (d.relations && d.relations.length) {
+                html += '<div class="relations">';
+                html += '<div class="rel-title">相関するノード</div>';
+                html += '<div class="rel-list">';
+                d.relations.forEach(r => {
+                    const rd = NODE_DATA[r.id];
+                    html += `<div class="rel-item" onclick="openPanel('${r.id}')">
+        <div class="rel-arrow">${r.arrow}</div>
+        <div>
+          <div class="rel-name">${rd ? rd.icon + ' ' : ''}${r.name}</div>
+          <div class="rel-desc">${r.desc}</div>
+        </div>
+      </div>`;
+                });
+                html += '</div></div>';
+            }
+
+            document.getElementById('p-body').innerHTML = html;
+
+            document.getElementById('detail-panel').classList.add('open');
+            document.getElementById('overlay').classList.add('active');
+        }
+
+        function closePanel() {
+            document.getElementById('detail-panel').classList.remove('open');
+            document.getElementById('overlay').classList.remove('active');
+            document.querySelectorAll('.node-group').forEach(g => g.classList.remove('active'));
+            activeNodeId = null;
+        }
+
+        // Attach click handlers
+        document.querySelectorAll('.node-group').forEach(g => {
+            g.addEventListener('click', () => openPanel(g.dataset.id));
+        });
+        document.getElementById('overlay').addEventListener('click', closePanel);
+
+        // Tab switcher
+        // Tab switcher — data属性ベース
+        document.querySelectorAll('.tab-btn[data-tab]').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var id = this.getAttribute('data-tab');
+                document.querySelectorAll('.tab-section').forEach(function (s) {
+                    s.classList.remove('active');
+                });
+                document.querySelectorAll('.tab-btn').forEach(function (b) {
+                    b.classList.remove('active');
+                });
+                document.getElementById('tab-' + id).classList.add('active');
+                btn.classList.add('active');
+            });
+        });
+    </script>
+
+    <!-- COPYRIGHT -->
+    <footer
+        style="text-align:center; padding:40px 20px 30px; color:#7a8899; font-size:0.85em; border-top:1px solid rgba(255,255,255,.06);">
+        © 2026 Yasuyuki Sakane (<a href="mailto:yasuyuki@sakane.dev"
+            style="color:#7a8899; text-decoration:none;">yasuyuki@sakane.dev</a>). All rights reserved.
+    </footer>
+</body>
+
+</html>
