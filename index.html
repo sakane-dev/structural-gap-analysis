@@ -686,7 +686,6 @@
 
 <body>
 
-    <!-- HEADER -->
     <header>
         <div class="eyebrow">Structural Intelligence Architect — 2026</div>
         <h1>坂根 康之</h1>
@@ -699,13 +698,11 @@
         </div>
     </header>
 
-    <!-- MAP -->
     <div class="map-area">
         <div class="map-hint"><span>▼ ノードをクリックして構造を探索する</span></div>
 
         <svg id="structure-map" viewBox="0 0 1000 620" xmlns="http://www.w3.org/2000/svg">
             <defs>
-                <!-- glow filters -->
                 <filter id="glow-cyan" x="-30%" y="-30%" width="160%" height="160%">
                     <feGaussianBlur stdDeviation="4" result="blur" />
                     <feMerge>
@@ -727,7 +724,6 @@
                         <feMergeNode in="SourceGraphic" />
                     </feMerge>
                 </filter>
-                <!-- arrow markers -->
                 <marker id="arrow-cyan" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
                     <path d="M0,0 L0,6 L8,3 z" fill="#00d4ff" />
                 </marker>
@@ -742,7 +738,6 @@
                 </marker>
             </defs>
 
-            <!-- ── LAYER LABELS ── -->
             <text x="30" y="58" font-family="Syne,sans-serif" font-size="9" font-weight="700" fill="#7a8899"
                 letter-spacing="2" text-anchor="start" opacity=".6">LAYER 1 — AS IS</text>
             <text x="30" y="178" font-family="Syne,sans-serif" font-size="9" font-weight="700" fill="#5d8aa8"
@@ -752,19 +747,15 @@
             <text x="30" y="458" font-family="Syne,sans-serif" font-size="9" font-weight="700" fill="#27ae60"
                 letter-spacing="2" text-anchor="start" opacity=".6">LAYER 4 — TO BE</text>
 
-            <!-- ── LANE SEPARATORS ── -->
             <line x1="20" y1="70" x2="980" y2="70" stroke="rgba(255,255,255,.06)" stroke-width="1" />
             <line x1="20" y1="190" x2="980" y2="190" stroke="rgba(255,255,255,.06)" stroke-width="1" />
             <line x1="20" y1="330" x2="980" y2="330" stroke="rgba(255,255,255,.06)" stroke-width="1" />
             <line x1="20" y1="470" x2="980" y2="470" stroke="rgba(255,255,255,.06)" stroke-width="1" />
 
-            <!-- ═══ EDGES ═══ -->
-            <!-- Surface → Void (dashed gray) -->
             <path class="edge edge-surface" d="M200,115 Q200,260 430,340" marker-end="url(#arrow-gray)" />
             <path class="edge edge-surface" d="M500,115 Q500,260 500,340" marker-end="url(#arrow-gray)" />
             <path class="edge edge-surface" d="M800,115 Q800,260 570,340" marker-end="url(#arrow-gray)" />
 
-            <!-- L2 → Void (power source, animated cyan) -->
             <path class="edge edge-power" d="M150,255 Q290,305 430,345" stroke-dasharray="8 4"
                 marker-end="url(#arrow-cyan)" />
             <path class="edge edge-power" d="M320,255 Q380,300 455,345" stroke-dasharray="8 4"
@@ -776,27 +767,19 @@
             <path class="edge edge-power" d="M850,255 Q710,305 570,345" stroke-dasharray="8 4"
                 marker-end="url(#arrow-cyan)" />
 
-            <!-- Void → Contradictions (red) -->
             <path class="edge edge-void" d="M480,375 Q380,390 330,410" marker-end="url(#arrow-red)" />
             <path class="edge edge-void" d="M500,375 L500,410" marker-end="url(#arrow-red)" />
             <path class="edge edge-void" d="M520,375 Q620,390 670,410" marker-end="url(#arrow-red)" />
 
-            <!-- Contradictions → Mechanisms (red solid) -->
             <path class="edge edge-void" d="M330,440 Q310,450 280,470" marker-end="url(#arrow-red)" opacity=".8" />
             <path class="edge edge-void" d="M500,440 L500,470" marker-end="url(#arrow-red)" opacity=".8" />
             <path class="edge edge-void" d="M670,440 Q690,450 720,470" marker-end="url(#arrow-red)" opacity=".8" />
 
-            <!-- Mechanisms → Outcomes (causal, animated green) -->
             <path class="edge edge-causal" d="M220,530 Q180,545 160,555" marker-end="url(#arrow-green)" opacity=".0" />
-            <!-- placeholder; outcomes below -->
-            <!-- actual outcome arrows drawn via JS after layout -->
-
-            <!-- Mechanisms → L4 outcomes -->
             <path class="edge edge-causal" d="M280,500 Q280,530 270,540" marker-end="url(#arrow-green)" />
             <path class="edge edge-causal" d="M500,500 Q500,530 500,540" marker-end="url(#arrow-green)" />
             <path class="edge edge-causal" d="M720,500 Q720,530 730,540" marker-end="url(#arrow-green)" />
 
-            <!-- ═══ LAYER 1 NODES ═══ -->
             <g class="node-group" data-id="security" transform="translate(200,92)">
                 <rect class="node-bg" x="-85" y="-24" width="170" height="48" rx="8" fill="#1a2535" stroke="#7a8899"
                     stroke-width="1.5" />
@@ -816,7 +799,6 @@
                 <text class="node-sub" y="11">役割の矮小化</text>
             </g>
 
-            <!-- ═══ LAYER 2 NODES ═══ -->
             <g class="node-group" data-id="cognitive" transform="translate(150,232)">
                 <rect class="node-bg" x="-77" y="-22" width="154" height="44" rx="20" fill="#0f2235" stroke="#5d8aa8"
                     stroke-width="1.5" />
@@ -848,7 +830,6 @@
                 <text class="node-sub" y="9">Deep Tech Reality</text>
             </g>
 
-            <!-- ═══ THE VOID (center engine) ═══ -->
             <g class="node-group" data-id="void" transform="translate(500,358)" filter="url(#glow-red)">
                 <polygon class="node-bg" points="0,-38 44,-12 44,12 0,38 -44,12 -44,-12" fill="#2a0f0f" stroke="#e05252"
                     stroke-width="2.5" />
@@ -856,7 +837,6 @@
                 <text class="node-sub" y="9" font-size="9" fill="#cc8888">認識の断絶</text>
             </g>
 
-            <!-- ═══ CONTRADICTIONS ═══ -->
             <g class="node-group" data-id="c_code" transform="translate(330,425)">
                 <rect class="node-bg" x="-68" y="-18" width="136" height="36" rx="6" fill="#200f0f" stroke="#e05252"
                     stroke-width="1" />
@@ -876,7 +856,6 @@
                 <text class="node-sub" y="10" font-size="8">速度と信頼の矛盾</text>
             </g>
 
-            <!-- ═══ MECHANISMS ═══ -->
             <g class="node-group" data-id="emvis" transform="translate(280,487)">
                 <rect class="node-bg" x="-79" y="-23" width="158" height="46" rx="8" fill="#1a0f0f" stroke="#e05252"
                     stroke-width="2" />
@@ -887,7 +866,7 @@
                 <rect class="node-bg" x="-79" y="-23" width="158" height="46" rx="8" fill="#1a0f0f" stroke="#e05252"
                     stroke-width="2" />
                 <text class="node-label" y="-5" fill="#ff9999">CCBR</text>
-                <text class="node-sub" y="10" fill="#cc8888">予兆を検知する</text>
+                <text class="node-sub" y="10" fill="#cc8888">リスクを定量化する</text>
             </g>
             <g class="node-group" data-id="esi" transform="translate(720,487)">
                 <rect class="node-bg" x="-79" y="-23" width="158" height="46" rx="8" fill="#1a0f0f" stroke="#e05252"
@@ -896,7 +875,6 @@
                 <text class="node-sub" y="10" fill="#cc8888">意思決定を構造化</text>
             </g>
 
-            <!-- ═══ LAYER 4 OUTCOMES ═══ -->
             <g class="node-group" data-id="structural_arch" transform="translate(280,548)">
                 <rect class="node-bg" x="-85" y="-20" width="170" height="40" rx="18" fill="#0a2a15" stroke="#27ae60"
                     stroke-width="2" />
@@ -918,10 +896,8 @@
         </svg>
     </div>
 
-    <!-- OVERLAY -->
     <div id="overlay"></div>
 
-    <!-- DETAIL PANEL -->
     <div id="detail-panel">
         <div class="panel-header">
             <div class="panel-icon" id="p-icon">？</div>
@@ -935,7 +911,6 @@
         <div class="panel-body" id="p-body"></div>
     </div>
 
-    <!-- BOTTOM NAV -->
     <div class="bottom-section">
         <div class="tab-nav">
             <button class="tab-btn active" data-tab="roots">🧠 知的基盤</button>
@@ -955,7 +930,7 @@
                     <div class="ic-icon">⚛️</div>
                     <div class="ic-title">物理学 &amp; システムダイナミクス</div>
                     <div class="ic-body">エントロピー・複雑系・フィードバックループ。組織を「物理システム」として捉えることで、崩壊の予兆が見える。</div>
-                    <span class="ic-tag">構造の本質理解</span>
+                    <span class="ic-tag">構造知性</span>
                 </div>
                 <div class="info-card">
                     <div class="ic-icon">📚</div>
@@ -968,13 +943,13 @@
                     <div class="ic-title">行動経済学 &amp; 社会工学</div>
                     <div class="ic-body">限定合理性・ナッジ理論・認知バイアスの経済的影響。人間が「合理的に見えて非合理な選択をする構造」を設計に組み込むことで、意図した行動変容を引き出せる。
                     </div>
-                    <span class="ic-tag">社会的因果の設計</span>
+                    <span class="ic-tag">社会的因果構造の設計</span>
                 </div>
                 <div class="info-card">
                     <div class="ic-icon">🔧</div>
                     <div class="ic-title">26年の深層技術現実</div>
                     <div class="ic-body">パケット解析からカーネル、実装の地獄、技術的負債の本質。泥臭い現場知が「上滑りなDX論」に騙されない眼を作る。</div>
-                    <span class="ic-tag">生々しい現場知</span>
+                    <span class="ic-tag">現場に根ざした実践知</span>
                 </div>
             </div>
         </div>
@@ -990,9 +965,10 @@
                 </div>
                 <div class="info-card" style="border-color:rgba(224,82,82,.3);">
                     <div class="ic-icon">🧬</div>
-                    <div class="ic-title">CCBR — サイバー宇宙背景放射</div>
-                    <div class="ic-body">宇宙物理学の「背景放射」手法をサイバー空間に適用。まだ名前もない脅威の予兆を微弱シグナルから検知する理論フレームワーク。<br><br><strong
-                            style="color:#ff9999;">閾値ベース検知を超えた予兆検知</strong></div>
+                    <div class="ic-title">CCBR — サイバーセキュリティ背景放射理論</div>
+                    <div class="ic-body">
+                        物理学の「背景放射」概念を援用し、サイバー空間の微弱な異常を捉える理論フレームワーク。デジタルツインを用いて技術的異常をビジネスリスク（VaR）へ翻訳し、論理的な説明責任を担保します。<br><br><strong
+                            style="color:#ff9999;">技術的異常からビジネスリスクへの翻訳</strong></div>
                     <span class="ic-tag" style="background:rgba(224,82,82,.2);color:#ff9999;">→ 図のCCBRをクリック</span>
                 </div>
                 <div class="info-card" style="border-color:rgba(224,82,82,.3);">
@@ -1026,7 +1002,8 @@
                 <div class="info-card">
                     <div class="ic-icon">🔒</div>
                     <div class="ic-title">CISO / セキュリティ責任者</div>
-                    <div class="ic-body">「既存ツールでは見えない脅威がある」——CCBRは宇宙物理学の手法をサイバー空間に適用した、次世代の予兆検知アプローチです。</div>
+                    <div class="ic-body">「技術的な異常を経営層の言語に翻訳できない」——CCBRは技術的異常をビジネスリスクとして定量化し、組織のガバナンスを構造的に担保するフレームワークです。
+                    </div>
                 </div>
             </div>
             <div class="cta-block" style="text-align:center;">
@@ -1035,9 +1012,11 @@
                     <strong>ご相談・お問い合わせ</strong>をお待ちしています。
                 </p>
                 <p class="cta-block-body" style="margin-top:12px; font-size:0.9em; line-height:1.9;">
-                    📧 <a href="mailto:yasuyuki@sakane.dev"
-                        style="color:#00ff88; text-decoration:none;">yasuyuki@sakane.dev</a> | 🌐 <a
-                        href="https://www.sakane.dev" style="color:#00ff88; text-decoration:none;">www.sakane.dev</a> /
+                    📧 <a href="/cdn-cgi/l/email-protection#ea938b999f939f8183aa998b818b848fc48e8f9c"
+                        style="color:#00ff88; text-decoration:none;"><span class="__cf_email__"
+                            data-cfemail="d5acb4a6a0aca0bebc95a6b4beb4bbb0fbb1b0a3">[email&#160;protected]</span></a> |
+                    🌐 <a href="https://www.sakane.dev" style="color:#00ff88; text-decoration:none;">www.sakane.dev</a>
+                    /
                     <a href="https://en.sakane.dev" style="color:#00ff88; text-decoration:none;">en.sakane.dev</a><br>
                     📱 +81 80 1189 8979 | Tokyo, Japan
                 </p>
@@ -1045,6 +1024,7 @@
         </div>
     </div>
 
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script>
         // ──────────────────────────────────────────────
         // NODE DATA
@@ -1057,22 +1037,22 @@
                 en: '市場が坂根を見るときの第一印象',
                 timeline: [
                     {
-                        era: '過去', cls: 'tl-past',
-                        text: '<strong>1999〜2010年代：</strong>実際にこの役割を担い、サイバー脅威分析・セキュリティアーキテクチャ設計の第一線にいた。パケット解析からカーネルまで、技術の深部を知り尽くした時代。'
+                        era: '過去（1999〜2010年代）', cls: 'tl-past',
+                        text: '<strong>サイバー脅威分析・セキュリティアーキテクチャ設計の第一線。</strong>パケット解析からカーネルまで、技術の深部を扱う仕事をしていた時期。多くの人が坂根を知ったのはこの頃。'
                     },
                     {
                         era: '現在（市場の認識）', cls: 'tl-now',
-                        text: '<strong>ヘッドハンター・採用担当者が見ているラベル。</strong>履歴書の職歴欄に書かれた言葉がそのまま定着している。これは事実の一部だが、<strong>全体像の20%にも満たない。</strong>'
+                        text: '<strong>LinkedInや履歴書では依然として「Security Specialist」として表示されている。</strong>これは事実の一部だが、2020年以降の活動——EMVIS・CCBR・ESIの研究開発——はこのラベルには反映されていない。'
                     },
                     {
-                        era: '未来', cls: 'tl-future',
-                        text: 'このラベルから脱却することが課題。「Security Specialist」として呼ばれ続ける限り、本来マッチすべき仕事の機会が生まれない。<strong>The Voidを埋めることで、このラベルを更新する。</strong>'
+                        era: '実際の変化', cls: 'tl-future',
+                        text: '2020年頃からセキュリティの「運用」から「構造設計」へシフト。CCBRの理論構築、EMVISの実装、ESI Frameworkの研究開発が現在の主な活動。「Security Specialist」というラベルと実際の仕事内容のギャップが拡大している。'
                     }
                 ],
                 relations: [
-                    { id: 'void', arrow: '-.→', name: 'THE VOID', desc: '表層的な認識がVoidの入力になっている' },
+                    { id: 'void', arrow: '-.→', name: 'THE VOID', desc: 'このラベルと実際の活動のギャップがVoid' },
                     { id: 'ccbr', arrow: '→', name: 'CCBR', desc: 'セキュリティの深い現場知がCCBRの土台' },
-                    { id: 'deeptech', arrow: '←', name: '26年の深層技術', desc: 'この経験がSecurity Specialistを支えていた' }
+                    { id: 'deeptech', arrow: '←', name: '26年の深層技術', desc: 'この時期の経験が技術的基盤を作った' }
                 ],
                 kpi: null
             },
@@ -1084,21 +1064,21 @@
                 timeline: [
                     {
                         era: '過去', cls: 'tl-past',
-                        text: 'リスク評価・技術的負債の分析・コンプライアンス対応。これらは実際にやってきた仕事で、成果を出してきた。しかし「リスクを見る人」という役割に<strong>矮小化されていく構造</strong>があった。'
+                        text: 'リスク評価・技術的負債の分析・コンプライアンス対応を担当。実際に成果を出してきた領域だが、「問題が起きたら呼ばれる人」というポジションに収まっていた。'
                     },
                     {
                         era: '現在', cls: 'tl-now',
-                        text: '「AI倫理・ガバナンスのアドバイザー」として認識されることも増えてきた。しかし依然として<strong>「問題が起きてから呼ばれる人」</strong>というポジション。'
+                        text: '<strong>AI倫理・ガバナンスのアドバイザー</strong>としての引き合いが増えてきた。しかし依然として「事後対応」の文脈で声がかかることが多い。'
                     },
                     {
-                        era: '未来', cls: 'tl-future',
-                        text: '「問題が起きる前に構造を変える人」へ。Tech Risk AdvisorからStructural Architectへの移行が、このページの核心的テーマ。'
+                        era: '実際の活動', cls: 'tl-future',
+                        text: 'CCBRで「問題が起きる前に構造的に検知する」、ESIで「問題が起きない意思決定構造を設計する」という事前介入型の研究開発に移行している。'
                     }
                 ],
                 relations: [
-                    { id: 'void', arrow: '-.→', name: 'THE VOID', desc: '「リスクの人」という認識がVoidに流入' },
+                    { id: 'void', arrow: '-.→', name: 'THE VOID', desc: '「リスク対応の人」という認識がギャップを生む' },
                     { id: 'emvis', arrow: '→', name: 'EMVIS', desc: 'リスク可視化の発展形がEMVIS' },
-                    { id: 'decision_arch', arrow: '→', name: 'Chief Decision Arch', desc: 'To Beへの移行先のひとつ' }
+                    { id: 'decision_arch', arrow: '→', name: 'Chief Decision Arch', desc: '到達しつつある役割' }
                 ],
                 kpi: null
             },
@@ -1110,21 +1090,21 @@
                 timeline: [
                     {
                         era: '過去', cls: 'tl-past',
-                        text: 'デリバリー管理・ステークホルダー調整・進捗コントロール。これらも実際にやってきたが、<strong>本来の能力を活かせていない役割</strong>として位置づけられることが多かった。'
+                        text: 'デリバリー管理・ステークホルダー調整・進捗コントロールも実際に担当してきた。しかし本来持っている構造設計能力はこの役割では活かされていなかった。'
                     },
                     {
-                        era: '現在', cls: 'tl-now',
-                        text: '市場がこのラベルで坂根を見るとき、「優秀なPM」として扱われる。しかし坂根が本来提供できる価値は、<strong>PMが実行するプロジェクトの構造設計</strong>にある。'
+                        era: '現在の認識', cls: 'tl-now',
+                        text: '「優秀なPM」として評価されることはあるが、<strong>成功するプロジェクトの構造そのものを設計する能力</strong>は市場に認識されていない。'
                     },
                     {
-                        era: '未来', cls: 'tl-future',
-                        text: '「プロジェクトを管理する人」から「プロジェクトが成功する構造を設計する人」へ。これがLayer 4のStructural Architectの姿。'
+                        era: '実際の活動', cls: 'tl-future',
+                        text: 'EMVISで「PoC自体の構造を再設計」、ESIで「プロジェクトが成功する意思決定構造を設計」——PMの枠を超えた構造設計者としての実績が積み上がっている。'
                     }
                 ],
                 relations: [
-                    { id: 'void', arrow: '-.→', name: 'THE VOID', desc: '矮小化された認識がVoidに流入' },
-                    { id: 'structural_arch', arrow: '→', name: 'Structural Architect', desc: 'PMの進化形がStructural Arch' },
-                    { id: 'emvis', arrow: '→', name: 'EMVIS', desc: 'PM経験がEMVISのプロセス設計に活きる' }
+                    { id: 'void', arrow: '-.→', name: 'THE VOID', desc: '役割の矮小化がギャップを生む' },
+                    { id: 'structural_arch', arrow: '→', name: 'Structural Architect', desc: '実際に到達しつつある姿' },
+                    { id: 'emvis', arrow: '→', name: 'EMVIS', desc: 'PM経験がプロセス設計に活きている' }
                 ],
                 kpi: null
             },
@@ -1135,21 +1115,21 @@
                 en: 'Cognitive Science & Philosophy',
                 timeline: [
                     {
-                        era: '積み上げてきた基盤', cls: 'tl-past',
-                        text: '意思決定論・認知バイアス研究・システム思考の哲学的基盤。なぜ人や組織は合理的に見えて非合理な選択をするのか——<strong>この問いへの探求が26年間続いている。</strong>'
+                        era: '26年間の蓄積', cls: 'tl-past',
+                        text: '意思決定論・認知バイアス研究・システム思考の哲学的基盤を独学で学び続けてきた。カーネマン、ファイン『意思決定の心理学』、ダニエル・デネットの哲学など。技術者としては異例の読書歴。'
                     },
                     {
-                        era: '現在の機能', cls: 'tl-now',
-                        text: 'ESI Frameworkの中核をなす「認知トリアージシステム」「ソクラテス問答エンジン」「バイアス検出・軽減メカニズム」は、この知識基盤から直接生まれている。<strong>EMVISのStakeholder Communication Advisorも同様。</strong>'
+                        era: '実装への反映', cls: 'tl-now',
+                        text: '<strong>ESI Frameworkの認知トリアージシステム、ソクラテス問答エンジン、バイアス検出メカニズムはこの知識から直接生まれている。</strong>EMVISのStakeholder Communication Advisorも同様。'
                     },
                     {
-                        era: '未来への展開', cls: 'tl-future',
-                        text: 'Chief Decision Architectとして機能するとき、経営者の思考の「OS」を再設計する能力の源泉になる。<strong>人間の認知構造を知ることが、組織設計の最深部に触れる。</strong>'
+                        era: '提供価値', cls: 'tl-future',
+                        text: '経営者の「思考のOS」を可視化・再設計できる能力の源泉。人間の認知構造を知ることで、組織設計の最深部に触れることができる。'
                     }
                 ],
                 relations: [
-                    { id: 'void', arrow: '==>', name: 'THE VOID', desc: 'Power Source — 認識断絶の解析に直結' },
-                    { id: 'esi', arrow: '→', name: 'ESI Framework', desc: 'ESIの認知処理層（Layer 2）の核心' },
+                    { id: 'void', arrow: '==>', name: 'THE VOID', desc: '認知構造の理解でVoidを分析できる' },
+                    { id: 'esi', arrow: '→', name: 'ESI Framework', desc: 'ESIの認知処理層の核心的基盤' },
                     { id: 'emvis', arrow: '→', name: 'EMVIS', desc: 'ステークホルダー心理モデルの基盤' }
                 ],
                 kpi: null
@@ -1161,22 +1141,22 @@
                 en: 'Physics & System Dynamics',
                 timeline: [
                     {
-                        era: '積み上げてきた基盤', cls: 'tl-past',
-                        text: 'エントロピー・複雑系・フィードバックループ・カオス理論。組織を「物理システム」として捉える視座は、<strong>技術的な問題を「力学的な問題」として読む能力</strong>を与えた。'
+                        era: '26年間の蓄積', cls: 'tl-past',
+                        text: 'エントロピー・複雑系・フィードバックループ・カオス理論を独学。組織を「物理システム」として捉える視座は、技術的な問題を「力学的な問題」として読む能力を与えた。'
                     },
                     {
-                        era: '現在の機能', cls: 'tl-now',
-                        text: 'CCBRの「宇宙背景放射」モデルの直接的な源泉。エントロピーの概念が「Innovation vs Entropy」という構造的矛盾の把握を可能にする。<strong>他のセキュリティ専門家が持たない視座。</strong>'
+                        era: '実装への反映', cls: 'tl-now',
+                        text: '<strong>CCBRの「背景放射」モデルの直接的な源泉。</strong>エントロピーの概念が「Innovation vs Entropy」という構造的矛盾の把握を可能にしている。他のセキュリティ専門家は持たない視座。'
                     },
                     {
-                        era: '未来への展開', cls: 'tl-future',
-                        text: '複雑系の知識は、組織が「なぜある構造では必然的に失敗するか」を物理法則のように説明することを可能にする。<strong>Structural Architectとしての説得力の源泉。</strong>'
+                        era: '提供価値', cls: 'tl-future',
+                        text: '複雑系の知識により、「なぜある構造では必然的に失敗するか」を物理法則のように説明できる。Structural Architectとしての説得力の源泉。'
                     }
                 ],
                 relations: [
                     { id: 'void', arrow: '==>', name: 'THE VOID', desc: 'システム崩壊の予兆を読む眼' },
                     { id: 'ccbr', arrow: '→', name: 'CCBR', desc: '宇宙背景放射モデルの直接的源泉' },
-                    { id: 'c_innov', arrow: '→', name: 'Innovation vs Entropy', desc: 'このモデルで矛盾を物理的に理解' }
+                    { id: 'c_innov', arrow: '→', name: 'Innovation vs Entropy', desc: '物理的視座で矛盾を理解' }
                 ],
                 kpi: null
             },
@@ -1187,21 +1167,21 @@
                 en: "Asimov's Psychohistory Paradigm",
                 timeline: [
                     {
-                        era: '積み上げてきた基盤', cls: 'tl-past',
-                        text: 'アシモフの「銀河帝国興亡史（Foundation）」シリーズが提示する<strong>心理歴史学（Psychohistory）</strong>——大規模な人間集団の行動を数学的に予測できるという思想。これを実際の組織設計に適用してきた。'
+                        era: '思想的影響', cls: 'tl-past',
+                        text: 'アシモフの『銀河帝国興亡史（Foundation）』が提示する<strong>心理歴史学（Psychohistory）</strong>——大規模な人間集団の行動を数学的に予測できるという思想に強く影響を受け、実際の組織設計に適用してきた。'
                     },
                     {
-                        era: '現在の機能', cls: 'tl-now',
-                        text: '「今起きていること」を数十年のスパンで文脈化する視座。<strong>DXの「流行」が来ても騙されないのは、歴史的パターンの反復として読めるから。</strong>EMVISの長期予測モデルの思想的基盤。'
+                        era: '実装への反映', cls: 'tl-now',
+                        text: '「今起きていること」を数十年のスパンで文脈化する視座。<strong>DXの「流行」に騙されないのは、歴史的パターンの反復として読めるから。</strong>EMVISの長期予測モデルの思想的基盤。'
                     },
                     {
-                        era: '未来への展開', cls: 'tl-future',
-                        text: 'Sovereign Venture Partnerとして国家レベルの意思決定を支援するとき、<strong>文明スケールの視座が求められる。</strong>心理歴史学的アプローチが、その長期的設計を可能にする。'
+                        era: '提供価値', cls: 'tl-future',
+                        text: '国家レベルの意思決定を支援する際、文明スケールの視座が必要になる。心理歴史学的アプローチがその長期的設計を可能にする。'
                     }
                 ],
                 relations: [
-                    { id: 'void', arrow: '==>', name: 'THE VOID', desc: '歴史的パターンで断絶の構造を読む' },
-                    { id: 'csvfo', arrow: '→', name: 'Sovereign Venture Partner', desc: '国家スケールの視座の源泉' },
+                    { id: 'void', arrow: '==>', name: 'THE VOID', desc: '歴史的パターンでVoidの構造を読む' },
+                    { id: 'csvfo', arrow: '→', name: 'Sovereign Venture Partner', desc: '国家スケール視座の源泉' },
                     { id: 'c_innov', arrow: '→', name: 'Innovation vs Entropy', desc: '文明史の観点で矛盾を捉える' }
                 ],
                 kpi: null
@@ -1213,23 +1193,23 @@
                 en: 'Behavioral Economics & Social Engineering',
                 timeline: [
                     {
-                        era: '積み上げてきた基盤', cls: 'tl-past',
-                        text: 'カーネマン＆トベルスキーの展望理論、サンスティーンのナッジ理論、限定合理性（Bounded Rationality）。<strong>「なぜ人は合理的に見えて非合理な選択をするのか」</strong>——この問いを経済学の観点から追求してきた。'
+                        era: '26年間の蓄積', cls: 'tl-past',
+                        text: 'カーネマン＆トベルスキーの展望理論、サンスティーンのナッジ理論、限定合理性（Bounded Rationality）を研究。<strong>「なぜ人は合理的に見えて非合理な選択をするのか」</strong>を経済学の観点から追求してきた。'
                     },
                     {
-                        era: '現在の機能', cls: 'tl-now',
-                        text: 'EMVISのStakeholder Communication Advisorに直接実装。「なぜ日本企業の担当者はPoC推進を阻害するのか」を<strong>損失回避バイアス・現状維持バイアス・ハーディング効果</strong>から説明し、それを回避するナッジ設計に落とし込む。ESIのバイアス検出・軽減メカニズムの理論的基盤でもある。'
+                        era: '実装への反映', cls: 'tl-now',
+                        text: '<strong>EMVISのStakeholder Communication Advisorに直接実装されている。</strong>日本企業の担当者がPoC推進を阻害する理由を、損失回避バイアス・現状維持バイアス・ハーディング効果から説明し、それを回避するナッジ設計に落とし込む。ESIのバイアス検出・軽減メカニズムの理論的基盤でもある。'
                     },
                     {
-                        era: '未来への展開', cls: 'tl-future',
-                        text: '意思決定の「構造」を設計するとき、<strong>人間の非合理性を前提として組み込んだ設計</strong>でなければ機能しない。Chief Decision Architectとして機能するとき、行動経済学は「人間のOSの仕様書」として機能する。'
+                        era: '提供価値', cls: 'tl-future',
+                        text: '意思決定の「構造」を設計する際、人間の非合理性を前提として組み込んだ設計でなければ機能しない。Chief Decision Architectとして、行動経済学は「人間のOSの仕様書」として機能する。'
                     }
                 ],
                 relations: [
                     { id: 'void', arrow: '==>', name: 'THE VOID', desc: '認知バイアスがVoidの断絶を固定化する' },
                     { id: 'emvis', arrow: '→', name: 'EMVIS', desc: 'ステークホルダーへのナッジ設計に直結' },
                     { id: 'esi', arrow: '→', name: 'ESI Framework', desc: '認知バイアス検出・軽減層の理論的基盤' },
-                    { id: 'csvfo', arrow: '→', name: 'CSVFO', desc: '主権的投資判断における非合理性の設計的制御' }
+                    { id: 'csvfo', arrow: '→', name: 'CSVFO', desc: '投資判断における非合理性の構造的制御' }
                 ],
                 kpi: null
             },
@@ -1240,16 +1220,16 @@
                 en: '26 Years of Deep Tech Reality',
                 timeline: [
                     {
-                        era: '積み上げてきた基盤', cls: 'tl-past',
-                        text: '<strong>パケット解析からカーネル、実装の地獄、技術的負債の本質。</strong>「動くコード」と「動かない組織」の間にある巨大な摩擦点を、現場で体感し続けた26年間。これが他者との最大の差別化要因。'
+                        era: '1999〜現在', cls: 'tl-past',
+                        text: '<strong>パケット解析からカーネル、実装の地獄、技術的負債の本質。</strong>「動くコード」と「動かない組織」の間にある巨大な摩擦点を現場で体感し続けた26年間。これが他者との最大の差別化要因。'
                     },
                     {
-                        era: '現在の機能', cls: 'tl-now',
-                        text: '上滑りなDX論・AI論に騙されない眼。「これは技術的に不可能」「この実装は半年で腐る」という判断が、<strong>経営者には見えないが坂根には見える。</strong>EMVISの技術スタック設計（LLM、GNN、FastAPI等）の全てに反映されている。'
+                        era: '実装への反映', cls: 'tl-now',
+                        text: '上滑りなDX論・AI論に騙されない眼。「これは技術的に不可能」「この実装は半年で腐る」という判断を即座に下せる。<strong>EMVISの技術スタック設計（LLM、GNN、FastAPI等）の全てに反映されている。</strong>'
                     },
                     {
-                        era: '未来への展開', cls: 'tl-future',
-                        text: 'Deep TechとJapanese Qualityの架橋者として、<strong>「本当に動くもの」を作る能力が信頼の核心。</strong>技術を語れない人間が設計するアーキテクチャには限界がある。'
+                        era: '提供価値', cls: 'tl-future',
+                        text: 'Deep TechとJapanese Qualityの架橋者として、<strong>「本当に動くもの」を作れることが信頼の核心。</strong>技術を語れない人間が設計するアーキテクチャには限界がある。'
                     }
                 ],
                 relations: [
@@ -1266,16 +1246,16 @@
                 en: 'Structural Gap between Perception and Reality',
                 timeline: [
                     {
-                        era: 'なぜVoidが生まれたか', cls: 'tl-past',
-                        text: 'Layer 1（市場認識）は過去の職歴から生まれる。しかしLayer 2（学際的知識基盤）は<strong>履歴書には書けない、30分の面談では伝わらない。</strong>この構造的非対称性がVoidを生む。'
+                        era: 'なぜ断絶が生まれるか', cls: 'tl-past',
+                        text: 'LinkedInや履歴書には「Security Specialist」「Tech Risk Advisor」と書かれている。しかし<strong>認知科学・物理学・歴史学・行動経済学の26年間の蓄積は履歴書のどこにも現れない。</strong>面談30分では伝わらない。この構造的非対称性がVoidを生む。'
                     },
                     {
-                        era: '現在のVoidの正体', cls: 'tl-now',
-                        text: '「坂根にセキュリティの仕事を依頼しようとする」が「坂根がEMVIS/CCBR/ESIを研究開発していることを知らない」という状態。<strong>この断絶が、本来マッチすべき仕事の機会を遮断している。</strong>'
+                        era: '断絶の実態', cls: 'tl-now',
+                        text: '<strong>「坂根にセキュリティの仕事を依頼しようとする人」と「EMVIS/CCBR/ESIなどの研究開発実績を知っている人」が分断されている。</strong>前者は過去の印象に基づき、後者は現在の活動を知っている。このギャップが認識の断絶を生んでいる。'
                     },
                     {
-                        era: 'Voidを埋める設計', cls: 'tl-future',
-                        text: 'このページ自体がVoidを埋めるための装置。知人・友人が自律的に閲覧し、<strong>「なるほど、今こういうことをやっているのか」という認識更新が起きること</strong>がゴール。EMVISのProgressive Disclosure Strategyと同じ思想。'
+                        era: '断絶を解消', cls: 'tl-future',
+                        text: 'この非対称性を解消するため、現在開発している具体的な枠組みを公開中。これらは単なる専門技術の延長ではなく、システムや組織の因果関係を根本から設計し直すための実装です。情報の粒度を段階的に深めていく構成（Progressive Disclosure）をとることで、断絶にある文脈の欠落を解消。'
                     }
                 ],
                 relations: [
@@ -1291,20 +1271,20 @@
 
             c_code: {
                 icon: '⚖️', tag: 'Layer 3 — 構造的矛盾', tagColor: '#e05252',
-                title: 'Code vs Constitution',
-                en: '技術的制御と表現の自由の緊張',
+                title: 'Phenomenology vs Theory',
+                en: '現象論的対応と普遍的法則の緊張',
                 timeline: [
                     {
-                        era: '矛盾の起源', cls: 'tl-past',
-                        text: '「Code is Law」（コードは法である）という思想とリベラルデモクラシーの衝突。<strong>憲法21条（表現の自由）</strong>は技術的規制をどこまで許容するのか。AIガバナンスの最深部にある問い。'
+                        era: '矛盾の本質', cls: 'tl-past',
+                        text: 'これまでのサイバーセキュリティは、過去に観測された既知のパターンに依存する対症療法的なアプローチに終始してきました。<strong>サイバー空間全体の健全性や基底状態の変化を普遍的に捉え、未知の事象を演繹的に説明するための理論的枠組みが存在しませんでした。</strong>'
                     },
                     {
-                        era: '現在の問題', cls: 'tl-now',
-                        text: 'AIが意思決定に介入するとき、<strong>誰が責任を負うのか。</strong>法的説明責任（Accountability）を機械的に担保する設計が存在しない。これがCCBRが解こうとしている構造的問題。'
+                        era: '現在の課題', cls: 'tl-now',
+                        text: 'AIがシステムの監視と対応を自律的に担う際、既存の統計的異常検知のみでは、なぜそれがリスクなのかを人間に説明することができません。<strong>意思決定の根拠となる定量的なモデルと、リスクを解釈するための共通言語の不在が、人とAIの協働を阻む構造的問題となっています。</strong>'
                     },
                     {
-                        era: '坂根の解決アプローチ', cls: 'tl-future',
-                        text: '<strong>CCBR</strong>は「法的要件をコードレベルで機械的に担保する」設計思想を持つ。「憲法とAIの矛盾を構造的に解消する」という野心的な目標がここにある。'
+                        era: 'CCBRの応答', cls: 'tl-future',
+                        text: '<strong>CCBRは物理宇宙の概念を援用し、サイバー空間に定量的な理論的基盤をもたらします。</strong>デジタルツイン上でのシミュレーションを通じて観測困難な異常データセットを生成し、Agentic AIがその意味を推論します。<strong>現象論的なざわめきから構造的な知性を抽出し、リスク定量化のデッドポイントを打破する革新的なパラダイムです。</strong>'
                     }
                 ],
                 relations: [
@@ -1320,22 +1300,22 @@
                 en: '創造的破壊とシステム安定性の永続的対立',
                 timeline: [
                     {
-                        era: '矛盾の起源', cls: 'tl-past',
+                        era: '矛盾の本質', cls: 'tl-past',
                         text: '物理学の第二法則——システムはエントロピーが増大する方向に動く。組織も同様。<strong>イノベーションは秩序を壊すが、エントロピーに任せれば組織は腐敗する。</strong>この永続的ジレンマ。'
                     },
                     {
-                        era: '現在の問題', cls: 'tl-now',
+                        era: '現在の課題', cls: 'tl-now',
                         text: '「DXを推進しながら既存業務を守る」という要求が組織に同時にかかる。<strong>これは物理的に矛盾している。</strong>どちらかが嘘をついているか、構造的な設計が必要。'
                     },
                     {
-                        era: '坂根の解決アプローチ', cls: 'tl-future',
-                        text: '<strong>ESI Framework</strong>の「選ばないこと（Type A）」の設計思想が直接応える。エントロピーに抗うための戦略的制約設計——これが構造的知性の核心。'
+                        era: 'ESIの応答', cls: 'tl-future',
+                        text: '<strong>ESI Frameworkの「選ばないこと（Type A）」の設計思想がこの矛盾に応える。</strong>エントロピーに抗うための戦略的制約設計——これが構造的知性の核心。'
                     }
                 ],
                 relations: [
                     { id: 'void', arrow: '←', name: 'THE VOID', desc: 'Voidが生み出す矛盾' },
                     { id: 'esi', arrow: '→', name: 'ESI Framework', desc: '戦略的制約設計で解消' },
-                    { id: 'physics', arrow: '←', name: '物理学', desc: 'エントロピーの概念の源泉' }
+                    { id: 'physics', arrow: '←', name: '物理学', desc: 'エントロピー概念の源泉' }
                 ],
                 kpi: null
             },
@@ -1346,16 +1326,16 @@
                 en: '意思決定の速度と説明責任の両立不可能性',
                 timeline: [
                     {
-                        era: '矛盾の起源', cls: 'tl-past',
+                        era: '矛盾の本質', cls: 'tl-past',
                         text: 'スタートアップはスピードを求め、大企業は信頼・コンプライアンスを求める。<strong>この二つは原理的に相反する。</strong>PoC地獄の根本原因はここにある。'
                     },
                     {
-                        era: '現在の問題', cls: 'tl-now',
-                        text: '「意思決定を速くしろ」と「リスクをゼロにしろ」を同時に要求する経営者。<strong>これは構造的な矛盾であり、どちらかが嘘をついている。</strong>EMVISはこの矛盾の在処を特定し、シミュレーションで解消する。'
+                        era: '現在の課題', cls: 'tl-now',
+                        text: '「意思決定を速くしろ」と「リスクをゼロにしろ」を同時に要求する経営者。<strong>これは構造的な矛盾。</strong>EMVISはこの矛盾の在処を特定し、シミュレーションで解消する。'
                     },
                     {
-                        era: '坂根の解決アプローチ', cls: 'tl-future',
-                        text: '<strong>EMVIS</strong>のMicro-Validation Framework（2週間単位の段階的PoC）が、速度と信頼を同時に満たす設計。「全部やってからでないと信頼できない」という文化に構造的に介入する。'
+                        era: 'EMVISの応答', cls: 'tl-future',
+                        text: '<strong>EMVISのMicro-Validation Framework（2週間単位の段階的PoC）が、速度と信頼を同時に満たす設計。</strong>「全部やってからでないと信頼できない」という文化に構造的に介入する。'
                     }
                 ],
                 relations: [
@@ -1371,24 +1351,24 @@
                 en: 'Executive Market Vision Intelligence System',
                 timeline: [
                     {
-                        era: 'なぜ作ったか', cls: 'tl-past',
-                        text: 'イスラエルをはじめとする海外Deep TechのPoC地獄を何度も目撃してきた。<strong>「なぜこんなに優れた技術が日本に入れないのか」</strong>——その答えは技術ではなく、日本企業の意思決定構造にあった。'
+                        era: '開発の背景', cls: 'tl-past',
+                        text: 'イスラエルをはじめとする海外Deep TechのPoC地獄を何度も目撃。<strong>「なぜこんなに優れた技術が日本に入れないのか」</strong>——答えは技術ではなく、日本企業の意思決定構造にあった。2020年頃から開発開始。'
                     },
                     {
-                        era: '今、何ができるか', cls: 'tl-now',
-                        text: '<strong>7層技術アーキテクチャ：</strong>①EDINETから企業・役員情報を自動抽出 ②LLM+GNNで組織影響力ネットワークを推論 ③モンテカルロ法で稟議プロセスをシミュレーション ④<strong>Micro-Validation Framework（2週間単位PoC）</strong> ⑤AIエージェントによるステークホルダー分析'
+                        era: '現在の実装状況', cls: 'tl-now',
+                        text: '現在は機能ごとに細分化された7層のマイクロサービスアーキテクチャとして実装。第1層から第3層にかけて公的情報の抽出、隠れた意思決定者の特定、稟議フローの予測を実行。<strong>本システムの特異なモデルである第4層のマイクロバリデーションにおいて、実証実験を技術、統合、価値、拡張の四段階に分解、2週間単位の細かいサイクルによる検証と段階的な情報開示を実行。</strong>続く第五層から第七層では、対話の最適化、投資対効果の可視化、継続的学習に基づくレポーティングを統合的に処理、全体を自己参照的に進化させる知能基盤アーキテクチャを構築。'
                     },
                     {
-                        era: 'どこへ向かうか', cls: 'tl-future',
-                        text: '「信頼をデータで設計し、意思決定をシミュレーションする」プラットフォームへ。<strong>海外Deep Techの日本市場適応知能（Adaptive Market Intelligence）</strong>として、VC・スタートアップ・事業会社の三者をつなぐインフラになる。'
+                        era: '開発の方向性', cls: 'tl-future',
+                        text: '「信頼をデータで設計し、意思決定をシミュレーションする」プラットフォームとして、<strong>海外Deep Techの日本市場適応知能（Adaptive Market Intelligence）</strong>を提供。VC・スタートアップ・事業会社の三者をつなぐインフラ。'
                     }
                 ],
                 relations: [
                     { id: 'void', arrow: '←', name: 'THE VOID', desc: 'PoC地獄はVoidから生まれる' },
-                    { id: 'c_speed', arrow: '←', name: 'Speed vs Trust', desc: 'この矛盾を解消するための設計' },
+                    { id: 'c_speed', arrow: '←', name: 'Speed vs Trust', desc: 'この矛盾を解消する設計' },
                     { id: 'cognitive', arrow: '←', name: '認知科学', desc: 'ステークホルダー心理モデルの基盤' },
                     { id: 'deeptech', arrow: '←', name: '深層技術現実', desc: '実装の確実性の根拠' },
-                    { id: 'structural_arch', arrow: '→', name: 'Structural Architect', desc: 'EMVISが向かう先の姿' }
+                    { id: 'structural_arch', arrow: '→', name: 'Structural Architect', desc: 'この実装が向かう姿' }
                 ],
                 kpi: {
                     label: '実証されているKPI',
@@ -1399,19 +1379,19 @@
             ccbr: {
                 icon: '🧬', tag: '独自メカニズム — 研究開発中', tagColor: '#e05252',
                 title: 'CCBR',
-                en: 'Cyber Cosmic Background Radiation',
+                en: 'Cyber Security Background Radiation Theory',
                 timeline: [
                     {
-                        era: 'なぜ作ったか', cls: 'tl-past',
-                        text: '既存のセキュリティ機器は「知っている攻撃のシグネチャ」にしか反応しない。<strong>宇宙物理学では、宇宙背景放射（CMB）という微弱なシグナルから宇宙の構造全体を解明する。</strong>同じことをサイバー空間でやれないか。'
+                        era: '開発の背景', cls: 'tl-past',
+                        text: '既存のセキュリティ機器は「知っている攻撃のシグネチャ」にしか反応しない。<strong>物理学において微弱な背景放射から宇宙の構造を解明するように、サイバー空間の基底ノイズから全体構造を捉えられないか</strong>という発想から開発開始。'
                     },
                     {
-                        era: '今、何ができるか', cls: 'tl-now',
-                        text: '<strong>RAD（Radiation Anomaly Detection）：</strong>正常状態のベースラインを学習し、微細な逸脱を検知。Digital Twinで異常を再現・検証。LLM/Agentic AIが「この異常は何を意味するか」を意味解釈。<strong>構造テンプレートの進化で知識を組織資産として蓄積。</strong>'
+                        era: '現在の実装状況', cls: 'tl-now',
+                        text: '<strong>RAD（Radiation Anomaly Detection）を中核技術として実装。</strong>正常状態のベースラインを学習し、微細な逸脱を検知。Digital Twinで異常を再現・検証。LLM/Agentic AIが「この異常は何を意味するか」を意味解釈。<strong>構造テンプレートの進化で知識を組織資産として蓄積。</strong>'
                     },
                     {
-                        era: 'どこへ向かうか', cls: 'tl-future',
-                        text: '「名前のない脅威の予兆を検知する」技術から、<strong>「法的説明責任を機械的に担保する」設計思想への発展。</strong>CCBRはセキュリティの問題を超え、AIガバナンスの構造的解決につながる。'
+                        era: '開発の方向性', cls: 'tl-future',
+                        text: '単なる技術的検知のアプローチから、<strong>「技術的異常をVaRとして定量化し、法的説明責任を機械的に担保する」設計思想への発展。</strong>CCBRはセキュリティの問題を超え、AIガバナンスの構造的解決へ向かっている。'
                     }
                 ],
                 relations: [
@@ -1419,11 +1399,11 @@
                     { id: 'c_code', arrow: '←', name: 'Code vs Constitution', desc: 'この矛盾への構造的応答' },
                     { id: 'physics', arrow: '←', name: '物理学', desc: '宇宙背景放射モデルの直接的源泉' },
                     { id: 'deeptech', arrow: '←', name: '深層技術現実', desc: 'セキュリティ現場の深い理解' },
-                    { id: 'decision_arch', arrow: '→', name: 'Chief Decision Arch', desc: 'CCBRが向かう先の姿' }
+                    { id: 'decision_arch', arrow: '→', name: 'Chief Decision Arch', desc: 'この実装が向かう姿' }
                 ],
                 kpi: {
                     label: '設計上の成果目標',
-                    items: ['閾値ベース検知を超えた予兆検知精度の向上', '未知の脅威に対する構造的対応力強化', '法的説明責任の機械的担保（憲法21条との整合）']
+                    items: ['VaR（Value at Risk）の計測精度と説明可能性の向上', '技術的異常からビジネスインパクト算出までの極小化', '法的説明責任の機械的担保（憲法21条との整合）']
                 }
             },
 
@@ -1433,16 +1413,16 @@
                 en: 'Executive Structural Intelligence',
                 timeline: [
                     {
-                        era: 'なぜ作ったか', cls: 'tl-past',
-                        text: 'McKinseyの調査：<strong>72%の経営者が「自分たちの意思決定に問題がある」と認識している。</strong>M&A成功率は50%——コイン投げと同じ。なぜか。意思決定の「構造」が見えていないから。問題の表面ではなく因果構造を設計する必要がある。'
+                        era: '開発の背景', cls: 'tl-past',
+                        text: 'McKinseyの調査：<strong>72%の経営者が「自分たちの意思決定に問題がある」と認識。</strong>M&A成功率は50%——コイン投げと同じ。理由は、意思決定の「構造」が見えていないから。問題の表面ではなく因果構造を設計する必要があるという認識から開発開始。'
                     },
                     {
-                        era: '今、何ができるか', cls: 'tl-now',
-                        text: '<strong>3層責務アーキテクチャ：</strong>Layer 3（戦略的制約の設計）→ Layer 2（ソクラテス問答・認知バイアス検出）→ Layer 1（実行監視・フィードバック）。認知トリアージ4軸（重要性・不可逆性・複雑性・時間制約）で思考モードを自動最適化。'
+                        era: '現在の実装状況', cls: 'tl-now',
+                        text: '<strong>3層責務アーキテクチャを実装：</strong>Layer 3（戦略的制約の設計）→ Layer 2（ソクラテス問答エンジン・認知バイアス検出）→ Layer 1（実行監視・フィードバック）。認知トリアージ4軸（重要性・不可逆性・複雑性・時間制約）で思考モードを自動最適化。'
                     },
                     {
-                        era: 'どこへ向かうか', cls: 'tl-future',
-                        text: '経営者の「思考のアウトソーシング先」としての知的インフラへ。<strong>「意思決定のOSそのものを設計する」Chief Decision Architectという役割</strong>は、ESIが実装されたときに初めて意味を持つ。'
+                        era: '開発の方向性', cls: 'tl-future',
+                        text: '経営者の「思考のアウトソーシング先」としての知的インフラ。<strong>「意思決定のOSそのものを設計する」Chief Decision Architect</strong>という役割は、ESIが実装されたときに初めて実現する。'
                     }
                 ],
                 relations: [
@@ -1450,7 +1430,7 @@
                     { id: 'c_innov', arrow: '←', name: 'Innovation vs Entropy', desc: 'ESIの戦略的制約設計が応える' },
                     { id: 'cognitive', arrow: '←', name: '認知科学', desc: 'ESIの認知処理層の核心的基盤' },
                     { id: 'history', arrow: '←', name: '歴史学', desc: '長期的視座の思想的基盤' },
-                    { id: 'decision_arch', arrow: '→', name: 'Chief Decision Arch', desc: 'ESIが向かう先の姿' }
+                    { id: 'decision_arch', arrow: '→', name: 'Chief Decision Arch', desc: 'この実装が向かう姿' }
                 ],
                 kpi: {
                     label: '実証されているKPI',
@@ -1464,15 +1444,15 @@
                 en: '構造設計者',
                 timeline: [
                     {
-                        era: 'なぜこの姿を目指すのか', cls: 'tl-past',
-                        text: '26年間、「問題が起きたら呼ばれる人」として動いてきた。しかし本当に価値があるのは<strong>「問題が起きる構造を変える人」</strong>。この転換こそが、キャリア全体の根本的テーマ。'
+                        era: '26年間の軌跡', cls: 'tl-past',
+                        text: '1999年から「問題が起きたら呼ばれる人」として活動。しかし2020年頃から、<strong>「問題が起きる構造を変える人」</strong>への転換が始まった。'
                     },
                     {
-                        era: '現在位置', cls: 'tl-now',
-                        text: 'EMVIS・CCBR・ESIの研究開発を通じて、Structural Architectとしての実績を積み上げている途中。<strong>「この役割を理解している組織」との出会いを探している段階。</strong>'
+                        era: '現在の活動', cls: 'tl-now',
+                        text: 'EMVIS・CCBR・ESIの研究開発を通じて、<strong>Structural Architectとしての実績が積み上がっている。</strong>「この役割を理解している組織」との協業が増えつつある段階。'
                     },
                     {
-                        era: '到達したい姿', cls: 'tl-future',
+                        era: '提供価値', cls: 'tl-future',
                         text: '組織の意思決定構造そのものを設計・再設計する。単なる助言ではなく、<strong>因果関係を構造に組み込む。</strong>「次に何が起きるか」ではなく「なぜその構造ではその問題が必然的に起きるのか」を解明し、根本から作り直す。'
                     }
                 ],
@@ -1490,16 +1470,16 @@
                 en: '意思決定のOS設計者',
                 timeline: [
                     {
-                        era: 'なぜこの姿を目指すのか', cls: 'tl-past',
-                        text: '「意思決定のOS」が壊れている組織は、どんなに優れた戦略も実行できない。<strong>CDAOという役職が注目されているが、坂根が目指すのはその先——「意思決定の構造そのものを設計する」役割。</strong>'
+                        era: '2020年以降の変化', cls: 'tl-past',
+                        text: '「意思決定のOS」が壊れている組織は、どんなに優れた戦略も実行できない。<strong>CDAOという役職が注目されているが、実際に向かっているのはその先——「意思決定の構造そのものを設計する」役割。</strong>'
                     },
                     {
-                        era: '現在位置', cls: 'tl-now',
-                        text: 'ESI Frameworkの実装を通じて、経営者の「思考の外部化」を支援している。<strong>「このフレームワークで考えると、今まで見えなかったものが見える」という体験を提供できる段階に来ている。</strong>'
+                        era: '現在の活動', cls: 'tl-now',
+                        text: 'ESI Frameworkの実装を通じて、経営者の「思考の外部化」を支援している。<strong>「このフレームワークで考えると、今まで見えなかったものが見える」</strong>という体験を提供できる段階に到達。'
                     },
                     {
-                        era: '到達したい姿', cls: 'tl-future',
-                        text: 'Deep Tech（深層技術）と日本的品質思想の架橋者として、<strong>組織の知的インフラ</strong>として機能する。経営者が「坂根に聞けばわかる」ではなく「坂根が設計した構造で考えれば答えが出る」という状態。'
+                        era: '提供価値', cls: 'tl-future',
+                        text: 'Deep Tech（深層技術）と日本的品質思想の架橋者として、<strong>組織の知的インフラ</strong>として機能する。「坂根に聞けばわかる」ではなく「坂根が設計した構造で考えれば答えが出る」という状態。'
                     }
                 ],
                 relations: [
@@ -1516,22 +1496,22 @@
                 en: 'CSVFO — Chief Structural Value & Future Officer',
                 timeline: [
                     {
-                        era: 'なぜこの姿を目指すのか', cls: 'tl-past',
+                        era: '背景', cls: 'tl-past',
                         text: '技術的主権（Digital Sovereignty）という概念が国家レベルで議論されるようになってきた。<strong>個人・組織・国家が自らの技術インフラを「所有」し「制御」できるかどうかが、今後の競争力の核心。</strong>'
                     },
                     {
-                        era: '現在位置', cls: 'tl-now',
-                        text: 'EMVIS・CCBR・ESIの統合により、<strong>「投資判断」「セキュリティ設計」「意思決定構造」</strong>という三つの軸を同時に扱える人材として、海外Deep Techと日本市場の架橋ポジションを確立しつつある。'
+                        era: '現在の活動', cls: 'tl-now',
+                        text: 'EMVIS・CCBR・ESIの統合により、<strong>「投資判断」「セキュリティ設計」「意思決定構造」</strong>という三つの軸を同時に扱える立場として、海外Deep Techと日本市場の架橋ポジションが確立されつつある。'
                     },
                     {
-                        era: '到達したい姿', cls: 'tl-future',
-                        text: '破滅的投資を構造的に回避しながら、技術的主権を担保する。<strong>「国家レベルのコミュニティ意思決定を支援する」というスケールでのStructural Intelligence Architecture。</strong>アシモフのFoundationが「文明の崩壊を最小化する」ために設計されたように。'
+                        era: '提供価値', cls: 'tl-future',
+                        text: '破滅的投資を構造的に回避しながら、技術的主権を担保する。<strong>国家レベルのコミュニティ意思決定を支援する</strong>というスケールでのStructural Intelligence Architecture。アシモフのFoundationが「文明の崩壊を最小化する」ために設計されたように。'
                     }
                 ],
                 relations: [
                     { id: 'emvis', arrow: '←', name: 'EMVIS', desc: 'ベンチャー支援の技術的基盤' },
                     { id: 'history', arrow: '←', name: '歴史学', desc: '文明スケールの視座の源泉' },
-                    { id: 'economics', arrow: '←', name: '経済学', desc: '主権的投資判断の理論的基盤' },
+                    { id: 'economics', arrow: '←', name: '行動経済学', desc: '投資判断の理論的基盤' },
                     { id: 'security', arrow: '←', name: 'Security（As Is）', desc: '起点の役割からの最遠点' }
                 ],
                 kpi: null
@@ -1643,11 +1623,14 @@
         });
     </script>
 
-    <!-- COPYRIGHT -->
     <footer
-        style="text-align:center; padding:40px 20px 30px; color:#7a8899; font-size:0.85em; border-top:1px solid rgba(255,255,255,.06);">
-        © 2026 Yasuyuki Sakane (<a href="mailto:yasuyuki@sakane.dev"
-            style="color:#7a8899; text-decoration:none;">yasuyuki@sakane.dev</a>). All rights reserved.
+        style="text-align:center; padding:40px 20px 30px; color:#7a8899; font-size:0.85em; border-top:1px solid rgba(255,255,255,255,.05);\">
+        <p style=\"margin-bottom:8px;\">
+            © 2025 Yasuyuki Sakane — Structural Intelligence Architect
+        </p>
+        <p style=\"font-size:0.9em; color:#5a6a7a;\">
+            Built with Progressive Disclosure Strategy & Interactive Gap Analysis
+        </p>
     </footer>
 </body>
 
