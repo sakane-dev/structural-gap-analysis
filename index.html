@@ -26,11 +26,11 @@
         body{font-family:'Noto Sans JP',sans-serif;background:var(--bg0);color:var(--white);min-height:100vh;overflow-x:hidden;}
         body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(56,189,248,.03)1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.03)1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0;}
 
-        /* ── LANG TOGGLE ── */
-        .lang-toggle{position:fixed;top:16px;right:16px;z-index:2000;display:flex;gap:6px;}
-        .lang-btn{background:rgba(13,19,32,.9);border:1px solid rgba(56,189,248,.3);color:var(--gray);padding:6px 14px;border-radius:20px;cursor:pointer;font-size:.78em;font-weight:700;font-family:'Syne',sans-serif;letter-spacing:.1em;transition:all .2s;}
-        .lang-btn.active{background:linear-gradient(135deg,var(--cyan2),var(--green2));border-color:transparent;color:#000;}
-        .lang-btn:hover:not(.active){border-color:var(--cyan);color:#fff;}
+        /* ── LANG DROPDOWN ── */
+        .lang-toggle{position:fixed;top:16px;right:16px;z-index:2000;}
+        #lang-select{background:rgba(13,19,32,.95);border:1px solid rgba(56,189,248,.35);color:var(--cyan);padding:6px 28px 6px 12px;border-radius:20px;cursor:pointer;font-size:.78em;font-weight:700;font-family:'Syne',sans-serif;letter-spacing:.08em;outline:none;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2338bdf8'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;transition:border-color .2s;}
+        #lang-select:hover{border-color:var(--cyan2);}
+        #lang-select option{background:#0d1320;color:var(--white);}
 
         /* ── HEADER ── */
         header{position:relative;z-index:10;padding:60px 40px 40px;text-align:center;border-bottom:1px solid rgba(56,189,248,.15);}
@@ -127,44 +127,66 @@
         .cta-block-body strong{color:#e0fff4;}
 
         /* ── AI CHAT BUTTON ── */
-        #chat-fab{position:fixed;bottom:24px;right:24px;z-index:1500;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--cyan2),var(--green2));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.4em;box-shadow:0 4px 20px rgba(0,212,255,.4);transition:all .3s;animation:pulse-fab 2.5s ease-in-out infinite;}
-        #chat-fab:hover{transform:scale(1.1);box-shadow:0 6px 30px rgba(0,212,255,.6);}
-        @keyframes pulse-fab{0%,100%{box-shadow:0 4px 20px rgba(0,212,255,.4);}50%{box-shadow:0 4px 32px rgba(0,255,136,.6);}}
+        /* ── INLINE CHAT PANEL ── */
+        #inline-chat{position:relative;z-index:10;max-width:680px;margin:20px auto 0;border-radius:16px;overflow:hidden;border:1px solid rgba(56,189,248,.3);background:rgba(8,12,18,.96);text-align:left;}
 
-        /* ── AI CHAT WINDOW ── */
-        #chat-window{position:fixed;bottom:90px;right:24px;width:min(400px,calc(100vw - 32px));height:520px;background:var(--panel);border:1px solid rgba(56,189,248,.25);border-radius:16px;z-index:1500;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.6);transform:scale(0.8) translateY(20px);opacity:0;pointer-events:none;transition:all .25s cubic-bezier(.16,1,.3,1);}
-        #chat-window.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all;}
-        .chat-header{padding:14px 16px;border-bottom:1px solid rgba(56,189,248,.15);display:flex;align-items:center;gap:10px;flex-shrink:0;}
-        .chat-header-icon{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--cyan2),var(--green2));display:flex;align-items:center;justify-content:center;font-size:.9em;flex-shrink:0;}
-        .chat-header-text{flex:1;}
-        .chat-header-title{font-family:'Syne',sans-serif;font-size:.9em;font-weight:700;color:#fff;}
-        .chat-header-sub{font-size:.72em;color:var(--gray);}
-        .chat-header-sub .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green2);margin-right:5px;animation:blink 1.5s ease-in-out infinite;}
+        /* RAG badge strip */
+        .rag-badge-strip{display:flex;align-items:center;gap:8px;padding:9px 18px;background:linear-gradient(90deg,rgba(0,212,255,.08),rgba(0,255,136,.06));border-bottom:1px solid rgba(56,189,248,.15);flex-wrap:wrap;}
+        .rag-badge{display:inline-flex;align-items:center;gap:4px;font-size:.68em;font-weight:700;letter-spacing:.1em;padding:3px 9px;border-radius:20px;font-family:'Syne',sans-serif;}
+        .rag-badge-cyan{background:rgba(0,212,255,.12);border:1px solid rgba(0,212,255,.3);color:var(--cyan2);}
+        .rag-badge-green{background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.25);color:var(--green2);}
+        .rag-badge-gold{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);color:var(--gold);}
+        .rag-strip-label{margin-left:auto;font-size:.68em;color:var(--gray);letter-spacing:.05em;}
+
+        /* chat header inside inline panel */
+        .ichat-header{padding:12px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(56,189,248,.12);}
+        .ichat-header-icon{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--cyan2),var(--green2));display:flex;align-items:center;justify-content:center;font-size:.85em;flex-shrink:0;}
+        .ichat-title{font-family:'Syne',sans-serif;font-size:.88em;font-weight:700;color:#fff;}
+        .ichat-sub{font-size:.7em;color:var(--gray);}
+        .ichat-sub .dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--green2);margin-right:4px;animation:blink 1.5s ease-in-out infinite;}
         @keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
-        .chat-close{background:none;border:none;color:var(--gray);cursor:pointer;font-size:1.1em;padding:4px;transition:color .2s;}
-        .chat-close:hover{color:#fff;}
-        .chat-messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;}
-        .chat-messages::-webkit-scrollbar{width:3px;}
-        .chat-messages::-webkit-scrollbar-thumb{background:rgba(56,189,248,.3);border-radius:2px;}
-        .msg{max-width:85%;padding:10px 13px;border-radius:12px;font-size:.84em;line-height:1.6;}
-        .msg-ai{background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.2);color:#c8dff0;align-self:flex-start;border-radius:4px 12px 12px 12px;}
-        .msg-user{background:rgba(0,255,136,.12);border:1px solid rgba(0,255,136,.2);color:#c0f0d8;align-self:flex-end;border-radius:12px 4px 12px 12px;}
+
+        /* messages */
+        #inline-messages{height:220px;min-height:120px;max-height:70vh;overflow-y:auto;padding:12px 16px;display:flex;flex-direction:column;gap:9px;}
+        #inline-messages::-webkit-scrollbar{width:3px;}
+        #inline-messages::-webkit-scrollbar-thumb{background:rgba(56,189,248,.3);border-radius:2px;}
+        #chat-resize-handle{width:100%;height:7px;cursor:ns-resize;background:linear-gradient(90deg,transparent 0%,rgba(56,189,248,.12) 20%,rgba(56,189,248,.32) 50%,rgba(56,189,248,.12) 80%,transparent 100%);display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0;user-select:none;}
+        #chat-resize-handle:hover{background:linear-gradient(90deg,transparent 0%,rgba(56,189,248,.22) 20%,rgba(56,189,248,.55) 50%,rgba(56,189,248,.22) 80%,transparent 100%);}
+        #chat-resize-handle::after{content:'';width:36px;height:2px;border-radius:2px;background:rgba(56,189,248,.45);}
+        .msg{max-width:88%;padding:9px 12px;border-radius:12px;font-size:.83em;line-height:1.6;}
+        .msg-ai{background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.18);color:#c8dff0;align-self:flex-start;border-radius:4px 12px 12px 12px;}
+        .msg-user{background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.18);color:#c0f0d8;align-self:flex-end;border-radius:12px 4px 12px 12px;}
         .msg-typing{align-self:flex-start;}
         .typing-dots{display:flex;gap:4px;padding:4px 0;}
         .typing-dots span{width:6px;height:6px;border-radius:50%;background:var(--cyan2);animation:typing-bounce .8s ease-in-out infinite;}
         .typing-dots span:nth-child(2){animation-delay:.15s;}
         .typing-dots span:nth-child(3){animation-delay:.3s;}
         @keyframes typing-bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
-        .chat-suggestions{padding:8px 14px;display:flex;gap:6px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.05);}
-        .suggestion-chip{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.2);color:var(--cyan);font-size:.72em;padding:4px 10px;border-radius:20px;cursor:pointer;transition:all .2s;white-space:nowrap;}
-        .suggestion-chip:hover{background:rgba(56,189,248,.2);color:#fff;}
-        .chat-input-area{padding:10px 14px;border-top:1px solid rgba(56,189,248,.1);display:flex;gap:8px;flex-shrink:0;}
-        .chat-input{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(56,189,248,.2);border-radius:24px;padding:9px 14px;color:var(--white);font-size:.84em;font-family:'Noto Sans JP',sans-serif;outline:none;transition:border-color .2s;}
+
+        /* suggestions */
+        .chat-suggestions{padding:7px 14px;display:flex;gap:5px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.05);}
+        .suggestion-chip{background:rgba(56,189,248,.07);border:1px solid rgba(56,189,248,.18);color:var(--cyan);font-size:.7em;padding:3px 9px;border-radius:20px;cursor:pointer;transition:all .2s;white-space:nowrap;}
+        .suggestion-chip:hover{background:rgba(56,189,248,.18);color:#fff;}
+
+        /* input area */
+        .chat-input-area{padding:9px 14px;border-top:1px solid rgba(56,189,248,.1);display:flex;gap:8px;}
+        .chat-input{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(56,189,248,.2);border-radius:24px;padding:8px 14px;color:var(--white);font-size:.83em;font-family:'Noto Sans JP',sans-serif;outline:none;transition:border-color .2s;}
         .chat-input:focus{border-color:var(--cyan2);}
         .chat-input::placeholder{color:var(--gray);}
-        .chat-send{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--cyan2),var(--green2));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.9em;transition:transform .2s;flex-shrink:0;}
+        .chat-send{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--cyan2),var(--green2));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.85em;transition:transform .2s;flex-shrink:0;}
         .chat-send:hover{transform:scale(1.1);}
         .chat-send:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+
+        /* ── API KEY BAR (inline, always visible) ── */
+        #apikey-bar{padding:7px 14px;border-top:1px solid rgba(56,189,248,.1);display:flex;gap:6px;align-items:center;background:rgba(0,0,0,.12);}
+        #apikey-bar-input{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(56,189,248,.18);border-radius:20px;padding:5px 12px;color:var(--white);font-size:.74em;font-family:'Noto Sans JP',sans-serif;outline:none;transition:border-color .2s;}
+        #apikey-bar-input:focus{border-color:var(--cyan2);}
+        #apikey-bar-input::placeholder{color:var(--gray);}
+        #apikey-bar-input.saved{border-color:rgba(0,255,136,.4);}
+        #apikey-bar-save{padding:4px 11px;background:linear-gradient(135deg,var(--cyan2),var(--green2));border:none;border-radius:20px;color:#000;font-size:.7em;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'Syne',sans-serif;transition:opacity .2s;flex-shrink:0;}
+        #apikey-bar-save:hover{opacity:.85;}
+        #apikey-bar-status{font-size:.68em;color:var(--green2);white-space:nowrap;flex-shrink:0;opacity:0;transition:opacity .3s;}
+        #apikey-bar-status.visible{opacity:1;}
 
         /* ── API KEY MODAL ── */
         #apikey-modal{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:3000;display:flex;align-items:center;justify-content:center;padding:20px;}
@@ -182,17 +204,21 @@
             header{padding:40px 20px 30px;}
             .map-area{padding:20px 10px;}
             #detail-panel{width:100vw;}
-            #chat-window{bottom:84px;right:12px;width:calc(100vw - 24px);}
-            #chat-fab{bottom:20px;right:16px;}
+            #inline-chat{margin:16px 12px 0;}
         }
     </style>
 </head>
 <body>
 
-<!-- ── LANG TOGGLE ── -->
+<!-- ── LANG DROPDOWN ── -->
 <div class="lang-toggle">
-    <button class="lang-btn active" id="btn-ja" onclick="setLang('ja')">日本語</button>
-    <button class="lang-btn" id="btn-en" onclick="setLang('en')">English</button>
+    <select id="lang-select" onchange="setLang(this.value)">
+        <option value="ja">🇯🇵 日本語</option>
+        <option value="en">🇺🇸 English</option>
+        <option value="zh">🇨🇳 中文</option>
+        <option value="de">🇩🇪 Deutsch</option>
+        <option value="fr">🇫🇷 Français</option>
+    </select>
 </div>
 
 <!-- ── HEADER ── -->
@@ -200,10 +226,48 @@
     <div class="eyebrow" data-ja="Structural Intelligence Architect — 2026" data-en="Structural Intelligence Architect — 2026">Structural Intelligence Architect — 2026</div>
     <h1>坂根 康之</h1>
     <div class="header-name-en">Yasuyuki Sakane</div>
-    <div class="header-role" data-ja="CSVFO &nbsp;/&nbsp; Chief Structural Value &amp; Future Officer" data-en="CSVFO &nbsp;/&nbsp; Chief Structural Value &amp; Future Officer">CSVFO &nbsp;/&nbsp; Chief Structural Value &amp; Future Officer</div>
+    <div class="header-role" data-ja="CSVFO &nbsp;/&nbsp; Chief Structural Value and Future Officer" data-en="CSVFO &nbsp;/&nbsp; Chief Structural Value and Future Officer" data-zh="CSVFO &nbsp;/&nbsp; 最高构造价值与未来责任者" data-de="CSVFO &nbsp;/&nbsp; Chief Structural Value and Future Officer" data-fr="CSVFO &nbsp;/&nbsp; Chief Structural Value and Future Officer">CSVFO &nbsp;/&nbsp; Chief Structural Value and Future Officer</div>
     <div class="header-lead">
-        <h2 data-ja="「最近、坂根は何をしているの？」" data-en="&ldquo;What is Sakane working on these days?&rdquo;">「最近、坂根は何をしているの？」</h2>
-        <span data-ja='セキュリティの第一線を離れ、<strong>組織の意思決定構造そのものを設計する仕事</strong>に移行中。<br>下の図の<strong>各ノードをクリック</strong>すると、その要素の意味・他との相関・過去から未来の文脈が展開します。' data-en='Stepping away from frontline security operations, Sakane now focuses on <strong>designing the decision-making structures of organizations</strong> themselves.<br><strong>Click each node</strong> in the diagram below to explore its meaning, correlations, and context from past to future.'>セキュリティの第一線を離れ、<strong>組織の意思決定構造そのものを設計する仕事</strong>に移行中。<br>下の図の<strong>各ノードをクリック</strong>すると、その要素の意味・他との相関・過去から未来の文脈が展開します。</span>
+        <h2 data-ja="「最近、坂根は何をしているの？」" data-en="&ldquo;What is Sakane working on these days?&rdquo;" data-zh="「坂根最近在做什么？」" data-de="„Was macht Sakane gerade?" data-fr="« Que fait Sakane ces derniers temps ? »">「最近、坂根は何をしているの？」</h2>
+        <span data-ja='セキュリティの第一線を離れ、<strong>組織の意思決定構造そのものを設計する仕事</strong>に移行中。<br>下の図の<strong>各ノードをクリック</strong>すると、その要素の意味・他との相関・過去から未来の文脈が展開します。' data-en='Stepping away from frontline security operations, Sakane now focuses on <strong>designing the decision-making structures of organizations</strong> themselves.<br><strong>Click each node</strong> in the diagram below to explore its meaning, correlations, and context from past to future.' data-zh='离开安全第一线，转向<strong>设计组织决策结构本身的工作</strong>。<br><strong>点击下方图中的各节点</strong>，可展开该要素的含义、与其他节点的关联及从过去到未来的脉络。' data-de='Weg von der operativen Sicherheitsarbeit, fokussiert Sakane jetzt auf <strong>die Gestaltung der Entscheidungsstrukturen von Organisationen</strong> selbst.<br><strong>Klicken Sie auf jeden Knoten</strong> im Diagramm, um Bedeutung, Korrelationen und Kontext zu erkunden.' data-fr='Quittant les opérations sécurité en première ligne, Sakane se concentre désormais sur <strong>la conception des structures décisionnelles des organisations</strong> elles-mêmes.<br><strong>Cliquez sur chaque nœud</strong> dans le diagramme pour explorer sa signification, ses corrélations et son contexte.'>セキュリティの第一線を離れ、<strong>組織の意思決定構造そのものを設計する仕事</strong>に移行中。<br>下の図の<strong>各ノードをクリック</strong>すると、その要素の意味・他との相関・過去から未来の文脈が展開します。</span>
+    </div>
+
+    <!-- ── INLINE AI CHAT PANEL ── -->
+    <div id="inline-chat">
+        <!-- RAG badge strip -->
+        <div class="rag-badge-strip">
+            <span class="rag-badge rag-badge-cyan">⚡ RAG</span>
+            <span class="rag-badge rag-badge-green">🧠 Semantic Retrieval</span>
+            <span class="rag-badge rag-badge-gold">🔗 Knowledge Graph</span>
+            <span class="rag-strip-label" data-ja="坂根の知識ベースと直結したAI" data-en="AI directly linked to Sakane's knowledge base" data-zh="与坂根知识库直连的AI" data-de="KI direkt mit Sakanes Wissensbasis verknüpft" data-fr="IA directement liée à la base de connaissances de Sakane">坂根の知識ベースと直結したAI</span>
+        </div>
+        <!-- Chat header -->
+        <div class="ichat-header">
+            <div class="ichat-header-icon">🧠</div>
+            <div>
+                <div class="ichat-title" data-ja="坂根康之 AIアシスタント" data-en="Yasuyuki Sakane AI Assistant" data-zh="坂根康之 AI助手" data-de="Yasuyuki Sakane KI-Assistent" data-fr="Assistant IA Yasuyuki Sakane">坂根康之 AIアシスタント</div>
+                <div class="ichat-sub"><span class="dot"></span><span data-ja="経歴・EMVIS・CCBR・ESI・構造知性 — 何でも聞いてください" data-en="Career · EMVIS · CCBR · ESI · Structural Intelligence — ask anything" data-zh="经历·EMVIS·CCBR·ESI·结构知性 — 欢迎提问" data-de="Karriere · EMVIS · CCBR · ESI · Strukturelle Intelligenz — alles fragen" data-fr="Carrière · EMVIS · CCBR · ESI · Intelligence Structurelle — posez vos questions">経歴・EMVIS・CCBR・ESI・構造知性 — 何でも聞いてください</span></div>
+            </div>
+        </div>
+        <!-- Messages -->
+        <div id="inline-messages"></div>
+        <!-- Resize handle -->
+        <div id="chat-resize-handle" title="ドラッグして高さを変更"></div>
+        <!-- Suggestions -->
+        <div class="chat-suggestions" id="chat-suggestions"></div>
+        <!-- API Key bar (always visible) -->
+        <div id="apikey-bar">
+            <input id="apikey-bar-input" type="password" placeholder="Gemini API Key (AIza...)" autocomplete="off"/>
+            <button id="apikey-bar-save" onclick="saveApiKeyBar()">
+                <span data-ja="保存" data-en="Save" data-zh="保存" data-de="Speichern" data-fr="Enregistrer">保存</span>
+            </button>
+            <span id="apikey-bar-status">✓ saved</span>
+        </div>
+        <!-- Input -->
+        <div class="chat-input-area">
+            <input class="chat-input" id="chat-input" type="text" autocomplete="off" onkeydown="handleChatKey(event)"/>
+            <button class="chat-send" id="chat-send" onclick="sendChat()">➤</button>
+        </div>
     </div>
 </header>
 
@@ -249,90 +313,90 @@
         <g class="node-group" data-id="security" transform="translate(200,92)">
             <rect class="node-bg" x="-85" y="-24" width="170" height="48" rx="8" fill="#1a2535" stroke="#7a8899" stroke-width="1.5"/>
             <text class="node-label" y="-4">Security Specialist</text>
-            <text class="node-sub" y="11" data-ja="市場認識の表層" data-en="Surface perception">市場認識の表層</text>
+            <text class="node-sub" y="11" data-ja="市場認識の表層" data-en="Surface perception" data-zh="市场表层认知" data-de="Oberfl. Wahrnehmung" data-fr="Perception superficielle">市場認識の表層</text>
         </g>
         <g class="node-group" data-id="riskadvisor" transform="translate(500,92)">
             <rect class="node-bg" x="-85" y="-24" width="170" height="48" rx="8" fill="#1a2535" stroke="#7a8899" stroke-width="1.5"/>
             <text class="node-label" y="-4">Tech Risk Advisor</text>
-            <text class="node-sub" y="11" data-ja="部分的な理解" data-en="Partial understanding">部分的な理解</text>
+            <text class="node-sub" y="11" data-ja="部分的な理解" data-en="Partial understanding" data-zh="部分理解" data-de="Teilweises Verständnis" data-fr="Compréhension partielle">部分的な理解</text>
         </g>
         <g class="node-group" data-id="pm" transform="translate(800,92)">
             <rect class="node-bg" x="-85" y="-24" width="170" height="48" rx="8" fill="#1a2535" stroke="#7a8899" stroke-width="1.5"/>
             <text class="node-label" y="-4">Project Manager</text>
-            <text class="node-sub" y="11" data-ja="役割の矮小化" data-en="Role minimization">役割の矮小化</text>
+            <text class="node-sub" y="11" data-ja="役割の矮小化" data-en="Role minimization" data-zh="角色矮化" data-de="Rollenminimierung" data-fr="Minimisation du rôle">役割の矮小化</text>
         </g>
         <!-- Layer 2 nodes -->
         <g class="node-group" data-id="cognitive" transform="translate(150,232)">
             <rect class="node-bg" x="-77" y="-22" width="154" height="44" rx="20" fill="#0f2235" stroke="#5d8aa8" stroke-width="1.5"/>
-            <text class="node-label" y="-4" font-size="10" data-ja="認知科学 &amp; 哲学" data-en="Cognitive Science">認知科学 &amp; 哲学</text>
+            <text class="node-label" y="-4" font-size="10" data-ja="認知科学 &amp; 哲学" data-en="Cognitive Science" data-zh="认知科学与哲学" data-de="Kognitionswiss." data-fr="Sc. Cognitives">認知科学 &amp; 哲学</text>
             <text class="node-sub" y="9">Cognitive Science</text>
         </g>
         <g class="node-group" data-id="physics" transform="translate(320,232)">
             <rect class="node-bg" x="-77" y="-22" width="154" height="44" rx="20" fill="#0f2235" stroke="#5d8aa8" stroke-width="1.5"/>
-            <text class="node-label" y="-4" font-size="10" data-ja="物理学 &amp; システム" data-en="Physics &amp; Systems">物理学 &amp; システム</text>
+            <text class="node-label" y="-4" font-size="10" data-ja="物理学 &amp; システム" data-en="Physics &amp; Systems" data-zh="物理与系统" data-de="Physik &amp; Systeme" data-fr="Physique &amp; Systèmes">物理学 &amp; システム</text>
             <text class="node-sub" y="9">Physics &amp; Dynamics</text>
         </g>
         <g class="node-group" data-id="history" transform="translate(500,232)">
             <rect class="node-bg" x="-77" y="-22" width="154" height="44" rx="20" fill="#0f2235" stroke="#5d8aa8" stroke-width="1.5"/>
-            <text class="node-label" y="-4" font-size="10" data-ja="歴史学 / Foundation" data-en="History / Foundation">歴史学 / Foundation</text>
+            <text class="node-label" y="-4" font-size="10" data-ja="歴史学 / Foundation" data-en="History / Foundation" data-zh="历史学 / Foundation" data-de="Geschichte / Foundation" data-fr="Histoire / Foundation">歴史学 / Foundation</text>
             <text class="node-sub" y="9">Asimov Paradigm</text>
         </g>
         <g class="node-group" data-id="economics" transform="translate(680,232)">
             <rect class="node-bg" x="-77" y="-22" width="154" height="44" rx="20" fill="#0f2235" stroke="#5d8aa8" stroke-width="1.5"/>
-            <text class="node-label" y="-4" font-size="10" data-ja="行動経済学 &amp; 社会工学" data-en="Behavioral Economics">行動経済学 &amp; 社会工学</text>
+            <text class="node-label" y="-4" font-size="10" data-ja="行動経済学 &amp; 社会工学" data-en="Behavioral Economics" data-zh="行为经济学" data-de="Verhaltensökon." data-fr="Écon. Comportementale">行動経済学 &amp; 社会工学</text>
             <text class="node-sub" y="9">Behavioral Economics</text>
         </g>
         <g class="node-group" data-id="deeptech" transform="translate(850,232)">
             <rect class="node-bg" x="-77" y="-22" width="154" height="44" rx="20" fill="#0f2235" stroke="#5d8aa8" stroke-width="1.5"/>
-            <text class="node-label" y="-4" font-size="10" data-ja="26年の深層技術" data-en="26yr Deep Tech">26年の深層技術</text>
+            <text class="node-label" y="-4" font-size="10" data-ja="26年の深層技術" data-en="26yr Deep Tech" data-zh="26年深层技术" data-de="26 J. Deep Tech" data-fr="26 ans Deep Tech">26年の深層技術</text>
             <text class="node-sub" y="9">Deep Tech Reality</text>
         </g>
         <!-- Layer 3 nodes -->
         <g class="node-group" data-id="void" transform="translate(500,358)" filter="url(#glow-red)">
             <polygon class="node-bg" points="0,-38 44,-12 44,12 0,38 -44,12 -44,-12" fill="#2a0f0f" stroke="#e05252" stroke-width="2.5"/>
             <text class="node-label" y="-6" font-size="11" fill="#ff6b6b">THE VOID</text>
-            <text class="node-sub" y="9" font-size="9" fill="#cc8888" data-ja="認識の断絶" data-en="Perceptual Gap">認識の断絶</text>
+            <text class="node-sub" y="9" font-size="9" fill="#cc8888" data-ja="認識の断絶" data-en="Perceptual Gap" data-zh="认知断裂" data-de="Wahrnehmungslücke" data-fr="Fossé perceptuel">認識の断絶</text>
         </g>
         <g class="node-group" data-id="c_code" transform="translate(330,425)">
             <rect class="node-bg" x="-68" y="-18" width="136" height="36" rx="6" fill="#200f0f" stroke="#e05252" stroke-width="1"/>
             <text class="node-label" y="-3" font-size="9.5">Code vs Constitution</text>
-            <text class="node-sub" y="10" font-size="8" data-ja="技術と法の緊張" data-en="Tech &amp; Law tension">技術と法の緊張</text>
+            <text class="node-sub" y="10" font-size="8" data-ja="技術と法の緊張" data-en="Tech &amp; Law tension" data-zh="技术与法律张力" data-de="Tech &amp; Recht" data-fr="Tech &amp; Droit">技術と法の緊張</text>
         </g>
         <g class="node-group" data-id="c_innov" transform="translate(500,425)">
             <rect class="node-bg" x="-68" y="-18" width="136" height="36" rx="6" fill="#200f0f" stroke="#e05252" stroke-width="1"/>
             <text class="node-label" y="-3" font-size="9.5">Innovation vs Entropy</text>
-            <text class="node-sub" y="10" font-size="8" data-ja="創造と安定の対立" data-en="Creation vs stability">創造と安定の対立</text>
+            <text class="node-sub" y="10" font-size="8" data-ja="創造と安定の対立" data-en="Creation vs stability" data-zh="创新与稳定对立" data-de="Innovation vs Stabilität" data-fr="Innovation vs Stabilité">創造と安定の対立</text>
         </g>
         <g class="node-group" data-id="c_speed" transform="translate(670,425)">
             <rect class="node-bg" x="-68" y="-18" width="136" height="36" rx="6" fill="#200f0f" stroke="#e05252" stroke-width="1"/>
             <text class="node-label" y="-3" font-size="9.5">Speed vs Trust</text>
-            <text class="node-sub" y="10" font-size="8" data-ja="速度と信頼の矛盾" data-en="Velocity vs trust">速度と信頼の矛盾</text>
+            <text class="node-sub" y="10" font-size="8" data-ja="速度と信頼の矛盾" data-en="Velocity vs trust" data-zh="速度与信任矛盾" data-de="Tempo vs Vertrauen" data-fr="Vitesse vs Confiance">速度と信頼の矛盾</text>
         </g>
         <g class="node-group" data-id="emvis" transform="translate(280,487)">
             <rect class="node-bg" x="-79" y="-23" width="158" height="46" rx="8" fill="#1a0f0f" stroke="#e05252" stroke-width="2"/>
             <text class="node-label" y="-5" fill="#ff9999">EMVIS</text>
-            <text class="node-sub" y="10" fill="#cc8888" data-ja="PoC地獄を解消する" data-en="Eliminate PoC Trap">PoC地獄を解消する</text>
+            <text class="node-sub" y="10" fill="#cc8888" data-ja="PoC地獄を解消する" data-en="Eliminate PoC Trap" data-zh="消除PoC陷阱" data-de="PoC-Falle lösen" data-fr="Éliminer le piège PoC">PoC地獄を解消する</text>
         </g>
         <g class="node-group" data-id="ccbr" transform="translate(500,487)">
             <rect class="node-bg" x="-79" y="-23" width="158" height="46" rx="8" fill="#1a0f0f" stroke="#e05252" stroke-width="2"/>
             <text class="node-label" y="-5" fill="#ff9999">CCBR</text>
-            <text class="node-sub" y="10" fill="#cc8888" data-ja="リスクを定量化する" data-en="Quantify risk">リスクを定量化する</text>
+            <text class="node-sub" y="10" fill="#cc8888" data-ja="リスクを定量化する" data-en="Quantify risk" data-zh="量化风险" data-de="Risiko quantifizieren" data-fr="Quantifier le risque">リスクを定量化する</text>
         </g>
         <g class="node-group" data-id="esi" transform="translate(720,487)">
             <rect class="node-bg" x="-79" y="-23" width="158" height="46" rx="8" fill="#1a0f0f" stroke="#e05252" stroke-width="2"/>
             <text class="node-label" y="-5" fill="#ff9999">ESI Framework</text>
-            <text class="node-sub" y="10" fill="#cc8888" data-ja="意思決定を構造化" data-en="Structure decisions">意思決定を構造化</text>
+            <text class="node-sub" y="10" fill="#cc8888" data-ja="意思決定を構造化" data-en="Structure decisions" data-zh="结构化决策" data-de="Entscheidungen strukturieren" data-fr="Structurer les décisions">意思決定を構造化</text>
         </g>
         <!-- Layer 4 nodes -->
         <g class="node-group" data-id="structural_arch" transform="translate(280,548)">
             <rect class="node-bg" x="-85" y="-20" width="170" height="40" rx="18" fill="#0a2a15" stroke="#27ae60" stroke-width="2"/>
             <text class="node-label" y="-4" font-size="10" fill="#00ff88">Structural Architect</text>
-            <text class="node-sub" y="9" fill="#58d68d" data-ja="構造設計者" data-en="Structure Designer">構造設計者</text>
+            <text class="node-sub" y="9" fill="#58d68d" data-ja="構造設計者" data-en="Structure Designer" data-zh="结构设计师" data-de="Strukturarchitekt" data-fr="Architecte structurel">構造設計者</text>
         </g>
         <g class="node-group" data-id="decision_arch" transform="translate(500,548)">
             <rect class="node-bg" x="-85" y="-20" width="170" height="40" rx="18" fill="#0a2a15" stroke="#27ae60" stroke-width="2"/>
             <text class="node-label" y="-4" font-size="10" fill="#00ff88">Chief Decision Architect</text>
-            <text class="node-sub" y="9" fill="#58d68d" data-ja="意思決定OS設計者" data-en="Decision OS Designer">意思決定OS設計者</text>
+            <text class="node-sub" y="9" fill="#58d68d" data-ja="意思決定OS設計者" data-en="Decision OS Designer" data-zh="决策OS设计师" data-de="Entscheidungs-OS-Designer" data-fr="Concepteur OS décisionnel">意思決定OS設計者</text>
         </g>
         <g class="node-group" data-id="csvfo" transform="translate(720,548)">
             <rect class="node-bg" x="-85" y="-20" width="170" height="40" rx="18" fill="#0a2a15" stroke="#27ae60" stroke-width="2"/>
@@ -350,7 +414,7 @@
         <div class="panel-icon" id="p-icon">？</div>
         <div class="panel-title-area">
             <div class="panel-tag" id="p-tag">Layer</div>
-            <div class="panel-title" id="p-title" data-ja="選択してください" data-en="Select a node">選択してください</div>
+            <div class="panel-title" id="p-title" data-ja="選択してください" data-en="Select a node" data-zh="请选择节点" data-de="Knoten wählen" data-fr="Sélectionner un nœud">選択してください</div>
             <div class="panel-en" id="p-en"></div>
         </div>
         <button class="panel-close" onclick="closePanel()">✕</button>
@@ -361,42 +425,42 @@
 <!-- ── BOTTOM TABS ── -->
 <div class="bottom-section">
     <div class="tab-nav">
-        <button class="tab-btn active" data-tab="roots" data-ja="🧠 知的基盤" data-en="🧠 Intellectual Roots">🧠 知的基盤</button>
-        <button class="tab-btn" data-tab="works" data-ja="🛠️ 現在の研究開発" data-en="🛠️ R&amp;D Projects">🛠️ 現在の研究開発</button>
-        <button class="tab-btn" data-tab="match" data-ja="💬 ご相談ください！" data-en="💬 Let's Connect">💬 ご相談ください！</button>
+        <button class="tab-btn active" data-tab="roots" data-ja="🧠 知的基盤" data-en="🧠 Intellectual Roots" data-zh="🧠 知识基础" data-de="🧠 Intellektuelle Wurzeln" data-fr="🧠 Fondements intellectuels">🧠 知的基盤</button>
+        <button class="tab-btn" data-tab="works" data-ja="🛠️ 現在の研究開発" data-en="🛠️ R&amp;D Projects" data-zh="🛠️ 当前研究开发" data-de="🛠️ Forschung &amp; Entwicklung" data-fr="🛠️ Projets R&amp;D">🛠️ 現在の研究開発</button>
+        <button class="tab-btn" data-tab="match" data-ja="💬 ご相談ください！" data-en="💬 Let's Connect" data-zh="💬 联系我们" data-de="💬 Kontakt" data-fr="💬 Contactez-nous">💬 ご相談ください！</button>
     </div>
 
     <div class="tab-section active" id="tab-roots">
         <div class="info-grid">
             <div class="info-card">
                 <div class="ic-icon">🧠</div>
-                <div class="ic-title" data-ja="認知科学 &amp; 哲学" data-en="Cognitive Science &amp; Philosophy">認知科学 &amp; 哲学</div>
-                <div class="ic-body" data-ja="なぜ人・組織は合理的に見えて非合理な選択をするのか。意思決定の「OS」を解剖する眼が、すべての設計の起点になる。" data-en="Why do people and organizations make irrational choices despite appearing rational? The ability to dissect decision-making 'OS' is the starting point for all structural design.">なぜ人・組織は合理的に見えて非合理な選択をするのか。意思決定の「OS」を解剖する眼が、すべての設計の起点になる。</div>
-                <span class="ic-tag" data-ja="思考の解剖学" data-en="Anatomy of Thought">思考の解剖学</span>
+                <div class="ic-title" data-ja="認知科学 &amp; 哲学" data-en="Cognitive Science &amp; Philosophy" data-zh="认知科学与哲学" data-de="Kognitionswissenschaft &amp; Philosophie" data-fr="Sciences Cognitives &amp; Philosophie">認知科学 &amp; 哲学</div>
+                <div class="ic-body" data-ja="なぜ人・組織は合理的に見えて非合理な選択をするのか。意思決定の「OS」を解剖する眼が、すべての設計の起点になる。" data-en="Why do people and organizations make irrational choices despite appearing rational? The ability to dissect decision-making 'OS' is the starting point for all structural design." data-zh="为何人与组织看似理性却做出非理性选择？解剖决策"OS"的眼光，是所有设计的起点。" data-de="Warum treffen Menschen trotz rationalen Anscheins irrationale Entscheidungen? Die Fähigkeit, den Entscheidungs-OS zu sezieren, ist der Ausgangspunkt jedes strukturellen Designs." data-fr="Pourquoi les individus et organisations font-ils des choix irrationnels malgré une apparence rationnelle ? La capacité à disséquer l'OS décisionnel est le point de départ de toute conception structurelle.">なぜ人・組織は合理的に見えて非合理な選択をするのか。意思決定の「OS」を解剖する眼が、すべての設計の起点になる。</div>
+                <span class="ic-tag" data-ja="思考の解剖学" data-en="Anatomy of Thought" data-zh="思维解剖学" data-de="Anatomie des Denkens" data-fr="Anatomie de la pensée">思考の解剖学</span>
             </div>
             <div class="info-card">
                 <div class="ic-icon">⚛️</div>
-                <div class="ic-title" data-ja="物理学 &amp; システムダイナミクス" data-en="Physics &amp; System Dynamics">物理学 &amp; システムダイナミクス</div>
-                <div class="ic-body" data-ja="エントロピー・複雑系・フィードバックループ。組織を「物理システム」として捉えることで、崩壊の予兆が見える。" data-en="Entropy, complex systems, feedback loops. By treating organizations as 'physical systems,' the signs of collapse become visible.">エントロピー・複雑系・フィードバックループ。組織を「物理システム」として捉えることで、崩壊の予兆が見える。</div>
-                <span class="ic-tag" data-ja="構造知性" data-en="Structural Intelligence">構造知性</span>
+                <div class="ic-title" data-ja="物理学 &amp; システムダイナミクス" data-en="Physics &amp; System Dynamics" data-zh="物理学与系统动力学" data-de="Physik &amp; Systemdynamik" data-fr="Physique &amp; Dynamique des systèmes">物理学 &amp; システムダイナミクス</div>
+                <div class="ic-body" data-ja="エントロピー・複雑系・フィードバックループ。組織を「物理システム」として捉えることで、崩壊の予兆が見える。" data-en="Entropy, complex systems, feedback loops. By treating organizations as 'physical systems,' the signs of collapse become visible." data-zh="熵、复杂系统、反馈回路。将组织视为"物理系统"，便能看到崩溃的预兆。" data-de="Entropie, komplexe Systeme, Feedbackschleifen. Organisationen als physikalische Systeme zu betrachten, macht Zerfallsanzeichen sichtbar." data-fr="Entropie, systèmes complexes, boucles de rétroaction. Traiter les organisations comme des systèmes physiques révèle les signes précurseurs d'effondrement.">エントロピー・複雑系・フィードバックループ。組織を「物理システム」として捉えることで、崩壊の予兆が見える。</div>
+                <span class="ic-tag" data-ja="構造知性" data-en="Structural Intelligence" data-zh="结构知性" data-de="Strukturelle Intelligenz" data-fr="Intelligence structurelle">構造知性</span>
             </div>
             <div class="info-card">
                 <div class="ic-icon">📚</div>
-                <div class="ic-title" data-ja="歴史学（Asimov / Foundation）" data-en="History (Asimov / Foundation)">歴史学（Asimov / Foundation）</div>
-                <div class="ic-body" data-ja="心理歴史学的アプローチで、「今起きていること」を数十年のスパンで文脈化する。大規模システムの興亡パターンを読む。" data-en="Using a psychohistorical approach, contextualizing 'what is happening now' across decades. Reading the rise and fall patterns of large-scale systems.">心理歴史学的アプローチで、「今起きていること」を数十年のスパンで文脈化する。大規模システムの興亡パターンを読む。</div>
-                <span class="ic-tag" data-ja="長期パターン認識" data-en="Long-term Pattern Recognition">長期パターン認識</span>
+                <div class="ic-title" data-ja="歴史学（Asimov / Foundation）" data-en="History (Asimov / Foundation)" data-zh="历史学（Asimov / Foundation）" data-de="Geschichte (Asimov / Foundation)" data-fr="Histoire (Asimov / Foundation)">歴史学（Asimov / Foundation）</div>
+                <div class="ic-body" data-ja="心理歴史学的アプローチで、「今起きていること」を数十年のスパンで文脈化する。大規模システムの興亡パターンを読む。" data-en="Using a psychohistorical approach, contextualizing 'what is happening now' across decades. Reading the rise and fall patterns of large-scale systems." data-zh="以心理历史学方法，将"当下发生的事"置于数十年跨度中解读。读懂大规模系统的兴衰规律。" data-de="Mit psychohistorischem Ansatz wird das Gegenwärtige über Jahrzehnte kontextualisiert. Muster des Aufstiegs und Falls großer Systeme werden lesbar." data-fr="Avec une approche psychohistorique, contextualiser l'actualité sur plusieurs décennies. Lire les patterns d'essor et de chute des grands systèmes.">心理歴史学的アプローチで、「今起きていること」を数十年のスパンで文脈化する。大規模システムの興亡パターンを読む。</div>
+                <span class="ic-tag" data-ja="長期パターン認識" data-en="Long-term Pattern Recognition" data-zh="长期模式识别" data-de="Langzeit-Mustererkennung" data-fr="Reconnaissance de patterns à long terme">長期パターン認識</span>
             </div>
             <div class="info-card">
                 <div class="ic-icon">💹</div>
-                <div class="ic-title" data-ja="行動経済学 &amp; 社会工学" data-en="Behavioral Economics &amp; Social Engineering">行動経済学 &amp; 社会工学</div>
-                <div class="ic-body" data-ja="限定合理性・ナッジ理論・認知バイアスの経済的影響。人間が「合理的に見えて非合理な選択をする構造」を設計に組み込む。" data-en="Bounded rationality, nudge theory, cognitive bias economics. Designing systems that account for human structural irrationality to drive intended behavioral change.">限定合理性・ナッジ理論・認知バイアスの経済的影響。人間が「合理的に見えて非合理な選択をする構造」を設計に組み込む。</div>
-                <span class="ic-tag" data-ja="社会的因果構造の設計" data-en="Social Causal Structure Design">社会的因果構造の設計</span>
+                <div class="ic-title" data-ja="行動経済学 &amp; 社会工学" data-en="Behavioral Economics &amp; Social Engineering" data-zh="行为经济学与社会工程" data-de="Verhaltensökonomie &amp; Sozialingenieurwesen" data-fr="Économie comportementale &amp; Ingénierie sociale">行動経済学 &amp; 社会工学</div>
+                <div class="ic-body" data-ja="限定合理性・ナッジ理論・認知バイアスの経済的影響。人間が「合理的に見えて非合理な選択をする構造」を設計に組み込む。" data-en="Bounded rationality, nudge theory, cognitive bias economics. Designing systems that account for human structural irrationality to drive intended behavioral change." data-zh="有限理性、助推理论、认知偏误的经济影响。将人类"看似理性实为非理性"的结构融入设计。" data-de="Begrenzte Rationalität, Nudge-Theorie, kognitive Verzerrungen. Menschliche Irrationalität wird strukturell in das Design eingebettet." data-fr="Rationalité limitée, théorie du nudge, biais cognitifs. Intégrer la structure d'irrationalité humaine dans la conception pour induire les comportements voulus.">限定合理性・ナッジ理論・認知バイアスの経済的影響。人間が「合理的に見えて非合理な選択をする構造」を設計に組み込む。</div>
+                <span class="ic-tag" data-ja="社会的因果構造の設計" data-en="Social Causal Structure Design" data-zh="社会因果结构设计" data-de="Soziale Kausalstruktur-Design" data-fr="Conception de structure causale sociale">社会的因果構造の設計</span>
             </div>
             <div class="info-card">
                 <div class="ic-icon">🔧</div>
-                <div class="ic-title" data-ja="26年の深層技術現実" data-en="26 Years of Deep Tech Reality">26年の深層技術現実</div>
-                <div class="ic-body" data-ja="パケット解析からカーネル、実装の地獄、技術的負債の本質。泥臭い現場知が「上滑りなDX論」に騙されない眼を作る。" data-en="From packet analysis to kernel, implementation hell, and technical debt. Hands-on field knowledge creates an eye that cannot be fooled by superficial DX narratives.">パケット解析からカーネル、実装の地獄、技術的負債の本質。泥臭い現場知が「上滑りなDX論」に騙されない眼を作る。</div>
-                <span class="ic-tag" data-ja="現場に根ざした実践知" data-en="Field-Grounded Practical Knowledge">現場に根ざした実践知</span>
+                <div class="ic-title" data-ja="26年の深層技術現実" data-en="26 Years of Deep Tech Reality" data-zh="26年深层技术现实" data-de="26 Jahre Deep-Tech-Realität" data-fr="26 ans de réalité Deep Tech">26年の深層技術現実</div>
+                <div class="ic-body" data-ja="パケット解析からカーネル、実装の地獄、技術的負債の本質。泥臭い現場知が「上滑りなDX論」に騙されない眼を作る。" data-en="From packet analysis to kernel, implementation hell, and technical debt. Hands-on field knowledge creates an eye that cannot be fooled by superficial DX narratives." data-zh="从数据包分析到内核，实现的地狱，技术债务的本质。扎实的现场知识锻造出不被浮夸DX论迷惑的眼光。" data-de="Von der Paketanalyse bis zum Kernel, Implementierungshölle, technische Schulden. Praxiswissen schützt vor oberflächlichen DX-Narrativen." data-fr="De l'analyse de paquets au noyau, l'enfer de l'implémentation, la dette technique. Le savoir terrain forge un regard imperméable aux discours DX superficiels.">パケット解析からカーネル、実装の地獄、技術的負債の本質。泥臭い現場知が「上滑りなDX論」に騙されない眼を作る。</div>
+                <span class="ic-tag" data-ja="現場に根ざした実践知" data-en="Field-Grounded Practical Knowledge" data-zh="植根现场的实践知识" data-de="Feldbasiertes Praxiswissen" data-fr="Savoir pratique ancré sur le terrain">現場に根ざした実践知</span>
             </div>
         </div>
     </div>
@@ -405,21 +469,21 @@
         <div class="info-grid">
             <div class="info-card" style="border-color:rgba(224,82,82,.3);">
                 <div class="ic-icon">🏗️</div>
-                <div class="ic-title" data-ja="EMVIS — PoC地獄解消AI" data-en="EMVIS — PoC Trap Eliminator">EMVIS — PoC地獄解消AI</div>
-                <div class="ic-body" data-ja="海外Deep Techが日本市場進出時に陥る「PoC地獄」を解消。稟議・合意形成プロセスをモンテカルロ法でシミュレーション。<br><br><strong style='color:#ff9999;'>PoC期間 50%短縮 / 成功率 2〜3倍</strong>" data-en="Eliminates the 'PoC Trap' that foreign Deep Tech faces entering Japan. Simulates ringi/consensus processes via Monte Carlo methods.<br><br><strong style='color:#ff9999;'>PoC period -50% / Success rate 2-3×</strong>">海外Deep Techが日本市場進出時に陥る「PoC地獄」を解消。稟議・合意形成プロセスをモンテカルロ法でシミュレーション。<br><br><strong style="color:#ff9999;">PoC期間 50%短縮 / 成功率 2〜3倍</strong></div>
-                <span class="ic-tag" style="background:rgba(224,82,82,.2);color:#ff9999;" data-ja="→ 図のEMVISをクリック" data-en="→ Click EMVIS in diagram">→ 図のEMVISをクリック</span>
+                <div class="ic-title" data-ja="EMVIS — PoC地獄解消AI" data-en="EMVIS — PoC Trap Eliminator" data-zh="EMVIS — PoC陷阱消除AI" data-de="EMVIS — PoC-Falle Auflöser" data-fr="EMVIS — Éliminateur de piège PoC">EMVIS — PoC地獄解消AI</div>
+                <div class="ic-body" data-ja="海外Deep Techが日本市場進出時に陥る「PoC地獄」を解消。稟議・合意形成プロセスをモンテカルロ法でシミュレーション。<br><br><strong style='color:#ff9999;'>PoC期間 50%短縮 / 成功率 2〜3倍</strong>" data-en="Eliminates the 'PoC Trap' that foreign Deep Tech faces entering Japan. Simulates ringi/consensus processes via Monte Carlo methods.<br><br><strong style='color:#ff9999;'>PoC period -50% / Success rate 2-3×</strong>" data-zh="消除海外Deep Tech进入日本市场时陷入的"PoC地狱"。用蒙特卡洛法模拟稟议与共识形成流程。<br><br><strong style='color:#ff9999;'>PoC周期缩短50% / 成功率提升2~3倍</strong>" data-de="Beseitigt die PoC-Falle, in die ausländische Deep-Tech-Firmen beim Markteintritt in Japan geraten. Simuliert Ringi/Konsensprozesse via Monte-Carlo-Methoden.<br><br><strong style='color:#ff9999;'>PoC-Dauer -50% / Erfolgsrate 2-3×</strong>" data-fr="Élimine le piège PoC que rencontrent les Deep Tech étrangers en entrant au Japon. Simule les processus ringi/consensus via méthodes Monte Carlo.<br><br><strong style='color:#ff9999;'>Durée PoC -50% / Taux de succès 2-3×</strong>">海外Deep Techが日本市場進出時に陥る「PoC地獄」を解消。稟議・合意形成プロセスをモンテカルロ法でシミュレーション。<br><br><strong style="color:#ff9999;">PoC期間 50%短縮 / 成功率 2〜3倍</strong></div>
+                <span class="ic-tag" style="background:rgba(224,82,82,.2);color:#ff9999;" data-ja="→ 図のEMVISをクリック" data-en="→ Click EMVIS in diagram" data-zh="→ 点击图中EMVIS" data-de="→ EMVIS im Diagramm klicken" data-fr="→ Cliquer EMVIS dans le diagramme">→ 図のEMVISをクリック</span>
             </div>
             <div class="info-card" style="border-color:rgba(224,82,82,.3);">
                 <div class="ic-icon">🧬</div>
-                <div class="ic-title" data-ja="CCBR — サイバーセキュリティ背景放射理論" data-en="CCBR — Cyber Background Radiation Theory">CCBR — サイバーセキュリティ背景放射理論</div>
-                <div class="ic-body" data-ja="物理学の「背景放射」概念を援用し、サイバー空間の微弱な異常を捉える理論フレームワーク。技術的異常をVaRへ翻訳し、法的説明責任を担保。<br><br><strong style='color:#ff9999;'>技術的異常からビジネスリスクへの翻訳</strong>" data-en="A theoretical framework applying physics' 'background radiation' concept to detect subtle cyber anomalies. Translates technical anomalies to VaR, ensuring legal accountability.<br><br><strong style='color:#ff9999;'>Translating technical anomalies to business risk</strong>">物理学の「背景放射」概念を援用し、サイバー空間の微弱な異常を捉える理論フレームワーク。技術的異常をVaRへ翻訳し、法的説明責任を担保。<br><br><strong style="color:#ff9999;">技術的異常からビジネスリスクへの翻訳</strong></div>
-                <span class="ic-tag" style="background:rgba(224,82,82,.2);color:#ff9999;" data-ja="→ 図のCCBRをクリック" data-en="→ Click CCBR in diagram">→ 図のCCBRをクリック</span>
+                <div class="ic-title" data-ja="CCBR — サイバーセキュリティ背景放射理論" data-en="CCBR — Cyber Background Radiation Theory" data-zh="CCBR — 网络安全背景辐射理论" data-de="CCBR — Cyber-Hintergrundstrahlung-Theorie" data-fr="CCBR — Théorie du rayonnement de fond cyber">CCBR — サイバーセキュリティ背景放射理論</div>
+                <div class="ic-body" data-ja="物理学の「背景放射」概念を援用し、サイバー空間の微弱な異常を捉える理論フレームワーク。技術的異常をVaRへ翻訳し、法的説明責任を担保。<br><br><strong style='color:#ff9999;'>技術的異常からビジネスリスクへの翻訳</strong>" data-en="A theoretical framework applying physics' 'background radiation' concept to detect subtle cyber anomalies. Translates technical anomalies to VaR, ensuring legal accountability.<br><br><strong style='color:#ff9999;'>Translating technical anomalies to business risk</strong>" data-zh="援引物理学"背景辐射"概念，捕捉网络空间微弱异常的理论框架。将技术异常翻译为VaR，确保法律责任可追溯。<br><br><strong style='color:#ff9999;'>将技术异常转化为业务风险</strong>" data-de="Theoretisches Framework, das das physikalische Konzept der Hintergrundstrahlung auf den Cyberraum anwendet. Übersetzt technische Anomalien in VaR.<br><br><strong style='color:#ff9999;'>Technische Anomalien → Geschäftsrisiko</strong>" data-fr="Cadre théorique appliquant le concept de rayonnement de fond de la physique pour détecter les anomalies cyber subtiles. Traduit les anomalies techniques en VaR.<br><br><strong style='color:#ff9999;'>Anomalies techniques → risque métier</strong>">物理学の「背景放射」概念を援用し、サイバー空間の微弱な異常を捉える理論フレームワーク。技術的異常をVaRへ翻訳し、法的説明責任を担保。<br><br><strong style="color:#ff9999;">技術的異常からビジネスリスクへの翻訳</strong></div>
+                <span class="ic-tag" style="background:rgba(224,82,82,.2);color:#ff9999;" data-ja="→ 図のCCBRをクリック" data-en="→ Click CCBR in diagram" data-zh="→ 点击图中CCBR" data-de="→ CCBR im Diagramm klicken" data-fr="→ Cliquer CCBR dans le diagramme">→ 図のCCBRをクリック</span>
             </div>
             <div class="info-card" style="border-color:rgba(224,82,82,.3);">
                 <div class="ic-icon">🌐</div>
-                <div class="ic-title" data-ja="ESI — 意思決定OS設計" data-en="ESI — Decision-Making OS Design">ESI — 意思決定OS設計</div>
-                <div class="ic-body" data-ja="72%の経営者が「意思決定に問題がある」と認識（McKinsey調査）。問題の表面ではなく<strong>因果構造</strong>を設計し直す認知アーキテクチャ。<br><br><strong style='color:#ff9999;'>思考精度 50%向上 / エラー率 60%削減</strong>" data-en="72% of executives recognize decision-making problems (McKinsey). A cognitive architecture that redesigns <strong>causal structure</strong>, not surface symptoms.<br><br><strong style='color:#ff9999;'>Thinking precision +50% / Error rate -60%</strong>">72%の経営者が「意思決定に問題がある」と認識（McKinsey調査）。問題の表面ではなく<strong>因果構造</strong>を設計し直す認知アーキテクチャ。<br><br><strong style="color:#ff9999;">思考精度 50%向上 / エラー率 60%削減</strong></div>
-                <span class="ic-tag" style="background:rgba(224,82,82,.2);color:#ff9999;" data-ja="→ 図のESIをクリック" data-en="→ Click ESI in diagram">→ 図のESIをクリック</span>
+                <div class="ic-title" data-ja="ESI — 意思決定OS設計" data-en="ESI — Decision-Making OS Design" data-zh="ESI — 决策OS设计" data-de="ESI — Entscheidungs-OS-Design" data-fr="ESI — Conception d'OS décisionnel">ESI — 意思決定OS設計</div>
+                <div class="ic-body" data-ja="72%の経営者が「意思決定に問題がある」と認識（McKinsey調査）。問題の表面ではなく<strong>因果構造</strong>を設計し直す認知アーキテクチャ。<br><br><strong style='color:#ff9999;'>思考精度 50%向上 / エラー率 60%削減</strong>" data-en="72% of executives recognize decision-making problems (McKinsey). A cognitive architecture that redesigns <strong>causal structure</strong>, not surface symptoms.<br><br><strong style='color:#ff9999;'>Thinking precision +50% / Error rate -60%</strong>" data-zh="72%的经营者认识到决策存在问题（麦肯锡调查）。重新设计<strong>因果结构</strong>而非表面症状的认知架构。<br><br><strong style='color:#ff9999;'>思维精度+50% / 错误率-60%</strong>" data-de="72% der Führungskräfte erkennen Entscheidungsprobleme (McKinsey). Kognitive Architektur, die <strong>Kausalstrukturen</strong> neu gestaltet.<br><br><strong style='color:#ff9999;'>Denkpräzision +50% / Fehlerrate -60%</strong>" data-fr="72% des dirigeants reconnaissent des problèmes décisionnels (McKinsey). Architecture cognitive qui reconçoit la <strong>structure causale</strong>.<br><br><strong style='color:#ff9999;'>Précision de pensée +50% / Taux d'erreur -60%</strong>">72%の経営者が「意思決定に問題がある」と認識（McKinsey調査）。問題の表面ではなく<strong>因果構造</strong>を設計し直す認知アーキテクチャ。<br><br><strong style="color:#ff9999;">思考精度 50%向上 / エラー率 60%削減</strong></div>
+                <span class="ic-tag" style="background:rgba(224,82,82,.2);color:#ff9999;" data-ja="→ 図のESIをクリック" data-en="→ Click ESI in diagram" data-zh="→ 点击图中ESI" data-de="→ ESI im Diagramm klicken" data-fr="→ Cliquer ESI dans le diagramme">→ 図のESIをクリック</span>
             </div>
         </div>
     </div>
@@ -428,30 +492,30 @@
         <div class="info-grid">
             <div class="info-card">
                 <div class="ic-icon">💼</div>
-                <div class="ic-title" data-ja="投資家 / VC" data-en="Investors / VC">投資家 / VC</div>
-                <div class="ic-body" data-ja="「投資先のDeep Tech企業が日本市場でPoC地獄に陥っている」——EMVISが直接的な解決策になります。設計者かつ実装者として動けます。" data-en="'Our Deep Tech portfolio company is stuck in Japan's PoC Trap' — EMVIS is the direct solution. Sakane operates as both architect and implementer.">「投資先のDeep Tech企業が日本市場でPoC地獄に陥っている」——EMVISが直接的な解決策になります。設計者かつ実装者として動けます。</div>
+                <div class="ic-title" data-ja="投資家 / VC" data-en="Investors / VC" data-zh="投资者 / VC" data-de="Investoren / VC" data-fr="Investisseurs / VC">投資家 / VC</div>
+                <div class="ic-body" data-ja="「投資先のDeep Tech企業が日本市場でPoC地獄に陥っている」——EMVISが直接的な解決策になります。設計者かつ実装者として動けます。" data-en="'Our Deep Tech portfolio company is stuck in Japan's PoC Trap' — EMVIS is the direct solution. Sakane operates as both architect and implementer." data-zh=""投资的Deep Tech企业在日本市场陷入PoC地狱"——EMVIS是直接解决方案。坂根可作为设计者兼实施者参与。" data-de="'Unser Deep-Tech-Portfolio steckt in der japanischen PoC-Falle' — EMVIS ist die direkte Lösung. Sakane agiert als Architekt und Implementierer." data-fr="'Notre portfolio Deep Tech est piégé dans la PoC Trap japonaise' — EMVIS est la solution directe. Sakane agit à la fois comme architecte et implémenteur.">「投資先のDeep Tech企業が日本市場でPoC地獄に陥っている」——EMVISが直接的な解決策になります。設計者かつ実装者として動けます。</div>
             </div>
             <div class="info-card">
                 <div class="ic-icon">🏢</div>
-                <div class="ic-title" data-ja="スタートアップ日本法人トップ" data-en="Japan Head of Startup">スタートアップ日本法人トップ</div>
-                <div class="ic-body" data-ja="「本社と日本チームの意思決定がかみ合わない」——ESIとEMVISの組み合わせが、その構造的断絶を解消します。" data-en="'HQ and Japan team can't align on decisions' — the ESI+EMVIS combination resolves that structural disconnect.">「本社と日本チームの意思決定がかみ合わない」——ESIとEMVISの組み合わせが、その構造的断絶を解消します。</div>
+                <div class="ic-title" data-ja="スタートアップ日本法人トップ" data-en="Japan Head of Startup" data-zh="初创企业日本法人负责人" data-de="Japan-Geschäftsführer eines Startups" data-fr="Dirigeant Japon d'une startup">スタートアップ日本法人トップ</div>
+                <div class="ic-body" data-ja="「本社と日本チームの意思決定がかみ合わない」——ESIとEMVISの組み合わせが、その構造的断絶を解消します。" data-en="'HQ and Japan team can't align on decisions' — the ESI+EMVIS combination resolves that structural disconnect." data-zh=""总部与日本团队的决策无法协同"——ESI与EMVIS的组合可消除这一结构性断裂。" data-de="'Zentrale und Japan-Team können keine Entscheidungen abstimmen' — die ESI+EMVIS-Kombination löst diesen strukturellen Riss." data-fr="'Le siège et l'équipe Japon ne peuvent pas aligner leurs décisions' — la combinaison ESI+EMVIS résout cette rupture structurelle.">「本社と日本チームの意思決定がかみ合わない」——ESIとEMVISの組み合わせが、その構造的断絶を解消します。</div>
             </div>
             <div class="info-card">
                 <div class="ic-icon">📊</div>
-                <div class="ic-title" data-ja="経営コンサルタント" data-en="Management Consultant">経営コンサルタント</div>
-                <div class="ic-body" data-ja="「クライアントの意思決定構造に問題があるが介入点がわからない」——ESI Frameworkは介入点を構造的に特定します。" data-en="'The client's decision structure has issues but intervention points are unclear' — ESI Framework identifies them structurally.">「クライアントの意思決定構造に問題があるが介入点がわからない」——ESI Frameworkは介入点を構造的に特定します。</div>
+                <div class="ic-title" data-ja="経営コンサルタント" data-en="Management Consultant" data-zh="管理咨询师" data-de="Unternehmensberater" data-fr="Consultant en management">経営コンサルタント</div>
+                <div class="ic-body" data-ja="「クライアントの意思決定構造に問題があるが介入点がわからない」——ESI Frameworkは介入点を構造的に特定します。" data-en="'The client's decision structure has issues but intervention points are unclear' — ESI Framework identifies them structurally." data-zh=""客户决策结构存在问题，但不知道介入点在哪"——ESI Framework可结构性地定位介入点。" data-de="'Die Entscheidungsstruktur des Kunden hat Probleme, aber Interventionspunkte sind unklar' — ESI Framework identifiziert sie strukturell." data-fr="'La structure décisionnelle du client a des problèmes mais les points d'intervention sont flous' — ESI Framework les identifie structurellement.">「クライアントの意思決定構造に問題があるが介入点がわからない」——ESI Frameworkは介入点を構造的に特定します。</div>
             </div>
             <div class="info-card">
                 <div class="ic-icon">🔒</div>
-                <div class="ic-title" data-ja="CISO / セキュリティ責任者" data-en="CISO / Security Executive">CISO / セキュリティ責任者</div>
-                <div class="ic-body" data-ja="「技術的な異常を経営層の言語に翻訳できない」——CCBRは技術的異常をビジネスリスクとして定量化し、組織のガバナンスを構造的に担保するフレームワークです。" data-en="'We can't translate technical anomalies into executive language' — CCBR quantifies technical anomalies as business risk and structurally ensures organizational governance.">「技術的な異常を経営層の言語に翻訳できない」——CCBRは技術的異常をビジネスリスクとして定量化し、組織のガバナンスを構造的に担保するフレームワークです。</div>
+                <div class="ic-title" data-ja="CISO / セキュリティ責任者" data-en="CISO / Security Executive" data-zh="CISO / 安全负责人" data-de="CISO / Sicherheitsverantwortlicher" data-fr="CISO / Responsable sécurité">CISO / セキュリティ責任者</div>
+                <div class="ic-body" data-ja="「技術的な異常を経営層の言語に翻訳できない」——CCBRは技術的異常をビジネスリスクとして定量化し、組織のガバナンスを構造的に担保するフレームワークです。" data-en="'We can't translate technical anomalies into executive language' — CCBR quantifies technical anomalies as business risk and structurally ensures organizational governance." data-zh=""无法将技术异常翻译为管理层语言"——CCBR将技术异常量化为业务风险，从结构上保障组织治理。" data-de="'Wir können technische Anomalien nicht in Führungssprache übersetzen' — CCBR quantifiziert Anomalien als Geschäftsrisiko und sichert strukturell die Governance." data-fr="'Nous ne pouvons pas traduire les anomalies techniques en langage dirigeant' — CCBR quantifie les anomalies comme risque métier et assure structurellement la gouvernance.">「技術的な異常を経営層の言語に翻訳できない」——CCBRは技術的異常をビジネスリスクとして定量化し、組織のガバナンスを構造的に担保するフレームワークです。</div>
             </div>
         </div>
         <div class="cta-block" style="text-align:center;">
-            <p class="cta-block-title" data-ja="💬 お問い合わせ" data-en="💬 Get in Touch">💬 お問い合わせ</p>
-            <p class="cta-block-body" data-ja="<strong>ご相談・お問い合わせ</strong>をお待ちしています。" data-en="Sakane welcomes <strong>inquiries and consultations</strong>."><strong>ご相談・お問い合わせ</strong>をお待ちしています。</p>
+            <p class="cta-block-title" data-ja="💬 お問い合わせ" data-en="💬 Get in Touch" data-zh="💬 联系我们" data-de="💬 Kontakt aufnehmen" data-fr="💬 Prendre contact">💬 お問い合わせ</p>
+            <p class="cta-block-body" data-ja="<strong>ご相談・お問い合わせ</strong>をお待ちしています。" data-en="Sakane welcomes <strong>inquiries and consultations</strong>." data-zh="欢迎<strong>咨询与商谈</strong>。" data-de="Sakane freut sich über <strong>Anfragen und Beratungsgespräche</strong>." data-fr="Sakane accueille volontiers vos <strong>demandes et consultations</strong>."><strong>ご相談・お問い合わせ</strong>をお待ちしています。</p>
             <p class="cta-block-body" style="margin-top:12px;font-size:.9em;line-height:1.9;">
-                📧 <a href="mailto:yasuyuki@sakane.dev" style="color:#00ff88;text-decoration:none;">yasuyuki@sakane.dev</a> |
+                📧 <a href="/cdn-cgi/l/email-protection#3d445c4e48444856547d4e5c565c53581359584b" style="color:#00ff88;text-decoration:none;"><span class="__cf_email__" data-cfemail="542d3527212d213f3d1427353f353a317a303122">[email&#160;protected]</span></a> |
                 🌐 <a href="https://www.sakane.dev" style="color:#00ff88;text-decoration:none;">www.sakane.dev</a> /
                 <a href="https://en.sakane.dev" style="color:#00ff88;text-decoration:none;">en.sakane.dev</a><br>
                 📱 +81 80 1189 8979 | Tokyo, Japan
@@ -460,44 +524,23 @@
     </div>
 </div>
 
-<!-- ── AI CHAT FAB ── -->
-<button id="chat-fab" onclick="toggleChat()" title="Ask AI about Yasuyuki Sakane">🤖</button>
-
-<!-- ── AI CHAT WINDOW ── -->
-<div id="chat-window">
-    <div class="chat-header">
-        <div class="chat-header-icon">🧠</div>
-        <div class="chat-header-text">
-            <div class="chat-header-title" data-ja="坂根AIアシスタント" data-en="Sakane AI Assistant">坂根AIアシスタント</div>
-            <div class="chat-header-sub"><span class="dot"></span><span data-ja="坂根康之について何でも聞いてください" data-en="Ask anything about Yasuyuki Sakane">坂根康之について何でも聞いてください</span></div>
-        </div>
-        <button class="chat-close" onclick="toggleChat()">✕</button>
-    </div>
-    <div class="chat-messages" id="chat-messages"></div>
-    <div class="chat-suggestions" id="chat-suggestions"></div>
-    <div class="chat-input-area">
-        <input class="chat-input" id="chat-input" type="text" autocomplete="off" onkeydown="handleChatKey(event)"/>
-        <button class="chat-send" id="chat-send" onclick="sendChat()">➤</button>
-    </div>
-</div>
-
 <!-- ── API KEY MODAL ── -->
 <div id="apikey-modal" class="hidden">
     <div class="apikey-box">
-        <div class="apikey-title" data-ja="🔑 Gemini APIキーを設定" data-en="🔑 Set Gemini API Key">🔑 Gemini APIキーを設定</div>
-        <div class="apikey-desc" data-ja="AIチャット機能を使用するには、Google Gemini APIキーが必要です。キーはお使いのブラウザにのみ保存され、外部に送信されません（Gemini API呼び出し時のみ使用）。" data-en="A Google Gemini API key is required to use the AI chat feature. Your key is stored only in your browser and never transmitted elsewhere (used only for Gemini API calls).">AIチャット機能を使用するには、Google Gemini APIキーが必要です。キーはお使いのブラウザにのみ保存され、外部に送信されません（Gemini API呼び出し時のみ使用）。</div>
+        <div class="apikey-title" data-ja="🔑 Gemini APIキーを設定" data-en="🔑 Set Gemini API Key" data-zh="🔑 设置Gemini API密钥" data-de="🔑 Gemini API-Schlüssel setzen" data-fr="🔑 Configurer la clé API Gemini">🔑 Gemini APIキーを設定</div>
+        <div class="apikey-desc" data-ja="AIチャット機能を使用するには、Google Gemini APIキーが必要です。キーはお使いのブラウザにのみ保存され、外部に送信されません（Gemini API呼び出し時のみ使用）。" data-en="A Google Gemini API key is required to use the AI chat feature. Your key is stored only in your browser and never transmitted elsewhere (used only for Gemini API calls)." data-zh="使用AI聊天功能需要Google Gemini API密钥。密钥仅保存在您的浏览器中，不会传输到外部。" data-de="Für den KI-Chat wird ein Google Gemini API-Schlüssel benötigt. Der Schlüssel wird nur im Browser gespeichert und nie extern übertragen." data-fr="Une clé API Google Gemini est requise pour le chat IA. Votre clé est stockée uniquement dans votre navigateur et n'est jamais transmise ailleurs.">AIチャット機能を使用するには、Google Gemini APIキーが必要です。キーはお使いのブラウザにのみ保存され、外部に送信されません（Gemini API呼び出し時のみ使用）。</div>
         <input class="apikey-input" id="apikey-input" type="password" placeholder="AIza..."/>
         <button class="apikey-save" onclick="saveApiKey()">
-            <span data-ja="保存して開始" data-en="Save &amp; Start">保存して開始</span>
+            <span data-ja="保存して開始" data-en="Save &amp; Start" data-zh="保存并开始" data-de="Speichern &amp; Starten" data-fr="Enregistrer &amp; Démarrer">保存して開始</span>
         </button>
         <button class="apikey-skip" onclick="skipApiKey()">
-            <span data-ja="スキップ（AIチャットなしで使用）" data-en="Skip (use without AI chat)">スキップ（AIチャットなしで使用）</span>
+            <span data-ja="スキップ（AIチャットなしで使用）" data-en="Skip (use without AI chat)" data-zh="跳过（不使用AI聊天）" data-de="Überspringen (ohne KI-Chat)" data-fr="Passer (utiliser sans chat IA)">スキップ（AIチャットなしで使用）</span>
         </button>
     </div>
 </div>
 
 <!-- ── KNOWLEDGE BASE ── -->
-<script src="knowledge.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="knowledge.js"></script>
 
 <!-- ── MAIN SCRIPT ── -->
 <script>
@@ -506,53 +549,88 @@
 // ─────────────────────────────────────────────
 let currentLang = localStorage.getItem('sakane_lang') || 'ja';
 
+const SUPPORTED_LANGS = ['ja','en','zh','de','fr'];
+
 const SUGGESTIONS = {
-  ja: [
-    "EMVISとは何ですか？",
-    "CCBRを簡単に説明してください",
-    "坂根さんの経歴を教えてください",
-    "ESI Frameworkとは？",
-    "構造知性とは何ですか？",
-    "現在どのような仕事をしていますか？"
-  ],
-  en: [
-    "What is EMVIS?",
-    "Explain CCBR simply",
-    "Tell me about Sakane's career",
-    "What is the ESI Framework?",
-    "What is Structural Intelligence?",
-    "What is Sakane working on now?"
-  ]
+  ja: ['EMVISとは何ですか？','CCBRを簡単に説明してください','坂根さんの経歴を教えてください','ESI Frameworkとは？','構造知性とは何ですか？','現在どのような仕事をしていますか？'],
+  en: ['What is EMVIS?','Explain CCBR simply',"Tell me about Sakane's career",'What is the ESI Framework?','What is Structural Intelligence?','What is Sakane working on now?'],
+  zh: ['什么是EMVIS？','请简单说明CCBR','请介绍坂根先生的经历','什么是ESI Framework？','什么是结构知性？','目前从事什么工作？'],
+  de: ['Was ist EMVIS?','Erkläre CCBR einfach','Erzähl mir von Sakanes Karriere','Was ist das ESI Framework?','Was ist Strukturelle Intelligenz?','Woran arbeitet Sakane gerade?'],
+  fr: ["Qu'est-ce qu'EMVIS ?","Expliquez CCBR simplement","Parlez-moi de la carrière de Sakane","Qu'est-ce que l'ESI Framework ?","Qu'est-ce que l'Intelligence Structurelle ?","Sur quoi travaille Sakane en ce moment ?"]
+};
+
+const CHAT_PLACEHOLDER = {
+  ja:'坂根さんについて質問する...',en:'Ask about Sakane...',
+  zh:'询问坂根先生...',de:'Fragen zu Sakane...',fr:'Poser une question sur Sakane...'
+};
+const CHAT_WELCOME = {
+  ja:'坂根康之についてご質問ください。経歴・EMVIS・CCBR・ESI・構造知性など、何でもお答えします。',
+  en:'Ask me anything about Yasuyuki Sakane — career, EMVIS, CCBR, ESI, Structural Intelligence, and more.',
+  zh:'欢迎询问坂根康之的任何问题——经历、EMVIS、CCBR、ESI、结构知性等。',
+  de:'Stellen Sie mir Fragen zu Yasuyuki Sakane — Karriere, EMVIS, CCBR, ESI, Strukturelle Intelligenz und mehr.',
+  fr:'Posez-moi toutes vos questions sur Yasuyuki Sakane — carrière, EMVIS, CCBR, ESI, Intelligence Structurelle, et plus encore.'
+};
+const CHAT_ERROR = {
+  ja:'エラー: ',en:'Error: ',zh:'错误：',de:'Fehler: ',fr:'Erreur : '
+};
+const CHAT_NO_RESPONSE = {
+  ja:'回答を取得できませんでした。',en:'Could not retrieve a response.',
+  zh:'无法获取回答。',de:'Keine Antwort erhalten.',fr:'Impossible d\'obtenir une réponse.'
+};
+const CHAT_NETWORK_ERROR = {
+  ja:'ネットワークエラーが発生しました。APIキーとネットワーク接続を確認してください。',
+  en:'A network error occurred. Please check your API key and network connection.',
+  zh:'发生网络错误，请检查API密钥和网络连接。',
+  de:'Ein Netzwerkfehler ist aufgetreten. Bitte API-Schlüssel und Verbindung prüfen.',
+  fr:'Une erreur réseau s\'est produite. Vérifiez votre clé API et votre connexion.'
+};
+const CHAT_APIKEY_MISSING = {
+  ja:'APIキーが設定されていないため、AIチャットは利用できません。',
+  en:'AI chat is unavailable — no API key has been set.',
+  zh:'未设置API密钥，AI聊天不可用。',
+  de:'KI-Chat nicht verfügbar — kein API-Schlüssel gesetzt.',
+  fr:'Chat IA indisponible — aucune clé API définie.'
+};
+const REL_TITLE = {
+  ja:'相関するノード',en:'Related Nodes',zh:'关联节点',de:'Verwandte Knoten',fr:'Nœuds liés'
+};
+const DOT_LABELS = {
+  past:{ja:'過去',en:'Past',zh:'过去',de:'Vergangenheit',fr:'Passé'},
+  now:{ja:'現在',en:'Now',zh:'现在',de:'Gegenwart',fr:'Présent'},
+  future:{ja:'未来',en:'Future',zh:'未来',de:'Zukunft',fr:'Futur'}
 };
 
 function setLang(lang) {
+  if (!SUPPORTED_LANGS.includes(lang)) lang = 'ja';
   currentLang = lang;
   localStorage.setItem('sakane_lang', lang);
-  document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
-  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+
+  // update dropdown
+  const sel = document.getElementById('lang-select');
+  if (sel) sel.value = lang;
   document.documentElement.lang = lang;
 
-  // Update all data-ja / data-en elements
-  document.querySelectorAll('[data-ja]').forEach(el => {
+  // data-{lang}属性を持つ全要素を更新
+  document.querySelectorAll('[data-' + lang + ']').forEach(el => {
     const val = el.getAttribute('data-' + lang);
     if (val !== null) el.innerHTML = val;
   });
 
-  // Update tab buttons text
-  document.querySelectorAll('.tab-btn[data-ja]').forEach(btn => {
-    const val = btn.getAttribute('data-' + lang);
-    if (val) btn.innerHTML = val;
-  });
-
-  // Update chat placeholder
+  // chat placeholder
   const inp = document.getElementById('chat-input');
-  if (inp) inp.placeholder = lang === 'ja' ? '坂根さんについて質問する...' : 'Ask about Sakane...';
+  if (inp) inp.placeholder = CHAT_PLACEHOLDER[lang] || CHAT_PLACEHOLDER.ja;
 
-  // Update suggestions
+  // suggestions再描画
   renderSuggestions();
 
-  // Re-render open panel if any
+  // 開いているパネルを再描画
   if (activeNodeId) openPanel(activeNodeId);
+
+  // チャットが初期化済みならウェルカムメッセージを言語に合わせて更新
+  if (chatHistory.length === 0) {
+    const msgs = document.getElementById('inline-messages');
+    if (msgs && msgs.children.length > 0) initChat();
+  }
 }
 
 // ─────────────────────────────────────────────
@@ -561,268 +639,346 @@ function setLang(lang) {
 const NODE_DATA = {
   security: {
     icon:'🛡️',
-    tag:{ja:'Layer 1 — 市場認識',en:'Layer 1 — Market Perception'},tagColor:'#95a5a6',
-    title:{ja:'Security Specialist',en:'Security Specialist'},
+    tag:{ja:'Layer 1 — 市場認識',en:'Layer 1 — Market Perception',zh:'Layer 1 — 市场认知',de:'Layer 1 — Marktwahrnehmung',fr:'Layer 1 — Perception du marché'},
+    tagColor:'#95a5a6',
+    title:{ja:'Security Specialist',en:'Security Specialist',zh:'Security Specialist',de:'Security Specialist',fr:'Security Specialist'},
     en:'市場が坂根を見るときの第一印象 / First impression the market has of Sakane',
     timeline:[
-      {era:{ja:'過去（1999〜2010年代）',en:'Past (1999–2010s)'},cls:'tl-past',text:{ja:'<strong>サイバー脅威分析・セキュリティアーキテクチャ設計の第一線。</strong>パケット解析からカーネルまで、技術の深部を扱う仕事をしていた時期。多くの人が坂根を知ったのはこの頃。',en:'<strong>At the forefront of cyber threat analysis and security architecture design.</strong> From packet analysis to kernel-level work. This is the period when most people first encountered Sakane.'}},
-      {era:{ja:'現在（市場の認識）',en:'Present (Market Perception)'},cls:'tl-now',text:{ja:'<strong>LinkedInや履歴書では依然として「Security Specialist」として表示されている。</strong>これは事実の一部だが、2020年以降の活動——EMVIS・CCBR・ESIの研究開発——はこのラベルには反映されていない。',en:'<strong>Still displayed as "Security Specialist" on LinkedIn and resumes.</strong> This is only partial truth. Post-2020 activities — EMVIS, CCBR, ESI R&D — are not reflected in this label.'}},
-      {era:{ja:'実際の変化',en:'Actual Shift'},cls:'tl-future',text:{ja:'2020年頃からセキュリティの「運用」から「構造設計」へシフト。CCBRの理論構築、EMVISの実装、ESI Frameworkの研究開発が現在の主な活動。「Security Specialist」というラベルと実際の仕事内容のギャップが拡大している。',en:'Around 2020, shifted from security "operations" to "structural design." CCBR theory, EMVIS implementation, and ESI Framework R&D are now primary activities. The gap between the "Security Specialist" label and actual work continues to grow.'}}
+      {era:{ja:'過去（1999〜2010年代）',en:'Past (1999–2010s)',zh:'过去（1999〜2010年代）',de:'Vergangenheit (1999–2010er)',fr:'Passé (1999–2010s)'},cls:'tl-past',text:{ja:'<strong>サイバー脅威分析・セキュリティアーキテクチャ設計の第一線。</strong>パケット解析からカーネルまで、技術の深部を扱う仕事をしていた時期。多くの人が坂根を知ったのはこの頃。',en:'<strong>At the forefront of cyber threat analysis and security architecture design.</strong> From packet analysis to kernel-level work. This is the period when most people first encountered Sakane.',zh:'<strong>网络威胁分析与安全架构设计的第一线。</strong>从数据包分析到内核级别的工作。大多数人认识坂根就是从这个时期开始的。',de:'<strong>An der Spitze der Cyber-Bedrohungsanalyse und Sicherheitsarchitektur.</strong> Von der Paketanalyse bis zur Kernel-Ebene. Die meisten Menschen lernten Sakane in dieser Zeit kennen.',fr:'<strong>À la pointe de l\'analyse des menaces cyber et de la conception d\'architectures sécurité.</strong> De l\'analyse de paquets au niveau noyau. La plupart des gens ont découvert Sakane à cette époque.'}},
+      {era:{ja:'現在（市場の認識）',en:'Present (Market Perception)',zh:'现在（市场认知）',de:'Gegenwart (Marktwahrnehmung)',fr:'Présent (Perception du marché)'},cls:'tl-now',text:{ja:'<strong>LinkedInや履歴書では依然として「Security Specialist」として表示されている。</strong>これは事実の一部だが、2020年以降の活動——EMVIS・CCBR・ESIの研究開発——はこのラベルには反映されていない。',en:'<strong>Still displayed as "Security Specialist" on LinkedIn and resumes.</strong> This is only partial truth. Post-2020 activities — EMVIS, CCBR, ESI R&D — are not reflected in this label.',zh:'<strong>在LinkedIn和简历上仍然显示为"Security Specialist"。</strong>这只是部分事实。2020年后的活动——EMVIS、CCBR、ESI的研究开发——并未反映在这个标签中。',de:'<strong>Auf LinkedIn und Lebensläufen steht weiterhin „Security Specialist".</strong> Das ist nur ein Teil der Wahrheit. Aktivitäten nach 2020 — EMVIS, CCBR, ESI F&E — spiegeln sich in diesem Label nicht wider.',fr:'<strong>Toujours affiché comme "Security Specialist" sur LinkedIn et les CV.</strong> Ce n\'est que partiellement vrai. Les activités post-2020 — R&D EMVIS, CCBR, ESI — ne se reflètent pas dans ce label.'}},
+      {era:{ja:'実際の変化',en:'Actual Shift',zh:'实际变化',de:'Tatsächlicher Wandel',fr:'Changement réel'},cls:'tl-future',text:{ja:'2020年頃からセキュリティの「運用」から「構造設計」へシフト。CCBRの理論構築、EMVISの実装、ESI Frameworkの研究開発が現在の主な活動。「Security Specialist」というラベルと実際の仕事内容のギャップが拡大している。',en:'Around 2020, shifted from security "operations" to "structural design." CCBR theory, EMVIS implementation, and ESI Framework R&D are now primary activities. The gap between the "Security Specialist" label and actual work continues to grow.',zh:'从2020年前后，从安全"运营"转向"结构设计"。CCBR理论构建、EMVIS实现、ESI Framework的研究开发是目前的主要活动。"Security Specialist"标签与实际工作内容的差距正在扩大。',de:'Um 2020 verschob sich der Fokus von Sicherheits-„Betrieb" zu „Strukturdesign". CCBR-Theorie, EMVIS-Implementierung und ESI Framework F&E sind nun die Hauptaktivitäten.',fr:'Vers 2020, passage des "opérations" sécurité à la "conception structurelle". La théorie CCBR, l\'implémentation EMVIS et la R&D ESI Framework sont maintenant les activités principales.'}}
     ],
     relations:[
-      {id:'void',arrow:'-.→',name:'THE VOID',desc:{ja:'このラベルと実際の活動のギャップがVoid',en:'The gap between this label and actual activity is the Void'}},
-      {id:'ccbr',arrow:'→',name:'CCBR',desc:{ja:'セキュリティの深い現場知がCCBRの土台',en:"Deep security field knowledge is CCBR's foundation"}},
-      {id:'deeptech',arrow:'←',name:{ja:'26年の深層技術',en:'26yr Deep Tech'},desc:{ja:'この時期の経験が技術的基盤を作った',en:'Experience from this era built the technical foundation'}}
+      {id:'void',arrow:'-.→',name:'THE VOID',desc:{ja:'このラベルと実際の活動のギャップがVoid',en:'The gap between this label and actual activity is the Void',zh:'这个标签与实际活动之间的差距就是Void',de:'Die Lücke zwischen diesem Label und der tatsächlichen Tätigkeit ist der Void',fr:'L\'écart entre ce label et l\'activité réelle est le Void'}},
+      {id:'ccbr',arrow:'→',name:'CCBR',desc:{ja:'セキュリティの深い現場知がCCBRの土台',en:"Deep security field knowledge is CCBR's foundation",zh:'深厚的安全现场知识是CCBR的基础',de:'Tiefes Sicherheitsfeldwissen ist CCBRs Fundament',fr:'La connaissance terrain approfondie en sécurité est le fondement de CCBR'}},
+      {id:'deeptech',arrow:'←',name:{ja:'26年の深層技術',en:'26yr Deep Tech',zh:'26年深层技术',de:'26 J. Deep Tech',fr:'26 ans Deep Tech'},desc:{ja:'この時期の経験が技術的基盤を作った',en:'Experience from this era built the technical foundation',zh:'这一时期的经验奠定了技术基础',de:'Erfahrungen aus dieser Ära bildeten das technische Fundament',fr:'L\'expérience de cette époque a construit le fondement technique'}}
     ],kpi:null
   },
   riskadvisor:{
-    icon:'⚠️',tag:{ja:'Layer 1 — 市場認識',en:'Layer 1 — Market Perception'},tagColor:'#95a5a6',
-    title:{ja:'Tech Risk Advisor',en:'Tech Risk Advisor'},en:'部分的に理解されている役割 / Partially understood role',
+    icon:'⚠️',
+    tag:{ja:'Layer 1 — 市場認識',en:'Layer 1 — Market Perception',zh:'Layer 1 — 市场认知',de:'Layer 1 — Marktwahrnehmung',fr:'Layer 1 — Perception du marché'},
+    tagColor:'#95a5a6',
+    title:{ja:'Tech Risk Advisor',en:'Tech Risk Advisor',zh:'Tech Risk Advisor',de:'Tech Risk Advisor',fr:'Tech Risk Advisor'},
+    en:'部分的に理解されている役割 / Partially understood role',
     timeline:[
-      {era:{ja:'過去',en:'Past'},cls:'tl-past',text:{ja:'リスク評価・技術的負債の分析・コンプライアンス対応を担当。実際に成果を出してきた領域だが、「問題が起きたら呼ばれる人」というポジションに収まっていた。',en:'Handled risk assessment, technical debt analysis, compliance response. A domain with real results, but confined to a "called when problems arise" position.'}},
-      {era:{ja:'現在',en:'Present'},cls:'tl-now',text:{ja:'<strong>AI倫理・ガバナンスのアドバイザー</strong>としての引き合いが増えてきた。しかし依然として「事後対応」の文脈で声がかかることが多い。',en:'Inquiries as an <strong>AI ethics/governance advisor</strong> are increasing. But still frequently called in "reactive" contexts.'}},
-      {era:{ja:'実際の活動',en:'Actual Activity'},cls:'tl-future',text:{ja:'CCBRで「問題が起きる前に構造的に検知する」、ESIで「問題が起きない意思決定構造を設計する」という事前介入型の研究開発に移行している。',en:'Shifted to proactive R&D: CCBR for "structurally detecting before problems occur," ESI for "designing decision structures where problems don\'t arise."'}}
+      {era:{ja:'過去',en:'Past',zh:'过去',de:'Vergangenheit',fr:'Passé'},cls:'tl-past',text:{ja:'リスク評価・技術的負債の分析・コンプライアンス対応を担当。実際に成果を出してきた領域だが、「問題が起きたら呼ばれる人」というポジションに収まっていた。',en:'Handled risk assessment, technical debt analysis, compliance response. A domain with real results, but confined to a "called when problems arise" position.',zh:'负责风险评估、技术债务分析、合规应对。是有实际成果的领域，但只停留在"出问题才被叫来的人"的定位。',de:'Risikobeurteilung, technische Schuldenanalyse, Compliance. Ein Bereich mit echten Ergebnissen, aber auf die Rolle „wird gerufen wenn Probleme auftreten" beschränkt.',fr:'Gestion de l\'évaluation des risques, analyse de la dette technique, conformité. Un domaine avec de vrais résultats, mais confiné au rôle de "appelé quand les problèmes surviennent".'}},
+      {era:{ja:'現在',en:'Present',zh:'现在',de:'Gegenwart',fr:'Présent'},cls:'tl-now',text:{ja:'<strong>AI倫理・ガバナンスのアドバイザー</strong>としての引き合いが増えてきた。しかし依然として「事後対応」の文脈で声がかかることが多い。',en:'Inquiries as an <strong>AI ethics/governance advisor</strong> are increasing. But still frequently called in "reactive" contexts.',zh:'作为<strong>AI伦理/治理顾问</strong>的咨询需求在增加。但仍然经常在"事后应对"的背景下被联系。',de:'Anfragen als <strong>KI-Ethik-/Governance-Berater</strong> nehmen zu. Aber immer noch häufig in „reaktiven" Kontexten gefragt.',fr:'Les demandes en tant que <strong>conseiller en éthique/gouvernance IA</strong> augmentent. Mais toujours souvent sollicité dans des contextes "réactifs".'}},
+      {era:{ja:'実際の活動',en:'Actual Activity',zh:'实际活动',de:'Tatsächliche Aktivität',fr:'Activité réelle'},cls:'tl-future',text:{ja:'CCBRで「問題が起きる前に構造的に検知する」、ESIで「問題が起きない意思決定構造を設計する」という事前介入型の研究開発に移行している。',en:'Shifted to proactive R&D: CCBR for "structurally detecting before problems occur," ESI for "designing decision structures where problems don\'t arise."',zh:'已转向事前介入型研发：CCBR用于"在问题发生前进行结构性检测"，ESI用于"设计不会出现问题的决策结构"。',de:'Wechsel zu proaktiver F&E: CCBR für „strukturelle Erkennung vor Problemen", ESI für „Design von Entscheidungsstrukturen ohne Probleme".',fr:'Passage à une R&D proactive : CCBR pour la "détection structurelle avant les problèmes", ESI pour la "conception de structures décisionnelles sans problèmes".'}}
     ],
     relations:[
-      {id:'void',arrow:'-.→',name:'THE VOID',desc:{ja:'「リスク対応の人」という認識がギャップを生む',en:'"Risk response person" perception creates the gap'}},
-      {id:'emvis',arrow:'→',name:'EMVIS',desc:{ja:'リスク可視化の発展形がEMVIS',en:'EMVIS is the evolved form of risk visualization'}},
-      {id:'decision_arch',arrow:'→',name:{ja:'Chief Decision Arch',en:'Chief Decision Arch'},desc:{ja:'到達しつつある役割',en:'The role being reached'}}
+      {id:'void',arrow:'-.→',name:'THE VOID',desc:{ja:'「リスク対応の人」という認識がギャップを生む',en:'"Risk response person" perception creates the gap',zh:'"风险应对者"的认知产生了差距',de:'Die Wahrnehmung als „Risikobehandler" erzeugt die Lücke',fr:'La perception de "personne gérant les risques" crée l\'écart'}},
+      {id:'emvis',arrow:'→',name:'EMVIS',desc:{ja:'リスク可視化の発展形がEMVIS',en:'EMVIS is the evolved form of risk visualization',zh:'EMVIS是风险可视化的进化形式',de:'EMVIS ist die weiterentwickelte Form der Risikovisualisierung',fr:'EMVIS est la forme évoluée de la visualisation des risques'}},
+      {id:'decision_arch',arrow:'→',name:{ja:'Chief Decision Arch',en:'Chief Decision Arch',zh:'首席决策架构师',de:'Chief Decision Arch',fr:'Chief Decision Arch'},desc:{ja:'到達しつつある役割',en:'The role being reached',zh:'正在达到的角色',de:'Die Rolle, die erreicht wird',fr:'Le rôle en cours d\'atteinte'}}
     ],kpi:null
   },
   pm:{
-    icon:'📋',tag:{ja:'Layer 1 — 市場認識',en:'Layer 1 — Market Perception'},tagColor:'#95a5a6',
-    title:{ja:'Project Manager',en:'Project Manager'},en:'役割の矮小化の典型 / Typical role minimization',
+    icon:'📋',
+    tag:{ja:'Layer 1 — 市場認識',en:'Layer 1 — Market Perception',zh:'Layer 1 — 市场认知',de:'Layer 1 — Marktwahrnehmung',fr:'Layer 1 — Perception du marché'},
+    tagColor:'#95a5a6',
+    title:{ja:'Project Manager',en:'Project Manager',zh:'Project Manager',de:'Project Manager',fr:'Project Manager'},
+    en:'役割の矮小化の典型 / Typical role minimization',
     timeline:[
-      {era:{ja:'過去',en:'Past'},cls:'tl-past',text:{ja:'デリバリー管理・ステークホルダー調整・進捗コントロールも実際に担当してきた。しかし本来持っている構造設計能力はこの役割では活かされていなかった。',en:'Handled delivery management, stakeholder coordination, progress control. But the structural design capability was not utilized in this role.'}},
-      {era:{ja:'現在の認識',en:'Current Perception'},cls:'tl-now',text:{ja:'「優秀なPM」として評価されることはあるが、<strong>成功するプロジェクトの構造そのものを設計する能力</strong>は市場に認識されていない。',en:'Sometimes recognized as an "excellent PM," but <strong>the ability to design the structure of successful projects</strong> is not recognized by the market.'}},
-      {era:{ja:'実際の活動',en:'Actual Activity'},cls:'tl-future',text:{ja:'EMVISで「PoC自体の構造を再設計」、ESIで「プロジェクトが成功する意思決定構造を設計」——PMの枠を超えた構造設計者としての実績が積み上がっている。',en:'EMVIS "redesigns the structure of PoC itself," ESI "designs decision structures for project success" — track record as a structural designer beyond the PM frame is building.'}}
+      {era:{ja:'過去',en:'Past',zh:'过去',de:'Vergangenheit',fr:'Passé'},cls:'tl-past',text:{ja:'デリバリー管理・ステークホルダー調整・進捗コントロールも実際に担当してきた。しかし本来持っている構造設計能力はこの役割では活かされていなかった。',en:'Handled delivery management, stakeholder coordination, progress control. But the structural design capability was not utilized in this role.',zh:'实际负责过交付管理、利益相关者协调、进度控制。但本来具备的结构设计能力在这个角色中没有得到发挥。',de:'Liefermanagement, Stakeholder-Koordination, Fortschrittskontrolle wurden tatsächlich übernommen. Aber die eigentliche Strukturdesignfähigkeit wurde in dieser Rolle nicht genutzt.',fr:'Gestion des livraisons, coordination des parties prenantes, contrôle de l\'avancement ont été réellement gérés. Mais la capacité de conception structurelle n\'a pas été exploitée dans ce rôle.'}},
+      {era:{ja:'現在の認識',en:'Current Perception',zh:'当前认知',de:'Aktuelle Wahrnehmung',fr:'Perception actuelle'},cls:'tl-now',text:{ja:'「優秀なPM」として評価されることはあるが、<strong>成功するプロジェクトの構造そのものを設計する能力</strong>は市場に認識されていない。',en:'Sometimes recognized as an "excellent PM," but <strong>the ability to design the structure of successful projects</strong> is not recognized by the market.',zh:'有时被认可为"优秀的PM"，但<strong>设计成功项目结构本身的能力</strong>并未被市场认知。',de:'Manchmal als „exzellenter PM" anerkannt, aber <strong>die Fähigkeit, die Struktur erfolgreicher Projekte zu gestalten</strong>, wird vom Markt nicht erkannt.',fr:'Parfois reconnu comme "excellent PM", mais <strong>la capacité à concevoir la structure même des projets réussis</strong> n\'est pas reconnue par le marché.'}},
+      {era:{ja:'実際の活動',en:'Actual Activity',zh:'实际活动',de:'Tatsächliche Aktivität',fr:'Activité réelle'},cls:'tl-future',text:{ja:'EMVISで「PoC自体の構造を再設計」、ESIで「プロジェクトが成功する意思決定構造を設計」——PMの枠を超えた構造設計者としての実績が積み上がっている。',en:'EMVIS "redesigns the structure of PoC itself," ESI "designs decision structures for project success" — track record as a structural designer beyond the PM frame is building.',zh:'EMVIS"重新设计PoC本身的结构"，ESI"设计项目成功的决策结构"——作为超越PM框架的结构设计师的实绩正在积累。',de:'EMVIS „redesignt die Struktur des PoC selbst", ESI „designt Entscheidungsstrukturen für Projekterfolg" — Track Record als struktureller Designer jenseits des PM-Rahmens wächst.',fr:'EMVIS "redéfinit la structure du PoC lui-même", ESI "conçoit des structures décisionnelles pour le succès du projet" — le track record comme concepteur structurel au-delà du cadre PM s\'accumule.'}}
     ],
     relations:[
-      {id:'void',arrow:'-.→',name:'THE VOID',desc:{ja:'役割の矮小化がギャップを生む',en:'Role minimization creates the gap'}},
-      {id:'structural_arch',arrow:'→',name:{ja:'Structural Architect',en:'Structural Architect'},desc:{ja:'実際に到達しつつある姿',en:'The form being reached'}},
-      {id:'emvis',arrow:'→',name:'EMVIS',desc:{ja:'PM経験がプロセス設計に活きている',en:'PM experience informs process design'}}
+      {id:'void',arrow:'-.→',name:'THE VOID',desc:{ja:'役割の矮小化がギャップを生む',en:'Role minimization creates the gap',zh:'角色矮化产生了差距',de:'Rollenminimierung erzeugt die Lücke',fr:'La minimisation du rôle crée l\'écart'}},
+      {id:'structural_arch',arrow:'→',name:{ja:'Structural Architect',en:'Structural Architect',zh:'结构架构师',de:'Structural Architect',fr:'Structural Architect'},desc:{ja:'実際に到達しつつある姿',en:'The form being reached',zh:'正在实际达到的形态',de:'Die Form, die tatsächlich erreicht wird',fr:'La forme réellement en cours d\'atteinte'}},
+      {id:'emvis',arrow:'→',name:'EMVIS',desc:{ja:'PM経験がプロセス設計に活きている',en:'PM experience informs process design',zh:'PM经验在流程设计中发挥作用',de:'PM-Erfahrung fließt ins Prozessdesign ein',fr:'L\'expérience PM nourrit la conception des processus'}}
     ],kpi:null
   },
   cognitive:{
-    icon:'🧠',tag:{ja:'Layer 2 — 隠された知的基盤',en:'Layer 2 — Hidden Substrate'},tagColor:'#5d8aa8',
-    title:{ja:'認知科学 & 哲学',en:'Cognitive Science & Philosophy'},en:'Cognitive Science & Philosophy',
+    icon:'🧠',
+    tag:{ja:'Layer 2 — 隠された知的基盤',en:'Layer 2 — Hidden Substrate',zh:'Layer 2 — 隐藏的知识基础',de:'Layer 2 — Verborgenes Substrat',fr:'Layer 2 — Substrat caché'},
+    tagColor:'#5d8aa8',
+    title:{ja:'認知科学 & 哲学',en:'Cognitive Science & Philosophy',zh:'认知科学与哲学',de:'Kognitionswissenschaft & Philosophie',fr:'Sciences Cognitives & Philosophie'},
+    en:'Cognitive Science & Philosophy',
     timeline:[
-      {era:{ja:'26年間の蓄積',en:'26 Years Accumulated'},cls:'tl-past',text:{ja:'意思決定論・認知バイアス研究・システム思考の哲学的基盤を独学で学び続けてきた。カーネマン、デネットの哲学など。技術者としては異例の読書歴。',en:'Self-studied decision theory, cognitive bias research, and philosophical foundations of systems thinking. Kahneman, Dennett philosophy, etc. An unusual reading background for an engineer.'}},
-      {era:{ja:'実装への反映',en:'Implementation Reflection'},cls:'tl-now',text:{ja:'<strong>ESI Frameworkの認知トリアージシステム、ソクラテス問答エンジン、バイアス検出メカニズムはこの知識から直接生まれている。</strong>EMVISのStakeholder Communication Advisorも同様。',en:'<strong>ESI Framework\'s cognitive triage system, Socratic engine, and bias detection mechanisms emerged directly from this knowledge.</strong> Same for EMVIS\'s Stakeholder Communication Advisor.'}},
-      {era:{ja:'提供価値',en:'Value Delivered'},cls:'tl-future',text:{ja:'経営者の「思考のOS」を可視化・再設計できる能力の源泉。人間の認知構造を知ることで、組織設計の最深部に触れることができる。',en:"Source of the ability to visualize and redesign executives' 'thinking OS.' Knowing human cognitive structure enables touching the deepest layers of organizational design."}}
+      {era:{ja:'26年間の蓄積',en:'26 Years Accumulated',zh:'26年的积累',de:'26 Jahre angesammelt',fr:'26 ans accumulés'},cls:'tl-past',text:{ja:'意思決定論・認知バイアス研究・システム思考の哲学的基盤を独学で学び続けてきた。カーネマン、デネットの哲学など。技術者としては異例の読書歴。',en:'Self-studied decision theory, cognitive bias research, and philosophical foundations of systems thinking. Kahneman, Dennett philosophy, etc. An unusual reading background for an engineer.',zh:'自学了决策理论、认知偏误研究、系统思考的哲学基础。卡尼曼、丹尼特的哲学等。作为工程师有着异乎寻常的阅读经历。',de:'Entscheidungstheorie, kognitive Verzerrungsforschung und philosophische Grundlagen des Systemdenkens autodidaktisch erlernt. Kahneman, Dennett-Philosophie usw.',fr:'Auto-formation en théorie de la décision, recherche sur les biais cognitifs et fondements philosophiques de la pensée systémique. Philosophie de Kahneman, Dennett, etc.'}},
+      {era:{ja:'実装への反映',en:'Implementation Reflection',zh:'在实现中的体现',de:'Implementierungsreflexion',fr:'Réflexion dans l\'implémentation'},cls:'tl-now',text:{ja:'<strong>ESI Frameworkの認知トリアージシステム、ソクラテス問答エンジン、バイアス検出メカニズムはこの知識から直接生まれている。</strong>EMVISのStakeholder Communication Advisorも同様。',en:'<strong>ESI Framework\'s cognitive triage system, Socratic engine, and bias detection mechanisms emerged directly from this knowledge.</strong> Same for EMVIS\'s Stakeholder Communication Advisor.',zh:'<strong>ESI Framework的认知分诊系统、苏格拉底问答引擎、偏误检测机制都直接源于这些知识。</strong>EMVIS的利益相关者沟通顾问也是如此。',de:'<strong>ESI Frameworks kognitives Triagesystem, Sokrates-Motor und Bias-Erkennungsmechanismen entstanden direkt aus diesem Wissen.</strong> Ebenso EMVIS\' Stakeholder Communication Advisor.',fr:'<strong>Le système de triage cognitif d\'ESI Framework, le moteur socratique et les mécanismes de détection des biais sont nés directement de ces connaissances.</strong> De même pour le Stakeholder Communication Advisor d\'EMVIS.'}},
+      {era:{ja:'提供価値',en:'Value Delivered',zh:'提供的价值',de:'Gelieferter Wert',fr:'Valeur apportée'},cls:'tl-future',text:{ja:'経営者の「思考のOS」を可視化・再設計できる能力の源泉。人間の認知構造を知ることで、組織設計の最深部に触れることができる。',en:"Source of the ability to visualize and redesign executives' 'thinking OS.' Knowing human cognitive structure enables touching the deepest layers of organizational design.",zh:'能够可视化并重新设计经营者"思维OS"的能力源泉。了解人类认知结构，能够触及组织设计的最深处。',de:'Quelle der Fähigkeit, den „Denk-OS" von Führungskräften zu visualisieren und neu zu gestalten. Das Wissen über kognitive Strukturen ermöglicht das Berühren tiefster Organisationsebenen.',fr:'Source de la capacité à visualiser et reconcevoir l\'"OS de pensée" des dirigeants. Connaître la structure cognitive humaine permet d\'atteindre les couches les plus profondes de la conception organisationnelle.'}}
     ],
     relations:[
-      {id:'void',arrow:'==>',name:'THE VOID',desc:{ja:'認知構造の理解でVoidを分析できる',en:'Understanding cognitive structure enables Void analysis'}},
-      {id:'esi',arrow:'→',name:'ESI Framework',desc:{ja:'ESIの認知処理層の核心的基盤',en:"Core foundation of ESI's cognitive processing layer"}},
-      {id:'emvis',arrow:'→',name:'EMVIS',desc:{ja:'ステークホルダー心理モデルの基盤',en:'Foundation of stakeholder psychology model'}}
+      {id:'void',arrow:'==>',name:'THE VOID',desc:{ja:'認知構造の理解でVoidを分析できる',en:'Understanding cognitive structure enables Void analysis',zh:'通过理解认知结构可以分析Void',de:'Das Verständnis kognitiver Strukturen ermöglicht die Void-Analyse',fr:'Comprendre la structure cognitive permet l\'analyse du Void'}},
+      {id:'esi',arrow:'→',name:'ESI Framework',desc:{ja:'ESIの認知処理層の核心的基盤',en:"Core foundation of ESI's cognitive processing layer",zh:'ESI认知处理层的核心基础',de:'Kernfundament von ESIs kognitiver Verarbeitungsschicht',fr:'Fondement central de la couche de traitement cognitif d\'ESI'}},
+      {id:'emvis',arrow:'→',name:'EMVIS',desc:{ja:'ステークホルダー心理モデルの基盤',en:'Foundation of stakeholder psychology model',zh:'利益相关者心理模型的基础',de:'Fundament des Stakeholder-Psychologiemodells',fr:'Fondement du modèle psychologique des parties prenantes'}}
     ],kpi:null
   },
   physics:{
-    icon:'⚛️',tag:{ja:'Layer 2 — 隠された知的基盤',en:'Layer 2 — Hidden Substrate'},tagColor:'#5d8aa8',
-    title:{ja:'物理学 & システムダイナミクス',en:'Physics & System Dynamics'},en:'Physics & System Dynamics',
+    icon:'⚛️',
+    tag:{ja:'Layer 2 — 隠された知的基盤',en:'Layer 2 — Hidden Substrate',zh:'Layer 2 — 隐藏的知识基础',de:'Layer 2 — Verborgenes Substrat',fr:'Layer 2 — Substrat caché'},
+    tagColor:'#5d8aa8',
+    title:{ja:'物理学 & システムダイナミクス',en:'Physics & System Dynamics',zh:'物理学与系统动力学',de:'Physik & Systemdynamik',fr:'Physique & Dynamique des systèmes'},
+    en:'Physics & System Dynamics',
     timeline:[
-      {era:{ja:'26年間の蓄積',en:'26 Years Accumulated'},cls:'tl-past',text:{ja:'エントロピー・複雑系・フィードバックループ・カオス理論を独学。組織を「物理システム」として捉える視座は、技術的な問題を「力学的な問題」として読む能力を与えた。',en:'Self-studied entropy, complex systems, feedback loops, chaos theory. The perspective of treating organizations as "physical systems" enables reading technical problems as "dynamical problems."'}},
-      {era:{ja:'実装への反映',en:'Implementation Reflection'},cls:'tl-now',text:{ja:'<strong>CCBRの「背景放射」モデルの直接的な源泉。</strong>エントロピーの概念が「Innovation vs Entropy」という構造的矛盾の把握を可能にしている。他のセキュリティ専門家は持たない視座。',en:"<strong>Direct source of CCBR's 'Background Radiation' model.</strong> The entropy concept enables grasping the 'Innovation vs Entropy' structural contradiction. A perspective other security experts don't have."}},
-      {era:{ja:'提供価値',en:'Value Delivered'},cls:'tl-future',text:{ja:'複雑系の知識により、「なぜある構造では必然的に失敗するか」を物理法則のように説明できる。Structural Architectとしての説得力の源泉。',en:'Complex systems knowledge enables explaining "why certain structures inevitably fail" like physical laws. Source of persuasiveness as Structural Architect.'}}
+      {era:{ja:'26年間の蓄積',en:'26 Years Accumulated',zh:'26年的积累',de:'26 Jahre angesammelt',fr:'26 ans accumulés'},cls:'tl-past',text:{ja:'エントロピー・複雑系・フィードバックループ・カオス理論を独学。組織を「物理システム」として捉える視座は、技術的な問題を「力学的な問題」として読む能力を与えた。',en:'Self-studied entropy, complex systems, feedback loops, chaos theory. The perspective of treating organizations as "physical systems" enables reading technical problems as "dynamical problems."',zh:'自学了熵、复杂系统、反馈回路、混沌理论。将组织视为"物理系统"的视角，赋予了将技术问题理解为"动力学问题"的能力。',de:'Entropie, komplexe Systeme, Feedbackschleifen, Chaostheorie autodidaktisch erlernt. Organisationen als physikalische Systeme zu betrachten, ermöglicht das Lesen technischer Probleme als dynamische Probleme.',fr:'Auto-formation en entropie, systèmes complexes, boucles de rétroaction, théorie du chaos. La perspective de traiter les organisations comme des systèmes physiques permet de lire les problèmes techniques comme des problèmes dynamiques.'}},
+      {era:{ja:'実装への反映',en:'Implementation Reflection',zh:'在实现中的体现',de:'Implementierungsreflexion',fr:'Réflexion dans l\'implémentation'},cls:'tl-now',text:{ja:'<strong>CCBRの「背景放射」モデルの直接的な源泉。</strong>エントロピーの概念が「Innovation vs Entropy」という構造的矛盾の把握を可能にしている。他のセキュリティ専門家は持たない視座。',en:"<strong>Direct source of CCBR's 'Background Radiation' model.</strong> The entropy concept enables grasping the 'Innovation vs Entropy' structural contradiction. A perspective other security experts don't have.",zh:'<strong>CCBR"背景辐射"模型的直接来源。</strong>熵的概念使理解"Innovation vs Entropy"这一结构性矛盾成为可能。这是其他安全专家所没有的视角。',de:'<strong>Direkte Quelle von CCBRs „Hintergrundstrahlung"-Modell.</strong> Das Entropiekonzept ermöglicht das Erfassen des strukturellen Widerspruchs „Innovation vs. Entropie". Eine Perspektive, die andere Sicherheitsexperten nicht haben.',fr:'<strong>Source directe du modèle de "Rayonnement de fond" de CCBR.</strong> Le concept d\'entropie permet de saisir la contradiction structurelle "Innovation vs Entropie". Une perspective que les autres experts en sécurité n\'ont pas.'}},
+      {era:{ja:'提供価値',en:'Value Delivered',zh:'提供的价值',de:'Gelieferter Wert',fr:'Valeur apportée'},cls:'tl-future',text:{ja:'複雑系の知識により、「なぜある構造では必然的に失敗するか」を物理法則のように説明できる。Structural Architectとしての説得力の源泉。',en:'Complex systems knowledge enables explaining "why certain structures inevitably fail" like physical laws. Source of persuasiveness as Structural Architect.',zh:'通过复杂系统知识，能够像物理定律一样解释"为什么某种结构必然会失败"。这是作为结构架构师的说服力来源。',de:'Kenntnisse komplexer Systeme ermöglichen die Erklärung, warum bestimmte Strukturen zwangsläufig scheitern, wie physikalische Gesetze. Quelle der Überzeugungskraft als Structural Architect.',fr:'La connaissance des systèmes complexes permet d\'expliquer "pourquoi certaines structures échouent inévitablement" comme des lois physiques. Source de persuasion en tant que Structural Architect.'}}
     ],
     relations:[
-      {id:'void',arrow:'==>',name:'THE VOID',desc:{ja:'システム崩壊の予兆を読む眼',en:'Eye that reads signs of system collapse'}},
-      {id:'ccbr',arrow:'→',name:'CCBR',desc:{ja:'宇宙背景放射モデルの直接的源泉',en:'Direct source of cosmic background radiation model'}},
-      {id:'c_innov',arrow:'→',name:'Innovation vs Entropy',desc:{ja:'物理的視座で矛盾を理解',en:'Understanding contradiction through physical perspective'}}
+      {id:'void',arrow:'==>',name:'THE VOID',desc:{ja:'システム崩壊の予兆を読む眼',en:'Eye that reads signs of system collapse',zh:'读懂系统崩溃预兆的眼光',de:'Auge, das Zeichen des Systemzusammenbruchs liest',fr:'Œil qui lit les signes d\'effondrement du système'}},
+      {id:'ccbr',arrow:'→',name:'CCBR',desc:{ja:'宇宙背景放射モデルの直接的源泉',en:'Direct source of cosmic background radiation model',zh:'宇宙背景辐射模型的直接来源',de:'Direkte Quelle des kosmischen Hintergrundstrahlungsmodells',fr:'Source directe du modèle de rayonnement de fond cosmique'}},
+      {id:'c_innov',arrow:'→',name:'Innovation vs Entropy',desc:{ja:'物理的視座で矛盾を理解',en:'Understanding contradiction through physical perspective',zh:'从物理视角理解矛盾',de:'Widerspruch durch physikalische Perspektive verstehen',fr:'Comprendre la contradiction par la perspective physique'}}
     ],kpi:null
   },
   history:{
-    icon:'📚',tag:{ja:'Layer 2 — 隠された知的基盤',en:'Layer 2 — Hidden Substrate'},tagColor:'#5d8aa8',
-    title:{ja:'歴史学 / Foundation（Asimov）',en:'History / Foundation (Asimov)'},en:"Asimov's Psychohistory Paradigm",
+    icon:'📚',
+    tag:{ja:'Layer 2 — 隠された知的基盤',en:'Layer 2 — Hidden Substrate',zh:'Layer 2 — 隐藏的知识基础',de:'Layer 2 — Verborgenes Substrat',fr:'Layer 2 — Substrat caché'},
+    tagColor:'#5d8aa8',
+    title:{ja:'歴史学 / Foundation（Asimov）',en:'History / Foundation (Asimov)',zh:'历史学 / Foundation（Asimov）',de:'Geschichte / Foundation (Asimov)',fr:'Histoire / Foundation (Asimov)'},
+    en:"Asimov's Psychohistory Paradigm",
     timeline:[
-      {era:{ja:'思想的影響',en:'Intellectual Influence'},cls:'tl-past',text:{ja:"アシモフの『銀河帝国興亡史（Foundation）』が提示する<strong>心理歴史学（Psychohistory）</strong>——大規模な人間集団の行動を数学的に予測できるという思想に強く影響を受け、実際の組織設計に適用してきた。",en:"Strongly influenced by Asimov's Foundation's <strong>Psychohistory</strong> — the idea that large human group behavior can be mathematically predicted. Applied to actual organizational design."}},
-      {era:{ja:'実装への反映',en:'Implementation Reflection'},cls:'tl-now',text:{ja:'「今起きていること」を数十年のスパンで文脈化する視座。<strong>DXの「流行」に騙されないのは、歴史的パターンの反復として読めるから。</strong>EMVISの長期予測モデルの思想的基盤。',en:"Perspective of contextualizing 'what is happening now' across decades. <strong>Not being fooled by DX 'fads' comes from reading them as historical pattern repetition.</strong> Philosophical foundation of EMVIS's long-term prediction model."}},
-      {era:{ja:'提供価値',en:'Value Delivered'},cls:'tl-future',text:{ja:'国家レベルの意思決定を支援する際、文明スケールの視座が必要になる。心理歴史学的アプローチがその長期的設計を可能にする。',en:'When supporting national-level decision-making, civilization-scale perspective is required. The psychohistorical approach enables that long-term design.'}}
+      {era:{ja:'思想的影響',en:'Intellectual Influence',zh:'思想影响',de:'Intellektueller Einfluss',fr:'Influence intellectuelle'},cls:'tl-past',text:{ja:"アシモフの『銀河帝国興亡史（Foundation）』が提示する<strong>心理歴史学（Psychohistory）</strong>——大規模な人間集団の行動を数学的に予測できるという思想に強く影響を受け、実際の組織設計に適用してきた。",en:"Strongly influenced by Asimov's Foundation's <strong>Psychohistory</strong> — the idea that large human group behavior can be mathematically predicted. Applied to actual organizational design.",zh:'深受阿西莫夫《基地》所呈现的<strong>心理史学（Psychohistory）</strong>的影响——可以用数学预测大规模人类群体行为的思想，并将其应用于实际的组织设计。',de:'Stark beeinflusst von Asimovs Foundation\'s <strong>Psychohistorie</strong> — die Idee, dass das Verhalten großer Menschengruppen mathematisch vorhergesagt werden kann. Auf tatsächliches Organisationsdesign angewendet.',fr:'Fortement influencé par la <strong>Psychohistoire</strong> de Foundation d\'Asimov — l\'idée que le comportement des grands groupes humains peut être prédit mathématiquement. Appliqué à la conception organisationnelle réelle.'}},
+      {era:{ja:'実装への反映',en:'Implementation Reflection',zh:'在实现中的体现',de:'Implementierungsreflexion',fr:'Réflexion dans l\'implémentation'},cls:'tl-now',text:{ja:'「今起きていること」を数十年のスパンで文脈化する視座。<strong>DXの「流行」に騙されないのは、歴史的パターンの反復として読めるから。</strong>EMVISの長期予測モデルの思想的基盤。',en:"Perspective of contextualizing 'what is happening now' across decades. <strong>Not being fooled by DX 'fads' comes from reading them as historical pattern repetition.</strong> Philosophical foundation of EMVIS's long-term prediction model.",zh:'将"当下发生的事"置于数十年跨度中解读的视角。<strong>不被DX"流行"所迷惑，是因为能将其读解为历史模式的重复。</strong>EMVIS长期预测模型的思想基础。',de:'Perspektive der Kontextualisierung von „was gerade passiert" über Jahrzehnte. <strong>Nicht von DX-„Moden" getäuscht zu werden, kommt daher, sie als historische Musterwiederholdung zu lesen.</strong>',fr:'Perspective de contextualisation de "ce qui se passe maintenant" sur des décennies. <strong>Ne pas être trompé par les "modes" DX vient de les lire comme une répétition de patterns historiques.</strong>'}},
+      {era:{ja:'提供価値',en:'Value Delivered',zh:'提供的价值',de:'Gelieferter Wert',fr:'Valeur apportée'},cls:'tl-future',text:{ja:'国家レベルの意思決定を支援する際、文明スケールの視座が必要になる。心理歴史学的アプローチがその長期的設計を可能にする。',en:'When supporting national-level decision-making, civilization-scale perspective is required. The psychohistorical approach enables that long-term design.',zh:'在支持国家级决策时，需要文明尺度的视角。心理史学方法使这种长期设计成为可能。',de:'Bei der Unterstützung nationaler Entscheidungsfindung ist eine zivilisatorische Perspektive erforderlich. Der psychohistorische Ansatz ermöglicht dieses langfristige Design.',fr:'Pour soutenir la prise de décision au niveau national, une perspective à l\'échelle de la civilisation est nécessaire. L\'approche psychohistorique permet cette conception à long terme.'}}
     ],
     relations:[
-      {id:'void',arrow:'==>',name:'THE VOID',desc:{ja:'歴史的パターンでVoidの構造を読む',en:"Reading Void's structure through historical patterns"}},
-      {id:'csvfo',arrow:'→',name:{ja:'Sovereign Venture Partner',en:'Sovereign Venture Partner'},desc:{ja:'国家スケール視座の源泉',en:'Source of national-scale perspective'}},
-      {id:'c_innov',arrow:'→',name:'Innovation vs Entropy',desc:{ja:'文明史の観点で矛盾を捉える',en:'Grasping contradiction from civilizational history perspective'}}
+      {id:'void',arrow:'==>',name:'THE VOID',desc:{ja:'歴史的パターンでVoidの構造を読む',en:"Reading Void's structure through historical patterns",zh:'通过历史模式解读Void的结构',de:'Voids Struktur durch historische Muster lesen',fr:'Lire la structure du Void à travers les patterns historiques'}},
+      {id:'csvfo',arrow:'→',name:{ja:'Sovereign Venture Partner',en:'Sovereign Venture Partner',zh:'主权创投伙伴',de:'Sovereign Venture Partner',fr:'Sovereign Venture Partner'},desc:{ja:'国家スケール視座の源泉',en:'Source of national-scale perspective',zh:'国家尺度视角的源泉',de:'Quelle der nationalen Perspektive',fr:'Source de la perspective à l\'échelle nationale'}},
+      {id:'c_innov',arrow:'→',name:'Innovation vs Entropy',desc:{ja:'文明史の観点で矛盾を捉える',en:'Grasping contradiction from civilizational history perspective',zh:'从文明史视角把握矛盾',de:'Widerspruch aus zivilisationshistorischer Perspektive erfassen',fr:'Saisir la contradiction depuis la perspective de l\'histoire civilisationnelle'}}
     ],kpi:null
   },
   economics:{
-    icon:'💹',tag:{ja:'Layer 2 — 隠された知的基盤',en:'Layer 2 — Hidden Substrate'},tagColor:'#5d8aa8',
-    title:{ja:'行動経済学 & 社会工学',en:'Behavioral Economics & Social Engineering'},en:'Behavioral Economics & Social Engineering',
+    icon:'💹',
+    tag:{ja:'Layer 2 — 隠された知的基盤',en:'Layer 2 — Hidden Substrate',zh:'Layer 2 — 隐藏的知识基础',de:'Layer 2 — Verborgenes Substrat',fr:'Layer 2 — Substrat caché'},
+    tagColor:'#5d8aa8',
+    title:{ja:'行動経済学 & 社会工学',en:'Behavioral Economics & Social Engineering',zh:'行为经济学与社会工程',de:'Verhaltensökonomie & Sozialingenieurwesen',fr:'Économie comportementale & Ingénierie sociale'},
+    en:'Behavioral Economics & Social Engineering',
     timeline:[
-      {era:{ja:'26年間の蓄積',en:'26 Years Accumulated'},cls:'tl-past',text:{ja:'カーネマン＆トベルスキーの展望理論、サンスティーンのナッジ理論、限定合理性（Bounded Rationality）を研究。<strong>「なぜ人は合理的に見えて非合理な選択をするのか」</strong>を経済学の観点から追求してきた。',en:'Researched Kahneman & Tversky\'s prospect theory, Sunstein\'s nudge theory, bounded rationality. Pursued <strong>"why people make irrational choices while appearing rational"</strong> from an economics perspective.'}},
-      {era:{ja:'実装への反映',en:'Implementation Reflection'},cls:'tl-now',text:{ja:'<strong>EMVISのStakeholder Communication Advisorに直接実装されている。</strong>日本企業の担当者がPoC推進を阻害する理由を、損失回避バイアス・現状維持バイアス・ハーディング効果から説明し、それを回避するナッジ設計に落とし込む。',en:"<strong>Directly implemented in EMVIS's Stakeholder Communication Advisor.</strong> Explains why Japanese company staff obstruct PoC advancement through loss aversion bias, status quo bias, herding effect — and translates that into nudge design to circumvent it."}},
-      {era:{ja:'提供価値',en:'Value Delivered'},cls:'tl-future',text:{ja:'意思決定の「構造」を設計する際、人間の非合理性を前提として組み込んだ設計でなければ機能しない。Chief Decision Architectとして、行動経済学は「人間のOSの仕様書」として機能する。',en:"When designing decision 'structure,' design that doesn't incorporate human irrationality as a premise won't function. As Chief Decision Architect, behavioral economics serves as the 'specification document for human OS.'"}}
+      {era:{ja:'26年間の蓄積',en:'26 Years Accumulated',zh:'26年的积累',de:'26 Jahre angesammelt',fr:'26 ans accumulés'},cls:'tl-past',text:{ja:'カーネマン＆トベルスキーの展望理論、サンスティーンのナッジ理論、限定合理性（Bounded Rationality）を研究。<strong>「なぜ人は合理的に見えて非合理な選択をするのか」</strong>を経済学の観点から追求してきた。',en:'Researched Kahneman & Tversky\'s prospect theory, Sunstein\'s nudge theory, bounded rationality. Pursued <strong>"why people make irrational choices while appearing rational"</strong> from an economics perspective.',zh:'研究了卡尼曼&特沃斯基的前景理论、桑斯坦的助推理论、有限理性。从经济学角度探究<strong>"为何人看似理性却做出非理性选择"</strong>。',de:'Kahneman & Tverskys Prospect-Theorie, Sunsteins Nudge-Theorie, begrenzte Rationalität erforscht. <strong>„Warum Menschen irrational erscheinende Entscheidungen treffen"</strong> aus wirtschaftlicher Perspektive verfolgt.',fr:'Recherche sur la théorie des perspectives de Kahneman & Tversky, la théorie du nudge de Sunstein, la rationalité limitée. Poursuite de <strong>"pourquoi les gens font des choix irrationnels en apparaissant rationnels"</strong> d\'une perspective économique.'}},
+      {era:{ja:'実装への反映',en:'Implementation Reflection',zh:'在实现中的体现',de:'Implementierungsreflexion',fr:'Réflexion dans l\'implémentation'},cls:'tl-now',text:{ja:'<strong>EMVISのStakeholder Communication Advisorに直接実装されている。</strong>日本企業の担当者がPoC推進を阻害する理由を、損失回避バイアス・現状維持バイアス・ハーディング効果から説明し、それを回避するナッジ設計に落とし込む。',en:"<strong>Directly implemented in EMVIS's Stakeholder Communication Advisor.</strong> Explains why Japanese company staff obstruct PoC advancement through loss aversion bias, status quo bias, herding effect — and translates that into nudge design to circumvent it.",zh:'<strong>直接实现在EMVIS的利益相关者沟通顾问中。</strong>从损失厌恶偏误、现状偏见、从众效应解释日本企业员工阻碍PoC推进的原因，并将其转化为规避这些障碍的助推设计。',de:'<strong>Direkt in EMVIS\' Stakeholder Communication Advisor implementiert.</strong> Erklärt, warum japanische Firmenmitarbeiter den PoC-Fortschritt durch Verlustaversion, Status-quo-Bias, Herding-Effekt behindern.',fr:'<strong>Directement implémenté dans le Stakeholder Communication Advisor d\'EMVIS.</strong> Explique pourquoi les employés japonais entravent l\'avancement du PoC via le biais d\'aversion aux pertes, le biais du statu quo, l\'effet de troupeau.'}},
+      {era:{ja:'提供価値',en:'Value Delivered',zh:'提供的价值',de:'Gelieferter Wert',fr:'Valeur apportée'},cls:'tl-future',text:{ja:'意思決定の「構造」を設計する際、人間の非合理性を前提として組み込んだ設計でなければ機能しない。Chief Decision Architectとして、行動経済学は「人間のOSの仕様書」として機能する。',en:"When designing decision 'structure,' design that doesn't incorporate human irrationality as a premise won't function. As Chief Decision Architect, behavioral economics serves as the 'specification document for human OS.'",zh:'在设计决策"结构"时，不以人类非理性为前提的设计是无法运作的。作为首席决策架构师，行为经济学发挥着"人类OS规格书"的作用。',de:'Beim Design von Entscheidungs-„Strukturen" funktioniert Design ohne menschliche Irrationalität als Prämisse nicht. Als Chief Decision Architect dient Verhaltensökonomie als „Spezifikationsdokument des menschlichen OS".',fr:'Lors de la conception de la "structure" décisionnelle, un design sans irrationalité humaine comme prémisse ne fonctionnera pas. En tant que Chief Decision Architect, l\'économie comportementale sert de "document de spécification de l\'OS humain".'}}
     ],
     relations:[
-      {id:'void',arrow:'==>',name:'THE VOID',desc:{ja:'認知バイアスがVoidの断絶を固定化する',en:'Cognitive bias solidifies the Void gap'}},
-      {id:'emvis',arrow:'→',name:'EMVIS',desc:{ja:'ステークホルダーへのナッジ設計に直結',en:'Directly connected to nudge design for stakeholders'}},
-      {id:'esi',arrow:'→',name:'ESI Framework',desc:{ja:'認知バイアス検出・軽減層の理論的基盤',en:'Theoretical foundation of cognitive bias detection/mitigation layer'}},
-      {id:'csvfo',arrow:'→',name:'CSVFO',desc:{ja:'投資判断における非合理性の構造的制御',en:'Structural control of irrationality in investment decisions'}}
+      {id:'void',arrow:'==>',name:'THE VOID',desc:{ja:'認知バイアスがVoidの断絶を固定化する',en:'Cognitive bias solidifies the Void gap',zh:'认知偏误固化了Void的断裂',de:'Kognitive Verzerrung verfestigt die Void-Lücke',fr:'Le biais cognitif solidifie l\'écart du Void'}},
+      {id:'emvis',arrow:'→',name:'EMVIS',desc:{ja:'ステークホルダーへのナッジ設計に直結',en:'Directly connected to nudge design for stakeholders',zh:'直接与利益相关者的助推设计相连',de:'Direkt mit Nudge-Design für Stakeholder verbunden',fr:'Directement connecté à la conception de nudge pour les parties prenantes'}},
+      {id:'esi',arrow:'→',name:'ESI Framework',desc:{ja:'認知バイアス検出・軽減層の理論的基盤',en:'Theoretical foundation of cognitive bias detection/mitigation layer',zh:'认知偏误检测/缓解层的理论基础',de:'Theoretisches Fundament der kognitiven Bias-Erkennungs-/Minderungsschicht',fr:'Fondement théorique de la couche de détection/atténuation des biais cognitifs'}}
     ],kpi:null
   },
   deeptech:{
-    icon:'🔧',tag:{ja:'Layer 2 — 隠された知的基盤',en:'Layer 2 — Hidden Substrate'},tagColor:'#5d8aa8',
-    title:{ja:'26年の深層技術現実',en:'26 Years of Deep Tech Reality'},en:'26 Years of Deep Tech Reality',
+    icon:'🔧',
+    tag:{ja:'Layer 2 — 隠された知的基盤',en:'Layer 2 — Hidden Substrate',zh:'Layer 2 — 隐藏的知识基础',de:'Layer 2 — Verborgenes Substrat',fr:'Layer 2 — Substrat caché'},
+    tagColor:'#5d8aa8',
+    title:{ja:'26年の深層技術現実',en:'26 Years of Deep Tech Reality',zh:'26年深层技术现实',de:'26 Jahre Deep-Tech-Realität',fr:'26 ans de réalité Deep Tech'},
+    en:'26 Years of Deep Tech Reality',
     timeline:[
-      {era:{ja:'1999〜現在',en:'1999–Present'},cls:'tl-past',text:{ja:'<strong>パケット解析からカーネル、実装の地獄、技術的負債の本質。</strong>「動くコード」と「動かない組織」の間にある巨大な摩擦点を現場で体感し続けた26年間。これが他者との最大の差別化要因。',en:"<strong>From packet analysis to kernel, implementation hell, the essence of technical debt.</strong> 26 years of experiencing firsthand the massive friction between 'working code' and 'non-functional organizations.' This is the greatest differentiator from others."}},
-      {era:{ja:'実装への反映',en:'Implementation Reflection'},cls:'tl-now',text:{ja:'上滑りなDX論・AI論に騙されない眼。「これは技術的に不可能」「この実装は半年で腐る」という判断を即座に下せる。<strong>EMVISの技術スタック設計（LLM、GNN、FastAPI等）の全てに反映されている。</strong>',en:'Eye that cannot be fooled by superficial DX/AI narratives. Can immediately judge "this is technically impossible" or "this implementation will rot in six months." <strong>Reflected in all of EMVIS\'s technology stack design (LLM, GNN, FastAPI, etc.).</strong>'}},
-      {era:{ja:'提供価値',en:'Value Delivered'},cls:'tl-future',text:{ja:'Deep TechとJapanese Qualityの架橋者として、<strong>「本当に動くもの」を作れることが信頼の核心。</strong>技術を語れない人間が設計するアーキテクチャには限界がある。',en:"As a bridge between Deep Tech and Japanese Quality, <strong>being able to build 'things that actually work' is the core of trust.</strong> Architecture designed by someone who can't speak technically has its limits."}}
+      {era:{ja:'1999〜現在',en:'1999–Present',zh:'1999年至今',de:'1999–Gegenwart',fr:'1999–Présent'},cls:'tl-past',text:{ja:'<strong>パケット解析からカーネル、実装の地獄、技術的負債の本質。</strong>「動くコード」と「動かない組織」の間にある巨大な摩擦点を現場で体感し続けた26年間。これが他者との最大の差別化要因。',en:"<strong>From packet analysis to kernel, implementation hell, the essence of technical debt.</strong> 26 years of experiencing firsthand the massive friction between 'working code' and 'non-functional organizations.' This is the greatest differentiator from others.",zh:'<strong>从数据包分析到内核，实现的地狱，技术债务的本质。</strong>26年来在现场亲身感受"能运行的代码"与"无法运转的组织"之间巨大摩擦点。这是与他人最大的差异化因素。',de:'<strong>Von der Paketanalyse bis zum Kernel, Implementierungshölle, das Wesen technischer Schulden.</strong> 26 Jahre direkte Erfahrung mit der massiven Reibung zwischen „funktionierendem Code" und „nicht-funktionierenden Organisationen".',fr:'<strong>De l\'analyse de paquets au noyau, l\'enfer de l\'implémentation, l\'essence de la dette technique.</strong> 26 ans d\'expérience directe de la friction massive entre "code fonctionnel" et "organisations non fonctionnelles".'}},
+      {era:{ja:'実装への反映',en:'Implementation Reflection',zh:'在实现中的体现',de:'Implementierungsreflexion',fr:'Réflexion dans l\'implémentation'},cls:'tl-now',text:{ja:'上滑りなDX論・AI論に騙されない眼。「これは技術的に不可能」「この実装は半年で腐る」という判断を即座に下せる。<strong>EMVISの技術スタック設計（LLM、GNN、FastAPI等）の全てに反映されている。</strong>',en:'Eye that cannot be fooled by superficial DX/AI narratives. Can immediately judge "this is technically impossible" or "this implementation will rot in six months." <strong>Reflected in all of EMVIS\'s technology stack design (LLM, GNN, FastAPI, etc.).</strong>',zh:'不被浮夸的DX论/AI论迷惑的眼光。能够即刻判断"这在技术上是不可能的"、"这个实现半年后就会腐烂"。<strong>反映在EMVIS技术栈设计（LLM、GNN、FastAPI等）的所有环节中。</strong>',de:'Auge, das nicht von oberflächlichen DX/KI-Narrativen getäuscht wird. Kann sofort urteilen: „das ist technisch unmöglich" oder „diese Implementierung fault in sechs Monaten". <strong>In allen EMVIS-Technologie-Stack-Designs (LLM, GNN, FastAPI usw.) reflektiert.</strong>',fr:'Œil imperméable aux récits DX/IA superficiels. Peut immédiatement juger "c\'est techniquement impossible" ou "cette implémentation pourrira en six mois". <strong>Reflété dans toute la conception du stack technologique d\'EMVIS (LLM, GNN, FastAPI, etc.).</strong>'}},
+      {era:{ja:'提供価値',en:'Value Delivered',zh:'提供的价值',de:'Gelieferter Wert',fr:'Valeur apportée'},cls:'tl-future',text:{ja:'Deep TechとJapanese Qualityの架橋者として、<strong>「本当に動くもの」を作れることが信頼の核心。</strong>技術を語れない人間が設計するアーキテクチャには限界がある。',en:"As a bridge between Deep Tech and Japanese Quality, <strong>being able to build 'things that actually work' is the core of trust.</strong> Architecture designed by someone who can't speak technically has its limits.",zh:'作为Deep Tech与日本质量之间的桥梁，<strong>能够构建"真正能运作的东西"是信任的核心。</strong>不能谈论技术的人所设计的架构是有局限的。',de:'Als Brücke zwischen Deep Tech und japanischer Qualität ist <strong>die Fähigkeit, „Dinge die wirklich funktionieren" zu bauen, der Kern des Vertrauens.</strong>',fr:'En tant que pont entre Deep Tech et Qualité japonaise, <strong>la capacité à construire des "choses qui fonctionnent vraiment" est le cœur de la confiance.</strong>'}}
     ],
     relations:[
-      {id:'void',arrow:'==>',name:'THE VOID',desc:{ja:'現場知がVoidの本質を照らす',en:"Field knowledge illuminates the Void's essence"}},
-      {id:'emvis',arrow:'→',name:'EMVIS',desc:{ja:'技術スタック全体の設計能力',en:'Full technology stack design capability'}},
-      {id:'ccbr',arrow:'→',name:'CCBR',desc:{ja:'セキュリティ深部の現場知',en:'Deep security field knowledge'}}
+      {id:'void',arrow:'==>',name:'THE VOID',desc:{ja:'現場知がVoidの本質を照らす',en:"Field knowledge illuminates the Void's essence",zh:'现场知识照亮了Void的本质',de:'Feldwissen beleuchtet das Wesen des Void',fr:'Le savoir terrain illumine l\'essence du Void'}},
+      {id:'emvis',arrow:'→',name:'EMVIS',desc:{ja:'技術スタック全体の設計能力',en:'Full technology stack design capability',zh:'全技术栈的设计能力',de:'Vollständige Technologie-Stack-Designfähigkeit',fr:'Capacité de conception complète du stack technologique'}},
+      {id:'ccbr',arrow:'→',name:'CCBR',desc:{ja:'セキュリティ深部の現場知',en:'Deep security field knowledge',zh:'安全深层的现场知识',de:'Tiefes Sicherheitsfeldwissen',fr:'Connaissance terrain en sécurité profonde'}}
     ],kpi:null
   },
   void:{
-    icon:'⚡',tag:{ja:'Layer 3 — 認識の断絶',en:'Layer 3 — Perceptual Gap'},tagColor:'#e05252',
-    title:{ja:'THE VOID — 認識の断絶',en:'THE VOID — Perceptual Gap'},en:'Structural Gap between Perception and Reality',
+    icon:'⚡',
+    tag:{ja:'Layer 3 — 認識の断絶',en:'Layer 3 — Perceptual Gap',zh:'Layer 3 — 认知断裂',de:'Layer 3 — Wahrnehmungslücke',fr:'Layer 3 — Fossé perceptuel'},
+    tagColor:'#e05252',
+    title:{ja:'THE VOID — 認識の断絶',en:'THE VOID — Perceptual Gap',zh:'THE VOID — 认知断裂',de:'THE VOID — Wahrnehmungslücke',fr:'THE VOID — Fossé perceptuel'},
+    en:'Structural Gap between Perception and Reality',
     timeline:[
-      {era:{ja:'なぜ断絶が生まれるか',en:'Why the Gap Exists'},cls:'tl-past',text:{ja:'LinkedInや履歴書には「Security Specialist」「Tech Risk Advisor」と書かれている。しかし<strong>認知科学・物理学・歴史学・行動経済学の26年間の蓄積は履歴書のどこにも現れない。</strong>面談30分では伝わらない。この構造的非対称性がVoidを生む。',en:'LinkedIn and resumes say "Security Specialist," "Tech Risk Advisor." But <strong>26 years of accumulated cognitive science, physics, history, behavioral economics appear nowhere on a resume.</strong> Can\'t be conveyed in a 30-minute interview. This structural asymmetry creates the Void.'}},
-      {era:{ja:'断絶の実態',en:'Reality of the Gap'},cls:'tl-now',text:{ja:'<strong>「坂根にセキュリティの仕事を依頼しようとする人」と「EMVIS/CCBR/ESIなどの研究開発実績を知っている人」が分断されている。</strong>前者は過去の印象に基づき、後者は現在の活動を知っている。このギャップが認識の断絶を生んでいる。',en:"<strong>'People who want to hire Sakane for security work' and 'people who know Sakane's EMVIS/CCBR/ESI R&D track record' are separated.</strong> The former is based on past impressions, the latter knows current activities. This gap creates the perceptual disconnect."}},
-      {era:{ja:'断絶を解消',en:'Resolving the Gap'},cls:'tl-future',text:{ja:'この非対称性を解消するため、現在開発している具体的な枠組みを公開中。Progressive Disclosure（段階的情報開示）により断絶にある文脈の欠落を解消する。',en:'To resolve this asymmetry, concrete frameworks under development are being made public. Progressive Disclosure resolves the contextual deficit in the gap.'}}
+      {era:{ja:'なぜ断絶が生まれるか',en:'Why the Gap Exists',zh:'为何产生断裂',de:'Warum die Lücke entsteht',fr:'Pourquoi l\'écart existe'},cls:'tl-past',text:{ja:'LinkedInや履歴書には「Security Specialist」「Tech Risk Advisor」と書かれている。しかし<strong>認知科学・物理学・歴史学・行動経済学の26年間の蓄積は履歴書のどこにも現れない。</strong>面談30分では伝わらない。この構造的非対称性がVoidを生む。',en:'LinkedIn and resumes say "Security Specialist," "Tech Risk Advisor." But <strong>26 years of accumulated cognitive science, physics, history, behavioral economics appear nowhere on a resume.</strong> Can\'t be conveyed in a 30-minute interview. This structural asymmetry creates the Void.',zh:'LinkedIn和简历上写着"Security Specialist"、"Tech Risk Advisor"。但<strong>26年积累的认知科学、物理学、历史学、行为经济学在简历上任何地方都不会出现。</strong>30分钟面试无法传达。这种结构性不对称产生了Void。',de:'LinkedIn und Lebensläufe sagen „Security Specialist", „Tech Risk Advisor". Aber <strong>26 Jahre angesammelte Kognitionswissenschaft, Physik, Geschichte, Verhaltensökonomie erscheinen nirgends im Lebenslauf.</strong>',fr:'LinkedIn et CV disent "Security Specialist", "Tech Risk Advisor". Mais <strong>26 ans de sciences cognitives, physique, histoire, économie comportementale n\'apparaissent nulle part dans un CV.</strong>'}},
+      {era:{ja:'断絶の実態',en:'Reality of the Gap',zh:'断裂的实态',de:'Realität der Lücke',fr:'Réalité de l\'écart'},cls:'tl-now',text:{ja:'<strong>「坂根にセキュリティの仕事を依頼しようとする人」と「EMVIS/CCBR/ESIなどの研究開発実績を知っている人」が分断されている。</strong>前者は過去の印象に基づき、後者は現在の活動を知っている。このギャップが認識の断絶を生んでいる。',en:"<strong>'People who want to hire Sakane for security work' and 'people who know Sakane's EMVIS/CCBR/ESI R&D track record' are separated.</strong> The former is based on past impressions, the latter knows current activities. This gap creates the perceptual disconnect.",zh:'<strong>"想要聘请坂根做安全工作的人"与"了解EMVIS/CCBR/ESI等研发实绩的人"被分割开来。</strong>前者基于过去的印象，后者了解当前的活动。这种差距产生了认知断裂。',de:'<strong>„Menschen, die Sakane für Sicherheitsarbeit engagieren wollen" und „Menschen, die Sakanes EMVIS/CCBR/ESI F&E-Track-Record kennen" sind getrennt.</strong>',fr:'<strong>\"Les gens qui veulent engager Sakane pour du travail sécurité\" et \"les gens qui connaissent le track record R&D EMVIS/CCBR/ESI de Sakane\" sont séparés.</strong>'}},
+      {era:{ja:'断絶を解消',en:'Resolving the Gap',zh:'消除断裂',de:'Die Lücke schließen',fr:'Résoudre l\'écart'},cls:'tl-future',text:{ja:'この非対称性を解消するため、現在開発している具体的な枠組みを公開中。Progressive Disclosure（段階的情報開示）により断絶にある文脈の欠落を解消する。',en:'To resolve this asymmetry, concrete frameworks under development are being made public. Progressive Disclosure resolves the contextual deficit in the gap.',zh:'为解决这一不对称性，正在公开目前开发中的具体框架。通过渐进式披露（Progressive Disclosure）消除断裂中存在的上下文缺失。',de:'Um diese Asymmetrie zu beheben, werden aktuell entwickelte konkrete Frameworks veröffentlicht. Progressive Disclosure löst das kontextuelle Defizit in der Lücke.',fr:'Pour résoudre cette asymétrie, des frameworks concrets en développement sont rendus publics. La Divulgation Progressive résout le déficit contextuel dans l\'écart.'}}
     ],
     relations:[
-      {id:'c_code',arrow:'→',name:'Code vs Constitution',desc:{ja:'Voidが生む矛盾その1',en:'Contradiction from Void #1'}},
-      {id:'c_innov',arrow:'→',name:'Innovation vs Entropy',desc:{ja:'Voidが生む矛盾その2',en:'Contradiction from Void #2'}},
-      {id:'c_speed',arrow:'→',name:'Speed vs Trust',desc:{ja:'Voidが生む矛盾その3',en:'Contradiction from Void #3'}},
-      {id:'emvis',arrow:'→→',name:'EMVIS',desc:{ja:'Voidを解消するメカニズム',en:'Mechanism that resolves the Void'}},
-      {id:'ccbr',arrow:'→→',name:'CCBR',desc:{ja:'Voidを解消するメカニズム',en:'Mechanism that resolves the Void'}},
-      {id:'esi',arrow:'→→',name:'ESI',desc:{ja:'Voidを解消するメカニズム',en:'Mechanism that resolves the Void'}}
+      {id:'c_code',arrow:'→',name:'Code vs Constitution',desc:{ja:'Voidが生む矛盾その1',en:'Contradiction from Void #1',zh:'Void产生的矛盾①',de:'Widerspruch aus Void #1',fr:'Contradiction du Void #1'}},
+      {id:'c_innov',arrow:'→',name:'Innovation vs Entropy',desc:{ja:'Voidが生む矛盾その2',en:'Contradiction from Void #2',zh:'Void产生的矛盾②',de:'Widerspruch aus Void #2',fr:'Contradiction du Void #2'}},
+      {id:'c_speed',arrow:'→',name:'Speed vs Trust',desc:{ja:'Voidが生む矛盾その3',en:'Contradiction from Void #3',zh:'Void产生的矛盾③',de:'Widerspruch aus Void #3',fr:'Contradiction du Void #3'}},
+      {id:'emvis',arrow:'→→',name:'EMVIS',desc:{ja:'Voidを解消するメカニズム',en:'Mechanism that resolves the Void',zh:'消除Void的机制',de:'Mechanismus, der den Void auflöst',fr:'Mécanisme qui résout le Void'}},
+      {id:'ccbr',arrow:'→→',name:'CCBR',desc:{ja:'Voidを解消するメカニズム',en:'Mechanism that resolves the Void',zh:'消除Void的机制',de:'Mechanismus, der den Void auflöst',fr:'Mécanisme qui résout le Void'}},
+      {id:'esi',arrow:'→→',name:'ESI',desc:{ja:'Voidを解消するメカニズム',en:'Mechanism that resolves the Void',zh:'消除Void的机制',de:'Mechanismus, der den Void auflöst',fr:'Mécanisme qui résout le Void'}}
     ],kpi:null
   },
   c_code:{
-    icon:'⚖️',tag:{ja:'Layer 3 — 構造的矛盾',en:'Layer 3 — Structural Contradiction'},tagColor:'#e05252',
-    title:{ja:'Phenomenology vs Theory',en:'Phenomenology vs Theory'},en:'Phenomenological response vs Universal law tension',
+    icon:'⚖️',
+    tag:{ja:'Layer 3 — 構造的矛盾',en:'Layer 3 — Structural Contradiction',zh:'Layer 3 — 结构性矛盾',de:'Layer 3 — Struktureller Widerspruch',fr:'Layer 3 — Contradiction structurelle'},
+    tagColor:'#e05252',
+    title:{ja:'Phenomenology vs Theory',en:'Phenomenology vs Theory',zh:'现象学 vs 理论',de:'Phänomenologie vs Theorie',fr:'Phénoménologie vs Théorie'},
+    en:'Phenomenological response vs Universal law tension',
     timeline:[
-      {era:{ja:'矛盾の本質',en:'Core Contradiction'},cls:'tl-past',text:{ja:'これまでのサイバーセキュリティは、既知パターンに依存する対症療法的アプローチに終始してきました。<strong>サイバー空間全体の健全性を普遍的に捉え、未知の事象を演繹的に説明するための理論的枠組みが存在しませんでした。</strong>',en:'Traditional cybersecurity has been limited to reactive approaches dependent on known patterns. <strong>There was no theoretical framework to universally grasp cyberspace health or deductively explain unknown events.</strong>'}},
-      {era:{ja:'現在の課題',en:'Current Challenge'},cls:'tl-now',text:{ja:'AIがシステムの監視と対応を自律的に担う際、既存の統計的異常検知のみでは、なぜそれがリスクなのかを人間に説明することができません。<strong>意思決定の根拠となる定量的なモデルと共通言語の不在が、人とAIの協働を阻む構造的問題となっています。</strong>',en:"When AI autonomously handles system monitoring, existing statistical anomaly detection alone can't explain why something is a risk to humans. <strong>The absence of quantitative models and common language for decision-making is a structural problem obstructing human-AI collaboration.</strong>"}},
-      {era:{ja:'CCBRの応答',en:"CCBR's Response"},cls:'tl-future',text:{ja:'<strong>CCBRは物理宇宙の概念を援用し、サイバー空間に定量的な理論的基盤をもたらします。</strong>デジタルツイン上でのシミュレーションで観測困難な異常データセットを生成し、Agentic AIがその意味を推論します。',en:'<strong>CCBR applies concepts from physics to bring quantitative theoretical foundations to cyberspace.</strong> Generates difficult-to-observe anomaly datasets via Digital Twin simulation; Agentic AI infers their meaning.'}}
+      {era:{ja:'矛盾の本質',en:'Core Contradiction',zh:'矛盾的本质',de:'Kerngegensatz',fr:'Contradiction centrale'},cls:'tl-past',text:{ja:'これまでのサイバーセキュリティは、既知パターンに依存する対症療法的アプローチに終始してきました。<strong>サイバー空間全体の健全性を普遍的に捉え、未知の事象を演繹的に説明するための理論的枠組みが存在しませんでした。</strong>',en:'Traditional cybersecurity has been limited to reactive approaches dependent on known patterns. <strong>There was no theoretical framework to universally grasp cyberspace health or deductively explain unknown events.</strong>',zh:'以往的网络安全始终停留于依赖已知模式的对症疗法式方法。<strong>不存在能够普遍把握网络空间整体健康状况、演绎性解释未知事件的理论框架。</strong>',de:'Traditionelle Cybersicherheit war auf reaktive Ansätze beschränkt. <strong>Es gab kein theoretisches Framework zur universellen Erfassung der Cyberraum-Gesundheit oder deduktiven Erklärung unbekannter Ereignisse.</strong>',fr:'La cybersécurité traditionnelle s\'est limitée à des approches réactives. <strong>Il n\'existait aucun cadre théorique pour saisir universellement la santé du cyberespace ou expliquer déductivement les événements inconnus.</strong>'}},
+      {era:{ja:'現在の課題',en:'Current Challenge',zh:'当前挑战',de:'Aktuelle Herausforderung',fr:'Défi actuel'},cls:'tl-now',text:{ja:'AIがシステムの監視と対応を自律的に担う際、既存の統計的異常検知のみでは、なぜそれがリスクなのかを人間に説明することができません。<strong>意思決定の根拠となる定量的なモデルと共通言語の不在が、人とAIの協働を阻む構造的問題となっています。</strong>',en:"When AI autonomously handles system monitoring, existing statistical anomaly detection alone can't explain why something is a risk to humans. <strong>The absence of quantitative models and common language for decision-making is a structural problem obstructing human-AI collaboration.</strong>",zh:'当AI自主承担系统监控与响应时，仅靠现有的统计异常检测无法向人类解释为何那是风险。<strong>决策依据的定量模型与共同语言的缺失，成为阻碍人与AI协作的结构性问题。</strong>',de:'Wenn KI autonom die Systemüberwachung übernimmt, kann bestehende statistische Anomalieerkennung allein nicht erklären, warum etwas ein Risiko ist. <strong>Das Fehlen quantitativer Modelle ist ein strukturelles Problem.</strong>',fr:'Quand l\'IA gère autonomement la surveillance des systèmes, la détection d\'anomalies statistiques seule ne peut expliquer pourquoi quelque chose est un risque. <strong>L\'absence de modèles quantitatifs est un problème structurel.</strong>'}},
+      {era:{ja:'CCBRの応答',en:"CCBR's Response",zh:'CCBR的回应',de:'CCBRs Antwort',fr:'La réponse de CCBR'},cls:'tl-future',text:{ja:'<strong>CCBRは物理宇宙の概念を援用し、サイバー空間に定量的な理論的基盤をもたらします。</strong>デジタルツイン上でのシミュレーションで観測困難な異常データセットを生成し、Agentic AIがその意味を推論します。',en:'<strong>CCBR applies concepts from physics to bring quantitative theoretical foundations to cyberspace.</strong> Generates difficult-to-observe anomaly datasets via Digital Twin simulation; Agentic AI infers their meaning.',zh:'<strong>CCBR援引物理宇宙的概念，为网络空间带来定量的理论基础。</strong>通过数字孪生上的模拟生成难以观测的异常数据集，Agentic AI推断其含义。',de:'<strong>CCBR wendet physikalische Konzepte an, um quantitative theoretische Grundlagen in den Cyberraum zu bringen.</strong>',fr:'<strong>CCBR applique des concepts de physique pour apporter des fondements théoriques quantitatifs au cyberespace.</strong>'}}
     ],
     relations:[
-      {id:'void',arrow:'←',name:'THE VOID',desc:{ja:'Voidが生み出す矛盾',en:'Contradiction produced by Void'}},
-      {id:'ccbr',arrow:'→',name:'CCBR',desc:{ja:'この矛盾を解消するメカニズム',en:'Mechanism resolving this contradiction'}}
+      {id:'void',arrow:'←',name:'THE VOID',desc:{ja:'Voidが生み出す矛盾',en:'Contradiction produced by Void',zh:'Void产生的矛盾',de:'Vom Void produzierter Widerspruch',fr:'Contradiction produite par le Void'}},
+      {id:'ccbr',arrow:'→',name:'CCBR',desc:{ja:'この矛盾を解消するメカニズム',en:'Mechanism resolving this contradiction',zh:'解决这一矛盾的机制',de:'Mechanismus zur Lösung dieses Widerspruchs',fr:'Mécanisme résolvant cette contradiction'}}
     ],kpi:null
   },
   c_innov:{
-    icon:'🌀',tag:{ja:'Layer 3 — 構造的矛盾',en:'Layer 3 — Structural Contradiction'},tagColor:'#e05252',
-    title:{ja:'Innovation vs Entropy',en:'Innovation vs Entropy'},en:'Creative destruction vs system stability',
+    icon:'🌀',
+    tag:{ja:'Layer 3 — 構造的矛盾',en:'Layer 3 — Structural Contradiction',zh:'Layer 3 — 结构性矛盾',de:'Layer 3 — Struktureller Widerspruch',fr:'Layer 3 — Contradiction structurelle'},
+    tagColor:'#e05252',
+    title:{ja:'Innovation vs Entropy',en:'Innovation vs Entropy',zh:'Innovation vs Entropy',de:'Innovation vs Entropie',fr:'Innovation vs Entropie'},
+    en:'Creative destruction vs system stability',
     timeline:[
-      {era:{ja:'矛盾の本質',en:'Core Contradiction'},cls:'tl-past',text:{ja:'物理学の第二法則——システムはエントロピーが増大する方向に動く。組織も同様。<strong>イノベーションは秩序を壊すが、エントロピーに任せれば組織は腐敗する。</strong>この永続的ジレンマ。',en:"Physics' second law — systems move toward increasing entropy. Organizations too. <strong>Innovation breaks order, but leaving it to entropy leads to organizational decay.</strong> This perpetual dilemma."}},
-      {era:{ja:'現在の課題',en:'Current Challenge'},cls:'tl-now',text:{ja:'「DXを推進しながら既存業務を守る」という要求が組織に同時にかかる。<strong>これは物理的に矛盾している。</strong>どちらかが嘘をついているか、構造的な設計が必要。',en:'"Promote DX while protecting existing operations" — both demands placed simultaneously on organizations. <strong>This is physically contradictory.</strong> Either one is a lie, or structural design is needed.'}},
-      {era:{ja:'ESIの応答',en:"ESI's Response"},cls:'tl-future',text:{ja:'<strong>ESI Frameworkの「選ばないこと（Type A）」の設計思想がこの矛盾に応える。</strong>エントロピーに抗うための戦略的制約設計——これが構造的知性の核心。',en:"<strong>ESI Framework's 'Type A — what NOT to choose' design philosophy responds to this contradiction.</strong> Strategic constraint design to resist entropy — this is the core of Structural Intelligence."}}
+      {era:{ja:'矛盾の本質',en:'Core Contradiction',zh:'矛盾的本质',de:'Kerngegensatz',fr:'Contradiction centrale'},cls:'tl-past',text:{ja:'物理学の第二法則——システムはエントロピーが増大する方向に動く。組織も同様。<strong>イノベーションは秩序を壊すが、エントロピーに任せれば組織は腐敗する。</strong>この永続的ジレンマ。',en:"Physics' second law — systems move toward increasing entropy. Organizations too. <strong>Innovation breaks order, but leaving it to entropy leads to organizational decay.</strong> This perpetual dilemma.",zh:'物理学第二定律——系统向熵增大的方向运动。组织也是如此。<strong>创新打破秩序，但任由熵发展则组织会腐败。</strong>这种永久性困境。',de:'Zweiter Hauptsatz der Physik — Systeme bewegen sich in Richtung zunehmender Entropie. Organisationen auch. <strong>Innovation bricht die Ordnung, aber Entropie überlassen führt zu organisatorischem Verfall.</strong>',fr:'La deuxième loi de la physique — les systèmes se déplacent vers une entropie croissante. Les organisations aussi. <strong>L\'innovation brise l\'ordre, mais laisser faire l\'entropie mène à la dégradation organisationnelle.</strong>'}},
+      {era:{ja:'現在の課題',en:'Current Challenge',zh:'当前挑战',de:'Aktuelle Herausforderung',fr:'Défi actuel'},cls:'tl-now',text:{ja:'「DXを推進しながら既存業務を守る」という要求が組織に同時にかかる。<strong>これは物理的に矛盾している。</strong>どちらかが嘘をついているか、構造的な設計が必要。',en:'"Promote DX while protecting existing operations" — both demands placed simultaneously on organizations. <strong>This is physically contradictory.</strong> Either one is a lie, or structural design is needed.',zh:'"推进DX的同时保护现有业务"——这两种要求同时施加于组织。<strong>这在物理上是矛盾的。</strong>要么其中一方在说谎，要么需要结构性设计。',de:'„DX vorantreiben und gleichzeitig bestehende Abläufe schützen" — beide Forderungen gleichzeitig. <strong>Das ist physikalisch widersprüchlich.</strong>',fr:'"Promouvoir le DX tout en protégeant les opérations existantes" — les deux exigences simultanément. <strong>C\'est physiquement contradictoire.</strong>'}},
+      {era:{ja:'ESIの応答',en:"ESI's Response",zh:'ESI的回应',de:'ESIs Antwort',fr:'La réponse d\'ESI'},cls:'tl-future',text:{ja:'<strong>ESI Frameworkの「選ばないこと（Type A）」の設計思想がこの矛盾に応える。</strong>エントロピーに抗うための戦略的制約設計——これが構造的知性の核心。',en:"<strong>ESI Framework's 'Type A — what NOT to choose' design philosophy responds to this contradiction.</strong> Strategic constraint design to resist entropy — this is the core of Structural Intelligence.",zh:'<strong>ESI Framework的"不选择（Type A）"的设计思想回应了这一矛盾。</strong>为抵抗熵而进行的战略性约束设计——这是结构知性的核心。',de:'<strong>ESI Frameworks „Type A — was NICHT wählen"-Designphilosophie antwortet auf diesen Widerspruch.</strong> Strategisches Constraint-Design gegen Entropie — das ist der Kern von Structural Intelligence.',fr:'<strong>La philosophie de conception "Type A — ce qu\'il ne faut PAS choisir" d\'ESI Framework répond à cette contradiction.</strong>'}}
     ],
     relations:[
-      {id:'void',arrow:'←',name:'THE VOID',desc:{ja:'Voidが生み出す矛盾',en:'Contradiction produced by Void'}},
-      {id:'esi',arrow:'→',name:'ESI Framework',desc:{ja:'戦略的制約設計で解消',en:'Resolved through strategic constraint design'}},
-      {id:'physics',arrow:'←',name:{ja:'物理学',en:'Physics'},desc:{ja:'エントロピー概念の源泉',en:'Source of entropy concept'}}
+      {id:'void',arrow:'←',name:'THE VOID',desc:{ja:'Voidが生み出す矛盾',en:'Contradiction produced by Void',zh:'Void产生的矛盾',de:'Vom Void produzierter Widerspruch',fr:'Contradiction produite par le Void'}},
+      {id:'esi',arrow:'→',name:'ESI Framework',desc:{ja:'戦略的制約設計で解消',en:'Resolved through strategic constraint design',zh:'通过战略性约束设计解决',de:'Durch strategisches Constraint-Design gelöst',fr:'Résolu par la conception de contraintes stratégiques'}},
+      {id:'physics',arrow:'←',name:{ja:'物理学',en:'Physics',zh:'物理学',de:'Physik',fr:'Physique'},desc:{ja:'エントロピー概念の源泉',en:'Source of entropy concept',zh:'熵概念的来源',de:'Quelle des Entropiekonzepts',fr:'Source du concept d\'entropie'}}
     ],kpi:null
   },
   c_speed:{
-    icon:'⚡',tag:{ja:'Layer 3 — 構造的矛盾',en:'Layer 3 — Structural Contradiction'},tagColor:'#e05252',
-    title:{ja:'Speed vs Trust',en:'Speed vs Trust'},en:'Decision velocity vs accountability incompatibility',
+    icon:'⚡',
+    tag:{ja:'Layer 3 — 構造的矛盾',en:'Layer 3 — Structural Contradiction',zh:'Layer 3 — 结构性矛盾',de:'Layer 3 — Struktureller Widerspruch',fr:'Layer 3 — Contradiction structurelle'},
+    tagColor:'#e05252',
+    title:{ja:'Speed vs Trust',en:'Speed vs Trust',zh:'Speed vs Trust',de:'Tempo vs Vertrauen',fr:'Vitesse vs Confiance'},
+    en:'Decision velocity vs accountability incompatibility',
     timeline:[
-      {era:{ja:'矛盾の本質',en:'Core Contradiction'},cls:'tl-past',text:{ja:'スタートアップはスピードを求め、大企業は信頼・コンプライアンスを求める。<strong>この二つは原理的に相反する。</strong>PoC地獄の根本原因はここにある。',en:'Startups demand speed; large enterprises demand trust/compliance. <strong>These two are fundamentally antithetical.</strong> The root cause of the PoC Trap is here.'}},
-      {era:{ja:'現在の課題',en:'Current Challenge'},cls:'tl-now',text:{ja:'「意思決定を速くしろ」と「リスクをゼロにしろ」を同時に要求する経営者。<strong>これは構造的な矛盾。</strong>EMVISはこの矛盾の在処を特定し、シミュレーションで解消する。',en:'"Make decisions fast" and "make risk zero" — executives demanding both simultaneously. <strong>This is structural contradiction.</strong> EMVIS identifies the location of this contradiction and resolves it via simulation.'}},
-      {era:{ja:'EMVISの応答',en:"EMVIS's Response"},cls:'tl-future',text:{ja:'<strong>EMVISのMicro-Validation Framework（2週間単位の段階的PoC）が、速度と信頼を同時に満たす設計。</strong>「全部やってからでないと信頼できない」という文化に構造的に介入する。',en:"<strong>EMVIS's Micro-Validation Framework (staged PoC in 2-week units) is designed to satisfy speed and trust simultaneously.</strong> Structurally intervenes in the culture of 'can't trust until everything is done.'"}}
+      {era:{ja:'矛盾の本質',en:'Core Contradiction',zh:'矛盾的本质',de:'Kerngegensatz',fr:'Contradiction centrale'},cls:'tl-past',text:{ja:'スタートアップはスピードを求め、大企業は信頼・コンプライアンスを求める。<strong>この二つは原理的に相反する。</strong>PoC地獄の根本原因はここにある。',en:'Startups demand speed; large enterprises demand trust/compliance. <strong>These two are fundamentally antithetical.</strong> The root cause of the PoC Trap is here.',zh:'初创企业追求速度，大企业追求信任/合规。<strong>这两者在原理上是相互对立的。</strong>PoC地狱的根本原因就在这里。',de:'Startups verlangen Tempo; große Unternehmen verlangen Vertrauen/Compliance. <strong>Diese beiden sind grundlegend gegensätzlich.</strong> Die Wurzel der PoC-Falle liegt hier.',fr:'Les startups exigent la vitesse ; les grandes entreprises exigent confiance/conformité. <strong>Ces deux exigences sont fondamentalement antithétiques.</strong> La cause profonde du piège PoC est ici.'}},
+      {era:{ja:'現在の課題',en:'Current Challenge',zh:'当前挑战',de:'Aktuelle Herausforderung',fr:'Défi actuel'},cls:'tl-now',text:{ja:'「意思決定を速くしろ」と「リスクをゼロにしろ」を同時に要求する経営者。<strong>これは構造的な矛盾。</strong>EMVISはこの矛盾の在処を特定し、シミュレーションで解消する。',en:'"Make decisions fast" and "make risk zero" — executives demanding both simultaneously. <strong>This is structural contradiction.</strong> EMVIS identifies the location of this contradiction and resolves it via simulation.',zh:'"快速做出决策"和"将风险降至零"——同时要求两者的经营者。<strong>这是结构性矛盾。</strong>EMVIS通过模拟确定这一矛盾的所在并加以消除。',de:'„Entscheide schnell" und „mache Risiko null" — Führungskräfte, die beides gleichzeitig fordern. <strong>Das ist struktureller Widerspruch.</strong>',fr:'"Décidez vite" et "rendez le risque nul" — dirigeants exigeant les deux simultanément. <strong>C\'est une contradiction structurelle.</strong>'}},
+      {era:{ja:'EMVISの応答',en:"EMVIS's Response",zh:'EMVIS的回应',de:'EMVISs Antwort',fr:'La réponse d\'EMVIS'},cls:'tl-future',text:{ja:'<strong>EMVISのMicro-Validation Framework（2週間単位の段階的PoC）が、速度と信頼を同時に満たす設計。</strong>「全部やってからでないと信頼できない」という文化に構造的に介入する。',en:"<strong>EMVIS's Micro-Validation Framework (staged PoC in 2-week units) is designed to satisfy speed and trust simultaneously.</strong> Structurally intervenes in the culture of 'can't trust until everything is done.'",zh:'<strong>EMVIS的微验证框架（以2周为单位的分阶段PoC）被设计为同时满足速度和信任。</strong>对"不把所有事情都做完就无法信任"的文化进行结构性干预。',de:'<strong>EMVIS\' Micro-Validation Framework (gestaffelter PoC in 2-Wochen-Einheiten) ist designed, Tempo und Vertrauen gleichzeitig zu erfüllen.</strong>',fr:'<strong>Le Micro-Validation Framework d\'EMVIS (PoC échelonné par unités de 2 semaines) est conçu pour satisfaire simultanément vitesse et confiance.</strong>'}}
     ],
     relations:[
-      {id:'void',arrow:'←',name:'THE VOID',desc:{ja:'Voidが生み出す矛盾',en:'Contradiction produced by Void'}},
-      {id:'emvis',arrow:'→',name:'EMVIS',desc:{ja:'PoC設計で速度と信頼を両立',en:'Balances speed and trust through PoC design'}}
+      {id:'void',arrow:'←',name:'THE VOID',desc:{ja:'Voidが生み出す矛盾',en:'Contradiction produced by Void',zh:'Void产生的矛盾',de:'Vom Void produzierter Widerspruch',fr:'Contradiction produite par le Void'}},
+      {id:'emvis',arrow:'→',name:'EMVIS',desc:{ja:'PoC設計で速度と信頼を両立',en:'Balances speed and trust through PoC design',zh:'通过PoC设计兼顾速度与信任',de:'Balanciert Tempo und Vertrauen durch PoC-Design',fr:'Équilibre vitesse et confiance via la conception PoC'}}
     ],kpi:null
   },
   emvis:{
-    icon:'🏗️',tag:{ja:'独自メカニズム — 研究開発中',en:'Proprietary Mechanism — In Development'},tagColor:'#e05252',
-    title:{ja:'EMVIS',en:'EMVIS'},en:'Enterprise Meta-Visibility System',
+    icon:'🏗️',
+    tag:{ja:'独自メカニズム — 研究開発中',en:'Proprietary Mechanism — In Development',zh:'独有机制 — 研究开发中',de:'Proprietärer Mechanismus — In Entwicklung',fr:'Mécanisme propriétaire — En développement'},
+    tagColor:'#e05252',
+    title:{ja:'EMVIS',en:'EMVIS',zh:'EMVIS',de:'EMVIS',fr:'EMVIS'},
+    en:'Enterprise Meta-Visibility System',
     timeline:[
-      {era:{ja:'開発の背景',en:'Development Background'},cls:'tl-past',text:{ja:'イスラエルをはじめとする海外Deep TechのPoC地獄を何度も目撃。<strong>「なぜこんなに優れた技術が日本に入れないのか」</strong>——答えは技術ではなく、日本企業の意思決定構造にあった。2020年頃から開発開始。',en:'Witnessed the PoC Trap of overseas Deep Tech (Israel, etc.) repeatedly. <strong>"Why can\'t such excellent technology enter Japan?"</strong> — the answer was not in the technology but in Japanese corporate decision-making structure. Development began around 2020.'}},
-      {era:{ja:'現在の実装状況',en:'Current Implementation'},cls:'tl-now',text:{ja:'7層マイクロサービスアーキテクチャとして実装。第1-3層: 公的情報抽出、隠れた意思決定者特定、稟議フロー予測。<strong>第4層: マイクロバリデーション（2週間サイクル×4フェーズ）。</strong>第5-7層: 対話最適化、ROI可視化、継続的学習。',en:'Implemented as 7-layer microservices architecture. Layers 1-3: Public info extraction, hidden decision-maker identification, ringi flow prediction. <strong>Layer 4: Micro-validation (2-week cycles × 4 phases).</strong> Layers 5-7: Communication optimization, ROI visualization, continuous learning.'}},
-      {era:{ja:'開発の方向性',en:'Development Direction'},cls:'tl-future',text:{ja:'「信頼をデータで設計し、意思決定をシミュレーションする」プラットフォームとして、<strong>海外Deep Techの日本市場適応知能（Adaptive Market Intelligence）</strong>を提供。VC・スタートアップ・事業会社の三者をつなぐインフラ。',en:'As a platform that "designs trust with data and simulates decisions," provides <strong>Adaptive Market Intelligence for overseas Deep Tech entering Japan.</strong> Infrastructure connecting VCs, startups, and enterprise companies.'}}
+      {era:{ja:'開発の背景',en:'Development Background',zh:'开发背景',de:'Entwicklungshintergrund',fr:'Contexte de développement'},cls:'tl-past',text:{ja:'イスラエルをはじめとする海外Deep TechのPoC地獄を何度も目撃。<strong>「なぜこんなに優れた技術が日本に入れないのか」</strong>——答えは技術ではなく、日本企業の意思決定構造にあった。2020年頃から開発開始。',en:'Witnessed the PoC Trap of overseas Deep Tech (Israel, etc.) repeatedly. <strong>"Why can\'t such excellent technology enter Japan?"</strong> — the answer was not in the technology but in Japanese corporate decision-making structure. Development began around 2020.',zh:'多次目睹了以色列等海外Deep Tech的PoC地狱。<strong>"为什么如此优秀的技术无法进入日本？"</strong>——答案不在技术，而在日本企业的决策结构。约2020年开始开发。',de:'PoC-Falle ausländischer Deep Tech (Israel usw.) wiederholt erlebt. <strong>„Warum kann solch exzellente Technologie nicht nach Japan kommen?"</strong> — die Antwort lag nicht in der Technologie, sondern in der japanischen Entscheidungsstruktur.',fr:'Témoin répété du piège PoC des Deep Tech étrangers (Israël, etc.). <strong>"Pourquoi une technologie si excellente ne peut-elle pas entrer au Japon ?"</strong> — la réponse n\'était pas dans la technologie mais dans la structure décisionnelle japonaise.'}},
+      {era:{ja:'現在の実装状況',en:'Current Implementation',zh:'当前实现状况',de:'Aktuelle Implementierung',fr:'Implémentation actuelle'},cls:'tl-now',text:{ja:'7層マイクロサービスアーキテクチャとして実装。第1-3層: 公的情報抽出、隠れた意思決定者特定、稟議フロー予測。<strong>第4層: マイクロバリデーション（2週間サイクル×4フェーズ）。</strong>第5-7層: 対話最適化、ROI可視化、継続的学習。',en:'Implemented as 7-layer microservices architecture. Layers 1-3: Public info extraction, hidden decision-maker identification, ringi flow prediction. <strong>Layer 4: Micro-validation (2-week cycles × 4 phases).</strong> Layers 5-7: Communication optimization, ROI visualization, continuous learning.',zh:'以7层微服务架构实现。第1-3层：公开信息提取、隐藏决策者识别、稟议流程预测。<strong>第4层：微验证（2周周期×4阶段）。</strong>第5-7层：对话优化、ROI可视化、持续学习。',de:'Als 7-Schicht-Microservices-Architektur implementiert. Schichten 1-3: Öffentliche Info-Extraktion, versteckte Entscheidungsträger, Ringi-Flow-Vorhersage. <strong>Schicht 4: Micro-Validierung (2-Wochen-Zyklen × 4 Phasen).</strong>',fr:'Implémenté comme architecture microservices 7 couches. Couches 1-3 : Extraction info publique, décideurs cachés, prédiction flux ringi. <strong>Couche 4 : Micro-validation (cycles 2 semaines × 4 phases).</strong>'}},
+      {era:{ja:'開発の方向性',en:'Development Direction',zh:'开发方向',de:'Entwicklungsrichtung',fr:'Direction de développement'},cls:'tl-future',text:{ja:'「信頼をデータで設計し、意思決定をシミュレーションする」プラットフォームとして、<strong>海外Deep Techの日本市場適応知能（Adaptive Market Intelligence）</strong>を提供。VC・スタートアップ・事業会社の三者をつなぐインフラ。',en:'As a platform that "designs trust with data and simulates decisions," provides <strong>Adaptive Market Intelligence for overseas Deep Tech entering Japan.</strong> Infrastructure connecting VCs, startups, and enterprise companies.',zh:'作为"用数据设计信任、模拟决策"的平台，提供<strong>海外Deep Tech的日本市场适应智能（Adaptive Market Intelligence）</strong>。连接VC、初创企业、事业公司三方的基础设施。',de:'Als Plattform, die „Vertrauen mit Daten gestaltet und Entscheidungen simuliert", bietet sie <strong>Adaptive Market Intelligence für Deep Tech aus dem Ausland in Japan</strong>.',fr:'En tant que plateforme qui "conçoit la confiance avec des données et simule les décisions", fournit l\'<strong>Adaptive Market Intelligence pour les Deep Tech étrangers entrant au Japon.</strong>'}}
     ],
     relations:[
-      {id:'void',arrow:'←',name:'THE VOID',desc:{ja:'PoC地獄はVoidから生まれる',en:'PoC Trap emerges from the Void'}},
-      {id:'c_speed',arrow:'←',name:'Speed vs Trust',desc:{ja:'この矛盾を解消する設計',en:'Design that resolves this contradiction'}},
-      {id:'cognitive',arrow:'←',name:{ja:'認知科学',en:'Cognitive Science'},desc:{ja:'ステークホルダー心理モデルの基盤',en:'Foundation of stakeholder psychology model'}},
-      {id:'deeptech',arrow:'←',name:{ja:'深層技術現実',en:'Deep Tech Reality'},desc:{ja:'実装の確実性の根拠',en:'Basis for implementation certainty'}},
-      {id:'structural_arch',arrow:'→',name:'Structural Architect',desc:{ja:'この実装が向かう姿',en:'The form this implementation points to'}}
+      {id:'void',arrow:'←',name:'THE VOID',desc:{ja:'PoC地獄はVoidから生まれる',en:'PoC Trap emerges from the Void',zh:'PoC地狱源于Void',de:'PoC-Falle entsteht aus dem Void',fr:'Le piège PoC émerge du Void'}},
+      {id:'c_speed',arrow:'←',name:'Speed vs Trust',desc:{ja:'この矛盾を解消する設計',en:'Design that resolves this contradiction',zh:'解决这一矛盾的设计',de:'Design, das diesen Widerspruch löst',fr:'Conception qui résout cette contradiction'}},
+      {id:'cognitive',arrow:'←',name:{ja:'認知科学',en:'Cognitive Science',zh:'认知科学',de:'Kognitionswissenschaft',fr:'Sciences cognitives'},desc:{ja:'ステークホルダー心理モデルの基盤',en:'Foundation of stakeholder psychology model',zh:'利益相关者心理模型的基础',de:'Fundament des Stakeholder-Psychologiemodells',fr:'Fondement du modèle psychologique des parties prenantes'}},
+      {id:'deeptech',arrow:'←',name:{ja:'深層技術現実',en:'Deep Tech Reality',zh:'深层技术现实',de:'Deep-Tech-Realität',fr:'Réalité Deep Tech'},desc:{ja:'実装の確実性の根拠',en:'Basis for implementation certainty',zh:'实现确定性的依据',de:'Grundlage für Implementierungssicherheit',fr:'Base pour la certitude d\'implémentation'}},
+      {id:'structural_arch',arrow:'→',name:'Structural Architect',desc:{ja:'この実装が向かう姿',en:'The form this implementation points to',zh:'这一实现所指向的形态',de:'Die Form, auf die diese Implementierung zeigt',fr:'La forme vers laquelle pointe cette implémentation'}}
     ],
-    kpi:{label:{ja:'実証されているKPI',en:'Demonstrated KPIs'},items:{ja:['PoC期間：6〜10ヶ月 → 3〜6ヶ月（50%短縮）','契約締結期間：12〜18ヶ月 → 6〜12ヶ月（50%短縮）','PoC成功率：20〜30% → 60〜75%（2〜3倍向上）'],en:['PoC period: 6-10 months → 3-6 months (50% reduction)','Contract period: 12-18 months → 6-12 months (50% reduction)','PoC success rate: 20-30% → 60-75% (2-3× improvement)']}}
+    kpi:{
+      label:{ja:'実証されているKPI',en:'Demonstrated KPIs',zh:'已验证的KPI',de:'Nachgewiesene KPIs',fr:'KPIs démontrés'},
+      items:{
+        ja:['PoC期間：6〜10ヶ月 → 3〜6ヶ月（50%短縮）','契約締結期間：12〜18ヶ月 → 6〜12ヶ月（50%短縮）','PoC成功率：20〜30% → 60〜75%（2〜3倍向上）'],
+        en:['PoC period: 6-10 months → 3-6 months (50% reduction)','Contract period: 12-18 months → 6-12 months (50% reduction)','PoC success rate: 20-30% → 60-75% (2-3× improvement)'],
+        zh:['PoC周期：6〜10个月 → 3〜6个月（缩短50%）','合同签订周期：12〜18个月 → 6〜12个月（缩短50%）','PoC成功率：20〜30% → 60〜75%（提升2〜3倍）'],
+        de:['PoC-Dauer: 6-10 Monate → 3-6 Monate (50% Reduktion)','Vertragsabschluss: 12-18 Monate → 6-12 Monate (50% Reduktion)','PoC-Erfolgsrate: 20-30% → 60-75% (2-3× Verbesserung)'],
+        fr:['Durée PoC : 6-10 mois → 3-6 mois (réduction 50%)','Durée contrat : 12-18 mois → 6-12 mois (réduction 50%)','Taux succès PoC : 20-30% → 60-75% (amélioration 2-3×)']
+      }
+    }
   },
   ccbr:{
-    icon:'🧬',tag:{ja:'独自メカニズム — 研究開発中',en:'Proprietary Mechanism — In Development'},tagColor:'#e05252',
-    title:{ja:'CCBR',en:'CCBR'},en:'Cyber Security Background Radiation Theory',
+    icon:'🧬',
+    tag:{ja:'独自メカニズム — 研究開発中',en:'Proprietary Mechanism — In Development',zh:'独有机制 — 研究开发中',de:'Proprietärer Mechanismus — In Entwicklung',fr:'Mécanisme propriétaire — En développement'},
+    tagColor:'#e05252',
+    title:{ja:'CCBR',en:'CCBR',zh:'CCBR',de:'CCBR',fr:'CCBR'},
+    en:'Cyber Security Background Radiation Theory',
     timeline:[
-      {era:{ja:'開発の背景',en:'Development Background'},cls:'tl-past',text:{ja:'既存のセキュリティ機器は「知っている攻撃のシグネチャ」にしか反応しない。<strong>物理学において微弱な背景放射から宇宙の構造を解明するように、サイバー空間の基底ノイズから全体構造を捉えられないか</strong>という発想から開発開始。',en:'Existing security devices only react to "known attack signatures." <strong>Can we grasp the overall structure of cyberspace from its baseline noise, just as physics elucidates the structure of the universe from faint background radiation?</strong> This idea initiated development.'}},
-      {era:{ja:'現在の実装状況',en:'Current Implementation'},cls:'tl-now',text:{ja:'<strong>RAD（Radiation Anomaly Detection）を中核技術として実装。</strong>正常状態のベースラインを学習し、微細な逸脱を検知。Digital Twinで異常を再現・検証。LLM/Agentic AIが意味解釈。<strong>構造テンプレートの進化で知識を組織資産として蓄積。</strong>',en:"<strong>Implemented with RAD (Radiation Anomaly Detection) as core technology.</strong> Learns normal state baseline, detects minute deviations. Digital Twin reproduces/verifies anomalies. LLM/Agentic AI provides semantic interpretation. <strong>Structural template evolution accumulates knowledge as organizational assets.</strong>"}},
-      {era:{ja:'開発の方向性',en:'Development Direction'},cls:'tl-future',text:{ja:'単なる技術的検知のアプローチから、<strong>「技術的異常をVaRとして定量化し、法的説明責任を機械的に担保する」設計思想への発展。</strong>CCBRはセキュリティの問題を超え、AIガバナンスの構造的解決へ向かっている。',en:'Evolving from mere technical detection to <strong>a design philosophy of "quantifying technical anomalies as VaR and mechanically ensuring legal accountability."</strong> CCBR transcends security problems, moving toward structural resolution of AI governance.'}}
+      {era:{ja:'開発の背景',en:'Development Background',zh:'开发背景',de:'Entwicklungshintergrund',fr:'Contexte de développement'},cls:'tl-past',text:{ja:'既存のセキュリティ機器は「知っている攻撃のシグネチャ」にしか反応しない。<strong>物理学において微弱な背景放射から宇宙の構造を解明するように、サイバー空間の基底ノイズから全体構造を捉えられないか</strong>という発想から開発開始。',en:'Existing security devices only react to "known attack signatures." <strong>Can we grasp the overall structure of cyberspace from its baseline noise, just as physics elucidates the structure of the universe from faint background radiation?</strong> This idea initiated development.',zh:'现有安全设备只对"已知攻击签名"做出反应。<strong>就像物理学从微弱的背景辐射中阐明宇宙结构一样，能否从网络空间的基底噪声中把握整体结构</strong>——这一想法开启了开发。',de:'Bestehende Sicherheitsgeräte reagieren nur auf „bekannte Angriffssignaturen". <strong>Können wir die Gesamtstruktur des Cyberraums aus seinem Grundrauschen erfassen, wie die Physik die Universumsstruktur aus schwacher Hintergrundstrahlung erhellt?</strong>',fr:'Les dispositifs de sécurité existants ne réagissent qu\'aux "signatures d\'attaques connues". <strong>Peut-on saisir la structure globale du cyberespace à partir de son bruit de fond, comme la physique élucide la structure de l\'univers à partir du rayonnement de fond ?</strong>'}},
+      {era:{ja:'現在の実装状況',en:'Current Implementation',zh:'当前实现状况',de:'Aktuelle Implementierung',fr:'Implémentation actuelle'},cls:'tl-now',text:{ja:'<strong>RAD（Radiation Anomaly Detection）を中核技術として実装。</strong>正常状態のベースラインを学習し、微細な逸脱を検知。Digital Twinで異常を再現・検証。LLM/Agentic AIが意味解釈。<strong>構造テンプレートの進化で知識を組織資産として蓄積。</strong>',en:"<strong>Implemented with RAD (Radiation Anomaly Detection) as core technology.</strong> Learns normal state baseline, detects minute deviations. Digital Twin reproduces/verifies anomalies. LLM/Agentic AI provides semantic interpretation. <strong>Structural template evolution accumulates knowledge as organizational assets.</strong>",zh:'<strong>以RAD（辐射异常检测）作为核心技术实现。</strong>学习正常状态的基线，检测微细偏差。用数字孪生复现/验证异常。LLM/Agentic AI进行语义解释。<strong>通过结构模板的进化将知识积累为组织资产。</strong>',de:'<strong>Mit RAD (Radiation Anomaly Detection) als Kerntechnologie implementiert.</strong> Lernt Normalzustand-Baseline, erkennt minimale Abweichungen. Digital Twin reproduziert/verifiziert Anomalien.',fr:'<strong>Implémenté avec RAD (Radiation Anomaly Detection) comme technologie centrale.</strong> Apprend la baseline de l\'état normal, détecte les déviations minimes. Le Digital Twin reproduit/vérifie les anomalies.'}},
+      {era:{ja:'開発の方向性',en:'Development Direction',zh:'开发方向',de:'Entwicklungsrichtung',fr:'Direction de développement'},cls:'tl-future',text:{ja:'単なる技術的検知のアプローチから、<strong>「技術的異常をVaRとして定量化し、法的説明責任を機械的に担保する」設計思想への発展。</strong>CCBRはセキュリティの問題を超え、AIガバナンスの構造的解決へ向かっている。',en:'Evolving from mere technical detection to <strong>a design philosophy of "quantifying technical anomalies as VaR and mechanically ensuring legal accountability."</strong> CCBR transcends security problems, moving toward structural resolution of AI governance.',zh:'从单纯的技术检测方法，发展为<strong>"将技术异常量化为VaR、机械性地确保法律责任"的设计思想。</strong>CCBR超越安全问题，走向AI治理的结构性解决。',de:'Entwicklung von bloßer technischer Erkennung zu <strong>einer Designphilosophie der „Quantifizierung technischer Anomalien als VaR und mechanischen Sicherstellung rechtlicher Rechenschaftspflicht".</strong>',fr:'Évolution de la simple détection technique vers <strong>une philosophie de conception de "quantification des anomalies techniques comme VaR et garantie mécanique de la responsabilité légale".</strong>'}}
     ],
     relations:[
-      {id:'void',arrow:'←',name:'THE VOID',desc:{ja:'既存ツールの限界がVoidを生む',en:'Limitations of existing tools create the Void'}},
-      {id:'c_code',arrow:'←',name:'Code vs Constitution',desc:{ja:'この矛盾への構造的応答',en:'Structural response to this contradiction'}},
-      {id:'physics',arrow:'←',name:{ja:'物理学',en:'Physics'},desc:{ja:'宇宙背景放射モデルの直接的源泉',en:'Direct source of cosmic background radiation model'}},
-      {id:'deeptech',arrow:'←',name:{ja:'深層技術現実',en:'Deep Tech Reality'},desc:{ja:'セキュリティ現場の深い理解',en:'Deep understanding of security operations'}},
-      {id:'decision_arch',arrow:'→',name:{ja:'Chief Decision Arch',en:'Chief Decision Arch'},desc:{ja:'この実装が向かう姿',en:'The form this implementation points to'}}
+      {id:'void',arrow:'←',name:'THE VOID',desc:{ja:'既存ツールの限界がVoidを生む',en:'Limitations of existing tools create the Void',zh:'现有工具的局限性产生了Void',de:'Grenzen bestehender Tools erzeugen den Void',fr:'Les limites des outils existants créent le Void'}},
+      {id:'c_code',arrow:'←',name:'Code vs Constitution',desc:{ja:'この矛盾への構造的応答',en:'Structural response to this contradiction',zh:'对这一矛盾的结构性回应',de:'Strukturelle Antwort auf diesen Widerspruch',fr:'Réponse structurelle à cette contradiction'}},
+      {id:'physics',arrow:'←',name:{ja:'物理学',en:'Physics',zh:'物理学',de:'Physik',fr:'Physique'},desc:{ja:'宇宙背景放射モデルの直接的源泉',en:'Direct source of cosmic background radiation model',zh:'宇宙背景辐射模型的直接来源',de:'Direkte Quelle des kosmischen Hintergrundstrahlungsmodells',fr:'Source directe du modèle de rayonnement de fond cosmique'}},
+      {id:'deeptech',arrow:'←',name:{ja:'深層技術現実',en:'Deep Tech Reality',zh:'深层技术现实',de:'Deep-Tech-Realität',fr:'Réalité Deep Tech'},desc:{ja:'セキュリティ現場の深い理解',en:'Deep understanding of security operations',zh:'对安全现场的深刻理解',de:'Tiefes Verständnis von Sicherheitsoperationen',fr:'Compréhension approfondie des opérations sécurité'}},
+      {id:'decision_arch',arrow:'→',name:{ja:'Chief Decision Arch',en:'Chief Decision Arch',zh:'首席决策架构师',de:'Chief Decision Arch',fr:'Chief Decision Arch'},desc:{ja:'この実装が向かう姿',en:'The form this implementation points to',zh:'这一实现所指向的形态',de:'Die Form, auf die diese Implementierung zeigt',fr:'La forme vers laquelle pointe cette implémentation'}}
     ],
-    kpi:{label:{ja:'設計上の成果目標',en:'Design Outcome Targets'},items:{ja:['VaR計測精度と説明可能性の向上','技術的異常からビジネスインパクト算出までの極小化','法的説明責任の機械的担保（憲法21条との整合）'],en:['Improved VaR measurement accuracy and explainability','Minimization of time from technical anomaly to business impact calculation','Mechanical assurance of legal accountability (alignment with Constitution Art. 21)']}}
+    kpi:{
+      label:{ja:'設計上の成果目標',en:'Design Outcome Targets',zh:'设计成果目标',de:'Design-Ergebnisziele',fr:'Objectifs de résultats de conception'},
+      items:{
+        ja:['VaR計測精度と説明可能性の向上','技術的異常からビジネスインパクト算出までの極小化','法的説明責任の機械的担保（憲法21条との整合）'],
+        en:['Improved VaR measurement accuracy and explainability','Minimization of time from technical anomaly to business impact calculation','Mechanical assurance of legal accountability (alignment with Constitution Art. 21)'],
+        zh:['VaR测量精度与可解释性的提升','从技术异常到业务影响计算时间的最小化','法律责任的机械性保障（与宪法第21条的一致性）'],
+        de:['Verbesserte VaR-Messgenauigkeit und Erklärbarkeit','Minimierung der Zeit von technischer Anomalie bis zur Geschäftsauswirkungsberechnung','Mechanische Sicherstellung rechtlicher Rechenschaftspflicht'],
+        fr:['Précision de mesure VaR et explicabilité améliorées','Minimisation du temps de l\'anomalie technique au calcul de l\'impact métier','Assurance mécanique de la responsabilité légale (alignement Art. 21 Constitution)']
+      }
+    }
   },
   esi:{
-    icon:'🌐',tag:{ja:'独自メカニズム — 研究開発中',en:'Proprietary Mechanism — In Development'},tagColor:'#e05252',
-    title:{ja:'ESI Framework',en:'ESI Framework'},en:'Executive Structural Intelligence',
+    icon:'🌐',
+    tag:{ja:'独自メカニズム — 研究開発中',en:'Proprietary Mechanism — In Development',zh:'独有机制 — 研究开发中',de:'Proprietärer Mechanismus — In Entwicklung',fr:'Mécanisme propriétaire — En développement'},
+    tagColor:'#e05252',
+    title:{ja:'ESI Framework',en:'ESI Framework',zh:'ESI Framework',de:'ESI Framework',fr:'ESI Framework'},
+    en:'Executive Structural Intelligence',
     timeline:[
-      {era:{ja:'開発の背景',en:'Development Background'},cls:'tl-past',text:{ja:'McKinseyの調査：<strong>72%の経営者が「自分たちの意思決定に問題がある」と認識。</strong>M&A成功率は50%——コイン投げと同じ。理由は、意思決定の「構造」が見えていないから。',en:"McKinsey research: <strong>72% of executives recognize 'problems in their decision-making.'</strong> M&A success rate is 50% — same as a coin flip. Reason: the 'structure' of decision-making is invisible."}},
-      {era:{ja:'現在の実装状況',en:'Current Implementation'},cls:'tl-now',text:{ja:'<strong>3層責務アーキテクチャを実装：</strong>Layer 3（戦略的制約の設計）→ Layer 2（ソクラテス問答エンジン・認知バイアス検出）→ Layer 1（実行監視・フィードバック）。認知トリアージ4軸（重要性・不可逆性・複雑性・時間制約）で思考モードを自動最適化。',en:'<strong>Implements 3-layer responsibility architecture:</strong> Layer 3 (Strategic Constraint Design) → Layer 2 (Socratic Engine + Cognitive Bias Detection) → Layer 1 (Execution Monitoring + Feedback). Cognitive Triage 4-axis (Importance × Irreversibility × Complexity × Time Constraint) auto-optimizes thinking mode.'}},
-      {era:{ja:'開発の方向性',en:'Development Direction'},cls:'tl-future',text:{ja:'経営者の「思考のアウトソーシング先」としての知的インフラ。<strong>「意思決定のOSそのものを設計する」Chief Decision Architect</strong>という役割は、ESIが実装されたときに初めて実現する。',en:"Intellectual infrastructure as executives' 'thought outsourcing destination.' The role of <strong>'Chief Decision Architect who designs the decision-making OS itself'</strong> first becomes realized when ESI is fully implemented."}}
+      {era:{ja:'開発の背景',en:'Development Background',zh:'开发背景',de:'Entwicklungshintergrund',fr:'Contexte de développement'},cls:'tl-past',text:{ja:'McKinseyの調査：<strong>72%の経営者が「自分たちの意思決定に問題がある」と認識。</strong>M&A成功率は50%——コイン投げと同じ。理由は、意思決定の「構造」が見えていないから。',en:"McKinsey research: <strong>72% of executives recognize 'problems in their decision-making.'</strong> M&A success rate is 50% — same as a coin flip. Reason: the 'structure' of decision-making is invisible.",zh:'麦肯锡调查：<strong>72%的经营者认识到"自己的决策存在问题"。</strong>M&A成功率为50%——与抛硬币相同。原因是决策的"结构"看不见。',de:'McKinsey-Forschung: <strong>72% der Führungskräfte erkennen „Probleme in ihrer Entscheidungsfindung".</strong> M&A-Erfolgsrate 50% — wie ein Münzwurf. Grund: die „Struktur" der Entscheidungsfindung ist unsichtbar.',fr:'Recherche McKinsey : <strong>72% des dirigeants reconnaissent des "problèmes dans leur prise de décision".</strong> Taux de succès M&A 50% — comme un lancer de pièce. Raison : la "structure" de la décision est invisible.'}},
+      {era:{ja:'現在の実装状況',en:'Current Implementation',zh:'当前实现状况',de:'Aktuelle Implementierung',fr:'Implémentation actuelle'},cls:'tl-now',text:{ja:'<strong>3層責務アーキテクチャを実装：</strong>Layer 3（戦略的制約の設計）→ Layer 2（ソクラテス問答エンジン・認知バイアス検出）→ Layer 1（実行監視・フィードバック）。認知トリアージ4軸（重要性・不可逆性・複雑性・時間制約）で思考モードを自動最適化。',en:'<strong>Implements 3-layer responsibility architecture:</strong> Layer 3 (Strategic Constraint Design) → Layer 2 (Socratic Engine + Cognitive Bias Detection) → Layer 1 (Execution Monitoring + Feedback). Cognitive Triage 4-axis auto-optimizes thinking mode.',zh:'<strong>实现3层责任架构：</strong>Layer 3（战略约束设计）→ Layer 2（苏格拉底问答引擎·认知偏误检测）→ Layer 1（执行监控·反馈）。认知分诊4轴（重要性·不可逆性·复杂性·时间约束）自动优化思维模式。',de:'<strong>Implementiert 3-Schicht-Verantwortungsarchitektur:</strong> Schicht 3 (Strategisches Constraint-Design) → Schicht 2 (Sokrates-Motor + Kognitive Bias-Erkennung) → Schicht 1 (Ausführungsüberwachung + Feedback).',fr:'<strong>Implémente une architecture de responsabilité 3 couches :</strong> Couche 3 (Conception de contraintes stratégiques) → Couche 2 (Moteur socratique + Détection des biais cognitifs) → Couche 1 (Surveillance exécution + Feedback).'}},
+      {era:{ja:'開発の方向性',en:'Development Direction',zh:'开发方向',de:'Entwicklungsrichtung',fr:'Direction de développement'},cls:'tl-future',text:{ja:'経営者の「思考のアウトソーシング先」としての知的インフラ。<strong>「意思決定のOSそのものを設計する」Chief Decision Architect</strong>という役割は、ESIが実装されたときに初めて実現する。',en:"Intellectual infrastructure as executives' 'thought outsourcing destination.' The role of <strong>'Chief Decision Architect who designs the decision-making OS itself'</strong> first becomes realized when ESI is fully implemented.",zh:'作为经营者"思维外包目标"的知识基础设施。<strong>"设计决策OS本身"的Chief Decision Architect</strong>这一角色，只有在ESI实现时才能首次实现。',de:'Intellektuelle Infrastruktur als „Gedanken-Outsourcing-Ziel" von Führungskräften. Die Rolle des <strong>„Chief Decision Architect, der den Entscheidungs-OS selbst gestaltet"</strong> realisiert sich erstmals wenn ESI vollständig implementiert ist.',fr:'Infrastructure intellectuelle comme destination d\'externalisation de la pensée des dirigeants. Le rôle du <strong>"Chief Decision Architect qui conçoit l\'OS décisionnel lui-même"</strong> se réalise pour la première fois quand ESI est pleinement implémenté.'}}
     ],
     relations:[
-      {id:'void',arrow:'←',name:'THE VOID',desc:{ja:'意思決定の断絶がVoidを生む',en:'Decision-making disconnect creates the Void'}},
-      {id:'c_innov',arrow:'←',name:'Innovation vs Entropy',desc:{ja:'ESIの戦略的制約設計が応える',en:"ESI's strategic constraint design responds"}},
-      {id:'cognitive',arrow:'←',name:{ja:'認知科学',en:'Cognitive Science'},desc:{ja:'ESIの認知処理層の核心的基盤',en:"Core foundation of ESI's cognitive processing layer"}},
-      {id:'history',arrow:'←',name:{ja:'歴史学',en:'History'},desc:{ja:'長期的視座の思想的基盤',en:'Philosophical foundation of long-term perspective'}},
-      {id:'decision_arch',arrow:'→',name:{ja:'Chief Decision Arch',en:'Chief Decision Arch'},desc:{ja:'この実装が向かう姿',en:'The form this implementation points to'}}
+      {id:'void',arrow:'←',name:'THE VOID',desc:{ja:'意思決定の断絶がVoidを生む',en:'Decision-making disconnect creates the Void',zh:'决策断裂产生了Void',de:'Entscheidungslücke erzeugt den Void',fr:'La rupture décisionnelle crée le Void'}},
+      {id:'c_innov',arrow:'←',name:'Innovation vs Entropy',desc:{ja:'ESIの戦略的制約設計が応える',en:"ESI's strategic constraint design responds",zh:'ESI的战略约束设计做出回应',de:'ESIs strategisches Constraint-Design antwortet',fr:'La conception de contraintes stratégiques d\'ESI répond'}},
+      {id:'cognitive',arrow:'←',name:{ja:'認知科学',en:'Cognitive Science',zh:'认知科学',de:'Kognitionswissenschaft',fr:'Sciences cognitives'},desc:{ja:'ESIの認知処理層の核心的基盤',en:"Core foundation of ESI's cognitive processing layer",zh:'ESI认知处理层的核心基础',de:'Kernfundament von ESIs kognitiver Verarbeitungsschicht',fr:'Fondement central de la couche de traitement cognitif d\'ESI'}},
+      {id:'history',arrow:'←',name:{ja:'歴史学',en:'History',zh:'历史学',de:'Geschichte',fr:'Histoire'},desc:{ja:'長期的視座の思想的基盤',en:'Philosophical foundation of long-term perspective',zh:'长期视角的思想基础',de:'Philosophisches Fundament der Langzeitperspektive',fr:'Fondement philosophique de la perspective à long terme'}},
+      {id:'decision_arch',arrow:'→',name:{ja:'Chief Decision Arch',en:'Chief Decision Arch',zh:'首席决策架构师',de:'Chief Decision Arch',fr:'Chief Decision Arch'},desc:{ja:'この実装が向かう姿',en:'The form this implementation points to',zh:'这一实现所指向的形态',de:'Die Form, auf die diese Implementierung zeigt',fr:'La forme vers laquelle pointe cette implémentation'}}
     ],
-    kpi:{label:{ja:'実証されているKPI',en:'Demonstrated KPIs'},items:{ja:['思考精度：50%向上','意思決定エラー率：60%削減','ROI：70%以上改善（構造的変革の実証効果）'],en:['Thinking precision: +50%','Decision error rate: -60%','ROI: 70%+ improvement (demonstrated effect of structural transformation)']}}
+    kpi:{
+      label:{ja:'実証されているKPI',en:'Demonstrated KPIs',zh:'已验证的KPI',de:'Nachgewiesene KPIs',fr:'KPIs démontrés'},
+      items:{
+        ja:['思考精度：50%向上','意思決定エラー率：60%削減','ROI：70%以上改善（構造的変革の実証効果）'],
+        en:['Thinking precision: +50%','Decision error rate: -60%','ROI: 70%+ improvement (demonstrated effect of structural transformation)'],
+        zh:['思维精度：提升50%','决策错误率：降低60%','ROI：改善70%以上（结构性变革的实证效果）'],
+        de:['Denkpräzision: +50%','Entscheidungsfehlerrate: -60%','ROI: 70%+ Verbesserung (nachgewiesener Effekt struktureller Transformation)'],
+        fr:['Précision de pensée : +50%','Taux d\'erreur décisionnel : -60%','ROI : amélioration 70%+ (effet démontré de la transformation structurelle)']
+      }
+    }
   },
   structural_arch:{
-    icon:'🏛️',tag:{ja:'Layer 4 — To Be',en:'Layer 4 — To Be'},tagColor:'#27ae60',
-    title:{ja:'Structural Architect',en:'Structural Architect'},en:'構造設計者 / Structure Designer',
+    icon:'🏛️',
+    tag:{ja:'Layer 4 — To Be',en:'Layer 4 — To Be',zh:'Layer 4 — To Be',de:'Layer 4 — To Be',fr:'Layer 4 — To Be'},
+    tagColor:'#27ae60',
+    title:{ja:'Structural Architect',en:'Structural Architect',zh:'结构架构师',de:'Structural Architect',fr:'Structural Architect'},
+    en:'構造設計者 / Structure Designer',
     timeline:[
-      {era:{ja:'26年間の軌跡',en:'26-Year Trajectory'},cls:'tl-past',text:{ja:'1999年から「問題が起きたら呼ばれる人」として活動。しかし2020年頃から、<strong>「問題が起きる構造を変える人」</strong>への転換が始まった。',en:'Operated as "the person called when problems arise" from 1999. But around 2020, the transformation to <strong>"the person who changes the structure that causes problems"</strong> began.'}},
-      {era:{ja:'現在の活動',en:'Current Activity'},cls:'tl-now',text:{ja:'EMVIS・CCBR・ESIの研究開発を通じて、<strong>Structural Architectとしての実績が積み上がっている。</strong>「この役割を理解している組織」との協業が増えつつある段階。',en:'Through R&D of EMVIS, CCBR, and ESI, <strong>track record as Structural Architect is accumulating.</strong> Collaborations with "organizations that understand this role" are increasing.'}},
-      {era:{ja:'提供価値',en:'Value Delivered'},cls:'tl-future',text:{ja:'組織の意思決定構造そのものを設計・再設計する。単なる助言ではなく、<strong>因果関係を構造に組み込む。</strong>「次に何が起きるか」ではなく「なぜその構造ではその問題が必然的に起きるのか」を解明し、根本から作り直す。',en:'Designs and redesigns the decision-making structure of organizations itself. Not mere advice, but <strong>embedding causal relationships into structure.</strong> Clarifies not "what will happen next" but "why that problem inevitably occurs in that structure" and rebuilds from the foundation.'}}
+      {era:{ja:'26年間の軌跡',en:'26-Year Trajectory',zh:'26年的轨迹',de:'26-Jahres-Trajektorie',fr:'Trajectoire de 26 ans'},cls:'tl-past',text:{ja:'1999年から「問題が起きたら呼ばれる人」として活動。しかし2020年頃から、<strong>「問題が起きる構造を変える人」</strong>への転換が始まった。',en:'Operated as "the person called when problems arise" from 1999. But around 2020, the transformation to <strong>"the person who changes the structure that causes problems"</strong> began.',zh:'从1999年起以"出问题才被叫来的人"开展活动。但从2020年前后，开始向<strong>"改变产生问题的结构的人"</strong>转变。',de:'Seit 1999 als „die Person, die gerufen wird, wenn Probleme auftreten" tätig. Aber um 2020 begann die Transformation zu <strong>„der Person, die die problemverursachende Struktur verändert"</strong>.',fr:'Opéré comme "la personne appelée quand les problèmes surviennent" depuis 1999. Mais vers 2020, la transformation vers <strong>"la personne qui change la structure causant les problèmes"</strong> a commencé.'}},
+      {era:{ja:'現在の活動',en:'Current Activity',zh:'当前活动',de:'Aktuelle Aktivität',fr:'Activité actuelle'},cls:'tl-now',text:{ja:'EMVIS・CCBR・ESIの研究開発を通じて、<strong>Structural Architectとしての実績が積み上がっている。</strong>「この役割を理解している組織」との協業が増えつつある段階。',en:'Through R&D of EMVIS, CCBR, and ESI, <strong>track record as Structural Architect is accumulating.</strong> Collaborations with "organizations that understand this role" are increasing.',zh:'通过EMVIS、CCBR、ESI的研究开发，<strong>作为结构架构师的实绩正在积累。</strong>与"理解这一角色的组织"的合作正在增加。',de:'Durch F&E von EMVIS, CCBR und ESI <strong>akkumuliert sich der Track Record als Structural Architect.</strong> Zusammenarbeiten mit „Organisationen, die diese Rolle verstehen" nehmen zu.',fr:'À travers la R&D d\'EMVIS, CCBR et ESI, <strong>le track record de Structural Architect s\'accumule.</strong> Les collaborations avec "les organisations qui comprennent ce rôle" augmentent.'}},
+      {era:{ja:'提供価値',en:'Value Delivered',zh:'提供的价值',de:'Gelieferter Wert',fr:'Valeur apportée'},cls:'tl-future',text:{ja:'組織の意思決定構造そのものを設計・再設計する。単なる助言ではなく、<strong>因果関係を構造に組み込む。</strong>「次に何が起きるか」ではなく「なぜその構造ではその問題が必然的に起きるのか」を解明し、根本から作り直す。',en:'Designs and redesigns the decision-making structure of organizations itself. Not mere advice, but <strong>embedding causal relationships into structure.</strong> Clarifies not "what will happen next" but "why that problem inevitably occurs in that structure" and rebuilds from the foundation.',zh:'设计并重新设计组织的决策结构本身。不是单纯的建议，而是<strong>将因果关系嵌入结构。</strong>不是"接下来会发生什么"，而是阐明"为什么那种结构必然会出现那个问题"，并从根本上重新构建。',de:'Gestaltet und regestaltet die Entscheidungsstruktur von Organisationen selbst. Nicht bloße Beratung, sondern <strong>Einbettung von Kausalbeziehungen in Strukturen.</strong>',fr:'Conçoit et reconçoit la structure décisionnelle des organisations elle-même. Pas de simples conseils, mais <strong>l\'intégration des relations causales dans la structure.</strong>'}}
     ],
     relations:[
-      {id:'emvis',arrow:'←',name:'EMVIS',desc:{ja:'EMVISがこの姿を実現する手段',en:'EMVIS is the means to realize this form'}},
-      {id:'pm',arrow:'←',name:{ja:'PM（As Is）',en:'PM (As Is)'},desc:{ja:'PMから進化した姿',en:'Form evolved from PM'}},
-      {id:'void',arrow:'←',name:'THE VOID',desc:{ja:'Voidを埋めた先に現れる',en:'Appears beyond resolving the Void'}}
+      {id:'emvis',arrow:'←',name:'EMVIS',desc:{ja:'EMVISがこの姿を実現する手段',en:'EMVIS is the means to realize this form',zh:'EMVIS是实现这一形态的手段',de:'EMVIS ist das Mittel zur Realisierung dieser Form',fr:'EMVIS est le moyen de réaliser cette forme'}},
+      {id:'pm',arrow:'←',name:{ja:'PM（As Is）',en:'PM (As Is)',zh:'PM（现状）',de:'PM (As Is)',fr:'PM (As Is)'},desc:{ja:'PMから進化した姿',en:'Form evolved from PM',zh:'从PM进化的形态',de:'Aus PM entwickelte Form',fr:'Forme évoluée depuis PM'}},
+      {id:'void',arrow:'←',name:'THE VOID',desc:{ja:'Voidを埋めた先に現れる',en:'Appears beyond resolving the Void',zh:'填补Void之后出现的形态',de:'Erscheint jenseits der Void-Auflösung',fr:'Apparaît au-delà de la résolution du Void'}}
     ],kpi:null
   },
   decision_arch:{
-    icon:'🎯',tag:{ja:'Layer 4 — To Be',en:'Layer 4 — To Be'},tagColor:'#27ae60',
-    title:{ja:'Chief Decision Architect',en:'Chief Decision Architect'},en:'意思決定のOS設計者 / Decision OS Designer',
+    icon:'🎯',
+    tag:{ja:'Layer 4 — To Be',en:'Layer 4 — To Be',zh:'Layer 4 — To Be',de:'Layer 4 — To Be',fr:'Layer 4 — To Be'},
+    tagColor:'#27ae60',
+    title:{ja:'Chief Decision Architect',en:'Chief Decision Architect',zh:'首席决策架构师',de:'Chief Decision Architect',fr:'Chief Decision Architect'},
+    en:'意思決定のOS設計者 / Decision OS Designer',
     timeline:[
-      {era:{ja:'2020年以降の変化',en:'Changes Since 2020'},cls:'tl-past',text:{ja:'「意思決定のOS」が壊れている組織は、どんなに優れた戦略も実行できない。<strong>CDAOという役職が注目されているが、実際に向かっているのはその先——「意思決定の構造そのものを設計する」役割。</strong>',en:"Organizations with broken 'decision-making OS' cannot execute any strategy, no matter how excellent. <strong>The CDAO title is gaining attention, but what's actually being aimed for is beyond that — 'designing the structure of decision-making itself.'</strong>"}},
-      {era:{ja:'現在の活動',en:'Current Activity'},cls:'tl-now',text:{ja:'ESI Frameworkの実装を通じて、経営者の「思考の外部化」を支援している。<strong>「このフレームワークで考えると、今まで見えなかったものが見える」</strong>という体験を提供できる段階に到達。',en:'Through ESI Framework implementation, supports externalization of executives\' thinking. Has reached the stage of providing the experience: <strong>"thinking with this framework reveals what was previously invisible."</strong>'}},
-      {era:{ja:'提供価値',en:'Value Delivered'},cls:'tl-future',text:{ja:'Deep Tech（深層技術）と日本的品質思想の架橋者として、<strong>組織の知的インフラ</strong>として機能する。「坂根に聞けばわかる」ではなく「坂根が設計した構造で考えれば答えが出る」という状態。',en:"As a bridge between Deep Tech and Japanese quality philosophy, functions as <strong>organizational intellectual infrastructure.</strong> Not 'ask Sakane and you'll know,' but 'thinking through the structure Sakane designed will yield the answer.'"}}
+      {era:{ja:'2020年以降の変化',en:'Changes Since 2020',zh:'2020年以后的变化',de:'Änderungen seit 2020',fr:'Changements depuis 2020'},cls:'tl-past',text:{ja:'「意思決定のOS」が壊れている組織は、どんなに優れた戦略も実行できない。<strong>CDAOという役職が注目されているが、実際に向かっているのはその先——「意思決定の構造そのものを設計する」役割。</strong>',en:"Organizations with broken 'decision-making OS' cannot execute any strategy, no matter how excellent. <strong>The CDAO title is gaining attention, but what's actually being aimed for is beyond that — 'designing the structure of decision-making itself.'</strong>",zh:'"决策OS"已损坏的组织，无论战略多么优秀都无法执行。<strong>CDAO这一职位正受到关注，但实际上正在迈向的是更远处——"设计决策结构本身"的角色。</strong>',de:'Organisationen mit defektem „Entscheidungs-OS" können keine Strategie ausführen, egal wie exzellent. <strong>Der CDAO-Titel gewinnt an Aufmerksamkeit, aber das eigentliche Ziel liegt darüber hinaus.</strong>',fr:'Les organisations avec un "OS décisionnel" défaillant ne peuvent exécuter aucune stratégie. <strong>Le titre CDAO gagne en attention, mais l\'objectif réel va au-delà.</strong>'}},
+      {era:{ja:'現在の活動',en:'Current Activity',zh:'当前活动',de:'Aktuelle Aktivität',fr:'Activité actuelle'},cls:'tl-now',text:{ja:'ESI Frameworkの実装を通じて、経営者の「思考の外部化」を支援している。<strong>「このフレームワークで考えると、今まで見えなかったものが見える」</strong>という体験を提供できる段階に到達。',en:'Through ESI Framework implementation, supports externalization of executives\' thinking. Has reached the stage of providing the experience: <strong>"thinking with this framework reveals what was previously invisible."</strong>',zh:'通过ESI Framework的实现，支持经营者"思维的外部化"。已达到能够提供<strong>"用这个框架思考，就能看到以前看不到的东西"</strong>这种体验的阶段。',de:'Durch ESI Framework Implementierung unterstützt die Externalisierung des Denkens von Führungskräften. Stadium erreicht, die Erfahrung zu liefern: <strong>„Mit diesem Framework denken enthüllt, was zuvor unsichtbar war."</strong>',fr:'Via l\'implémentation d\'ESI Framework, soutient l\'externalisation de la pensée des dirigeants. A atteint le stade de fournir l\'expérience : <strong>"Penser avec ce framework révèle ce qui était auparavant invisible."</strong>'}},
+      {era:{ja:'提供価値',en:'Value Delivered',zh:'提供的价值',de:'Gelieferter Wert',fr:'Valeur apportée'},cls:'tl-future',text:{ja:'Deep Tech（深層技術）と日本的品質思想の架橋者として、<strong>組織の知的インフラ</strong>として機能する。「坂根に聞けばわかる」ではなく「坂根が設計した構造で考えれば答えが出る」という状態。',en:"As a bridge between Deep Tech and Japanese quality philosophy, functions as <strong>organizational intellectual infrastructure.</strong> Not 'ask Sakane and you'll know,' but 'thinking through the structure Sakane designed will yield the answer.'",zh:'作为Deep Tech与日本质量思想的桥梁，发挥着<strong>组织知识基础设施</strong>的功能。不是"问坂根就能知道"，而是"用坂根设计的结构思考就能得出答案"的状态。',de:'Als Brücke zwischen Deep Tech und japanischer Qualitätsphilosophie fungiert als <strong>organisatorische intellektuelle Infrastruktur.</strong>',fr:'En tant que pont entre Deep Tech et philosophie qualité japonaise, fonctionne comme <strong>infrastructure intellectuelle organisationnelle.</strong>'}}
     ],
     relations:[
-      {id:'esi',arrow:'←',name:'ESI Framework',desc:{ja:'ESIがこの姿を実現する手段',en:'ESI is the means to realize this form'}},
-      {id:'ccbr',arrow:'←',name:'CCBR',desc:{ja:'ガバナンス設計の実装形',en:'Implementation form of governance design'}},
-      {id:'riskadvisor',arrow:'←',name:{ja:'Risk Advisor（As Is）',en:'Risk Advisor (As Is)'},desc:{ja:'役割の進化の到達点',en:'Arrival point of role evolution'}}
+      {id:'esi',arrow:'←',name:'ESI Framework',desc:{ja:'ESIがこの姿を実現する手段',en:'ESI is the means to realize this form',zh:'ESI是实现这一形态的手段',de:'ESI ist das Mittel zur Realisierung dieser Form',fr:'ESI est le moyen de réaliser cette forme'}},
+      {id:'ccbr',arrow:'←',name:'CCBR',desc:{ja:'ガバナンス設計の実装形',en:'Implementation form of governance design',zh:'治理设计的实现形式',de:'Implementierungsform des Governance-Designs',fr:'Forme d\'implémentation de la conception de gouvernance'}},
+      {id:'riskadvisor',arrow:'←',name:{ja:'Risk Advisor（As Is）',en:'Risk Advisor (As Is)',zh:'Risk Advisor（现状）',de:'Risk Advisor (As Is)',fr:'Risk Advisor (As Is)'},desc:{ja:'役割の進化の到達点',en:'Arrival point of role evolution',zh:'角色进化的到达点',de:'Ankunftspunkt der Rollenentwicklung',fr:'Point d\'arrivée de l\'évolution du rôle'}}
     ],kpi:null
   },
   csvfo:{
-    icon:'👑',tag:{ja:'Layer 4 — To Be',en:'Layer 4 — To Be'},tagColor:'#27ae60',
-    title:{ja:'Sovereign Venture Partner',en:'Sovereign Venture Partner'},en:'CSVFO — Chief Structural Value & Future Officer',
+    icon:'👑',
+    tag:{ja:'Layer 4 — To Be',en:'Layer 4 — To Be',zh:'Layer 4 — To Be',de:'Layer 4 — To Be',fr:'Layer 4 — To Be'},
+    tagColor:'#27ae60',
+    title:{ja:'Sovereign Venture Partner',en:'Sovereign Venture Partner',zh:'主权创投伙伴',de:'Sovereign Venture Partner',fr:'Sovereign Venture Partner'},
+    en:'CSVFO — Chief Structural Value and Future Officer (最高構造価値・自由責任者)',
     timeline:[
-      {era:{ja:'背景',en:'Background'},cls:'tl-past',text:{ja:'技術的主権（Digital Sovereignty）という概念が国家レベルで議論されるようになってきた。<strong>個人・組織・国家が自らの技術インフラを「所有」し「制御」できるかどうかが、今後の競争力の核心。</strong>',en:"The concept of Digital Sovereignty is being discussed at the national level. <strong>Whether individuals, organizations, and nations can 'own' and 'control' their technological infrastructure is the core of future competitiveness.</strong>"}},
-      {era:{ja:'現在の活動',en:'Current Activity'},cls:'tl-now',text:{ja:'EMVIS・CCBR・ESIの統合により、<strong>「投資判断」「セキュリティ設計」「意思決定構造」</strong>という三つの軸を同時に扱える立場として、海外Deep Techと日本市場の架橋ポジションが確立されつつある。',en:"Through integration of EMVIS, CCBR, and ESI, the bridge position between overseas Deep Tech and the Japanese market is being established as someone who can simultaneously handle three axes: <strong>'investment judgment,' 'security design,' and 'decision-making structure.'</strong>"}},
-      {era:{ja:'提供価値',en:'Value Delivered'},cls:'tl-future',text:{ja:'破滅的投資を構造的に回避しながら、技術的主権を担保する。<strong>国家レベルのコミュニティ意思決定を支援する</strong>というスケールでのStructural Intelligence Architecture。アシモフのFoundationが「文明の崩壊を最小化する」ために設計されたように。',en:"Structurally avoids catastrophic investments while ensuring technological sovereignty. Structural Intelligence Architecture at the scale of <strong>supporting national-level community decision-making.</strong> As Asimov's Foundation was designed to 'minimize the collapse of civilization.'"}}
+      {era:{ja:'背景',en:'Background',zh:'背景',de:'Hintergrund',fr:'Contexte'},cls:'tl-past',text:{ja:'技術的主権（Digital Sovereignty）という概念が国家レベルで議論されるようになってきた。<strong>個人・組織・国家が自らの技術インフラを「所有」し「制御」できるかどうかが、今後の競争力の核心。</strong>',en:"The concept of Digital Sovereignty is being discussed at the national level. <strong>Whether individuals, organizations, and nations can 'own' and 'control' their technological infrastructure is the core of future competitiveness.</strong>",zh:'"数字主权"（Digital Sovereignty）的概念开始在国家层面讨论。<strong>个人、组织、国家能否"拥有"并"控制"自身的技术基础设施，是未来竞争力的核心。</strong>',de:'Das Konzept der digitalen Souveränität wird auf nationaler Ebene diskutiert. <strong>Ob Einzelpersonen, Organisationen und Nationen ihre technologische Infrastruktur „besitzen" und „kontrollieren" können, ist der Kern zukünftiger Wettbewerbsfähigkeit.</strong>',fr:'Le concept de Souveraineté Numérique est discuté au niveau national. <strong>Si les individus, organisations et nations peuvent "posséder" et "contrôler" leur infrastructure technologique est le cœur de la compétitivité future.</strong>'}},
+      {era:{ja:'現在の活動',en:'Current Activity',zh:'当前活动',de:'Aktuelle Aktivität',fr:'Activité actuelle'},cls:'tl-now',text:{ja:'EMVIS・CCBR・ESIの統合により、<strong>「投資判断」「セキュリティ設計」「意思決定構造」</strong>という三つの軸を同時に扱える立場として、海外Deep Techと日本市場の架橋ポジションが確立されつつある。',en:"Through integration of EMVIS, CCBR, and ESI, the bridge position between overseas Deep Tech and the Japanese market is being established as someone who can simultaneously handle three axes: <strong>'investment judgment,' 'security design,' and 'decision-making structure.'</strong>",zh:'通过EMVIS、CCBR、ESI的整合，作为能够同时处理<strong>"投资判断"、"安全设计"、"决策结构"</strong>三个轴的立场，海外Deep Tech与日本市场之间的桥梁位置正在确立。',de:'Durch Integration von EMVIS, CCBR und ESI etabliert sich die Brückenposition zwischen ausländischem Deep Tech und dem japanischen Markt.',fr:'Via l\'intégration d\'EMVIS, CCBR et ESI, la position de pont entre Deep Tech étranger et marché japonais s\'établit.'}},
+      {era:{ja:'提供価値',en:'Value Delivered',zh:'提供的价值',de:'Gelieferter Wert',fr:'Valeur apportée'},cls:'tl-future',text:{ja:'破滅的投資を構造的に回避しながら、技術的主権を担保する。<strong>国家レベルのコミュニティ意思決定を支援する</strong>というスケールでのStructural Intelligence Architecture。アシモフのFoundationが「文明の崩壊を最小化する」ために設計されたように。',en:"Structurally avoids catastrophic investments while ensuring technological sovereignty. Structural Intelligence Architecture at the scale of <strong>supporting national-level community decision-making.</strong> As Asimov's Foundation was designed to 'minimize the collapse of civilization.'",zh:'在结构上规避毁灭性投资的同时，担保技术主权。在<strong>支持国家级社区决策</strong>规模上的结构知性架构。就像阿西莫夫的Foundation被设计为"最小化文明的崩溃"。',de:'Strukturell katastrophale Investitionen vermeidend, bei gleichzeitiger Sicherstellung technologischer Souveränität. Structural Intelligence Architecture im Maßstab der <strong>Unterstützung nationaler Gemeinschaftsentscheidungen.</strong>',fr:'Évite structurellement les investissements catastrophiques tout en assurant la souveraineté technologique. Architecture d\'Intelligence Structurelle à l\'échelle du <strong>soutien à la prise de décision communautaire nationale.</strong>'}}
     ],
     relations:[
-      {id:'emvis',arrow:'←',name:'EMVIS',desc:{ja:'ベンチャー支援の技術的基盤',en:'Technical foundation of venture support'}},
-      {id:'history',arrow:'←',name:{ja:'歴史学',en:'History'},desc:{ja:'文明スケールの視座の源泉',en:'Source of civilization-scale perspective'}},
-      {id:'economics',arrow:'←',name:{ja:'行動経済学',en:'Behavioral Economics'},desc:{ja:'投資判断の理論的基盤',en:'Theoretical foundation of investment judgment'}},
-      {id:'security',arrow:'←',name:{ja:'Security（As Is）',en:'Security (As Is)'},desc:{ja:'起点の役割からの最遠点',en:'Furthest point from the starting role'}}
+      {id:'emvis',arrow:'←',name:'EMVIS',desc:{ja:'ベンチャー支援の技術的基盤',en:'Technical foundation of venture support',zh:'创投支持的技术基础',de:'Technisches Fundament der Venture-Unterstützung',fr:'Fondement technique du soutien aux ventures'}},
+      {id:'history',arrow:'←',name:{ja:'歴史学',en:'History',zh:'历史学',de:'Geschichte',fr:'Histoire'},desc:{ja:'文明スケールの視座の源泉',en:'Source of civilization-scale perspective',zh:'文明尺度视角的源泉',de:'Quelle der zivilisatorischen Perspektive',fr:'Source de la perspective à l\'échelle de la civilisation'}},
+      {id:'economics',arrow:'←',name:{ja:'行動経済学',en:'Behavioral Economics',zh:'行为经济学',de:'Verhaltensökonomie',fr:'Économie comportementale'},desc:{ja:'投資判断の理論的基盤',en:'Theoretical foundation of investment judgment',zh:'投资判断的理论基础',de:'Theoretisches Fundament des Investitionsurteils',fr:'Fondement théorique du jugement d\'investissement'}},
+      {id:'security',arrow:'←',name:{ja:'Security（As Is）',en:'Security (As Is)',zh:'Security（现状）',de:'Security (As Is)',fr:'Security (As Is)'},desc:{ja:'起点の役割からの最遠点',en:'Furthest point from the starting role',zh:'距起点角色最远的点',de:'Fernster Punkt von der Ausgangsrolle',fr:'Point le plus éloigné du rôle de départ'}}
     ],kpi:null
   }
 };
@@ -850,13 +1006,12 @@ function openPanel(id) {
   let html = '';
   if (d.timeline && d.timeline.length) {
     html += '<div class="timeline">';
-    const dotLabel = {past:{ja:'過去',en:'Past'},now:{ja:'現在',en:'Now'},future:{ja:'未来',en:'Future'}};
     d.timeline.forEach(t => {
       const cls = t.cls;
       const key = cls.replace('tl-','');
-      const dot = dotLabel[key] ? dotLabel[key][L] : key;
-      const era = typeof t.era === 'object' ? t.era[L] : t.era;
-      const text = typeof t.text === 'object' ? t.text[L] : t.text;
+      const dot = DOT_LABELS[key] ? (DOT_LABELS[key][L] || DOT_LABELS[key].ja) : key;
+      const era = typeof t.era === 'object' ? (t.era[L] || t.era.ja) : t.era;
+      const text = typeof t.text === 'object' ? (t.text[L] || t.text.ja) : t.text;
       html += `<div class="tl-item ${cls}"><div class="tl-dot">${dot}</div><div class="tl-content"><div class="tl-era">${era}</div><div class="tl-text">${text}</div></div></div>`;
     });
     html += '</div>';
@@ -867,11 +1022,11 @@ function openPanel(id) {
     html += `<div class="kpi-block"><div class="kpi-label">${kpiLabel}</div><ul class="kpi-list">${kpiItems.map(i=>`<li>${i}</li>`).join('')}</ul></div>`;
   }
   if (d.relations && d.relations.length) {
-    html += '<div class="relations"><div class="rel-title">' + (L==='ja'?'相関するノード':'Related Nodes') + '</div><div class="rel-list">';
+    html += '<div class="relations"><div class="rel-title">' + (REL_TITLE[L] || REL_TITLE.ja) + '</div><div class="rel-list">';
     d.relations.forEach(r => {
       const rd = NODE_DATA[r.id];
-      const rname = typeof r.name === 'object' ? r.name[L] : r.name;
-      const rdesc = typeof r.desc === 'object' ? r.desc[L] : r.desc;
+      const rname = typeof r.name === 'object' ? (r.name[L] || r.name.ja) : r.name;
+      const rdesc = typeof r.desc === 'object' ? (r.desc[L] || r.desc.ja) : r.desc;
       html += `<div class="rel-item" onclick="openPanel('${r.id}')"><div class="rel-arrow">${r.arrow}</div><div><div class="rel-name">${rd?rd.icon+' ':''}${rname}</div><div class="rel-desc">${rdesc}</div></div></div>`;
     });
     html += '</div></div>';
@@ -904,21 +1059,8 @@ document.querySelectorAll('.tab-btn[data-tab]').forEach(btn => {
 // ─────────────────────────────────────────────
 // AI CHAT
 // ─────────────────────────────────────────────
-let chatOpen = false;
 let chatHistory = [];
 let geminiApiKey = localStorage.getItem('sakane_gemini_key') || '';
-
-function toggleChat() {
-  chatOpen = !chatOpen;
-  document.getElementById('chat-window').classList.toggle('open', chatOpen);
-  if (chatOpen && chatHistory.length === 0) {
-    if (!geminiApiKey) {
-      showApiKeyModal();
-    } else {
-      initChat();
-    }
-  }
-}
 
 function showApiKeyModal() {
   document.getElementById('apikey-modal').classList.remove('hidden');
@@ -940,18 +1082,22 @@ function saveApiKey() {
 
 function skipApiKey() {
   document.getElementById('apikey-modal').classList.add('hidden');
-  addMessage('ai', currentLang === 'ja'
-    ? 'APIキーが設定されていないため、AIチャット機能は利用できません。Google AI Studioでキーを取得後、チャットボタンを再度クリックしてください。'
-    : 'AI chat is unavailable without an API key. Please obtain a key from Google AI Studio, then click the chat button again.');
+  addMessage('ai', CHAT_APIKEY_MISSING[currentLang] || CHAT_APIKEY_MISSING.ja);
 }
 
+const CHAT_WELCOME_RAG = {
+  ja:`🧠 RAG搭載AIアシスタント\n\n坂根康之の経歴・研究・思想をベクトル検索でリアルタイム参照しながら回答します。LinkedInプロフィールでは伝わらない「なぜこの人物がユニークなのか」の深層を、自然言語で探索してください。\n\n例：「EMVISとは？」「構造知性とLinkedInの経歴の関係は？」「なぜ日本市場参入に強いのか？」`,
+  en:`🧠 RAG-Powered AI Assistant\n\nAnswers by real-time vector search across Sakane's career, research, and philosophy — going far beyond what a LinkedIn profile conveys.\n\nTry: "What is EMVIS?" · "How does his LinkedIn career connect to Structural Intelligence?" · "Why is he uniquely positioned for Japan market entry?"`,
+  zh:`🧠 RAG增强AI助手\n\n通过向量搜索实时参照坂根康之的经历、研究与思想来回答问题——远超LinkedIn简介所能传达的深度。\n\n示例："什么是EMVIS？" · "结构知性与LinkedIn经历有何关联？" · "为何擅长日本市场进入？"`,
+  de:`🧠 RAG-gestützter KI-Assistent\n\nEchtzeit-Vektorsuche über Sakanes Karriere, Forschung und Philosophie — weit über sein LinkedIn-Profil hinaus.\n\nVersuchen Sie: „Was ist EMVIS?" · „Wie verbindet sich seine Karriere mit Struktureller Intelligenz?" · „Warum ist er ideal für den Japan-Markteintritt?"`,
+  fr:`🧠 Assistant IA propulsé par RAG\n\nRecherche vectorielle en temps réel sur la carrière, la recherche et la philosophie de Sakane — bien au-delà d'un profil LinkedIn.\n\nEssayez : « Qu'est-ce qu'EMVIS ? » · « Comment sa carrière LinkedIn relie-t-elle à l'Intelligence Structurelle ? » · « Pourquoi est-il idéal pour l'entrée sur le marché japonais ? »`
+};
+
 function initChat() {
-  const msgs = document.getElementById('chat-messages');
+  const msgs = document.getElementById('inline-messages');
   msgs.innerHTML = '';
   chatHistory = [];
-  addMessage('ai', currentLang === 'ja'
-    ? '坂根康之についてご質問ください。経歴・EMVIS・CCBR・ESI・構造知性など、何でもお答えします。'
-    : "Ask me anything about Yasuyuki Sakane — career, EMVIS, CCBR, ESI, Structural Intelligence, and more.");
+  addMessage('ai', CHAT_WELCOME_RAG[currentLang] || CHAT_WELCOME_RAG.ja);
   renderSuggestions();
 }
 
@@ -970,9 +1116,12 @@ function sendSuggestion(text) {
 }
 
 function addMessage(role, text) {
-  const msgs = document.getElementById('chat-messages');
+  const msgs = document.getElementById('inline-messages');
   const div = document.createElement('div');
   div.className = 'msg msg-' + role;
+  // basic markdown: **bold**, bullet, newline
+  text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  text = text.replace(/(\n|^)[・•\*] /g, '$1• ');
   div.innerHTML = text.replace(/\n/g, '<br>');
   msgs.appendChild(div);
   msgs.scrollTop = msgs.scrollHeight;
@@ -980,7 +1129,7 @@ function addMessage(role, text) {
 }
 
 function addTyping() {
-  const msgs = document.getElementById('chat-messages');
+  const msgs = document.getElementById('inline-messages');
   const div = document.createElement('div');
   div.className = 'msg msg-ai msg-typing';
   div.id = 'typing-indicator';
@@ -1041,17 +1190,101 @@ async function sendChat() {
       chatHistory.push({ role: 'user', text: query });
       chatHistory.push({ role: 'ai', text: reply });
     } else if (data.error) {
-      addMessage('ai', (currentLang === 'ja' ? 'エラー: ' : 'Error: ') + (data.error.message || JSON.stringify(data.error)));
+      addMessage('ai', (CHAT_ERROR[currentLang] || CHAT_ERROR.ja) + (data.error.message || JSON.stringify(data.error)));
     } else {
-      addMessage('ai', currentLang === 'ja' ? '回答を取得できませんでした。' : 'Could not retrieve a response.');
+      addMessage('ai', CHAT_NO_RESPONSE[currentLang] || CHAT_NO_RESPONSE.ja);
     }
   } catch(err) {
     removeTyping();
-    addMessage('ai', currentLang === 'ja'
-      ? 'ネットワークエラーが発生しました。APIキーとネットワーク接続を確認してください。'
-      : 'A network error occurred. Please check your API key and network connection.');
+    addMessage('ai', CHAT_NETWORK_ERROR[currentLang] || CHAT_NETWORK_ERROR.ja);
   }
   document.getElementById('chat-send').disabled = false;
+}
+
+// ─────────────────────────────────────────────
+// API KEY BAR
+// ─────────────────────────────────────────────
+function saveApiKeyBar() {
+  const input = document.getElementById('apikey-bar-input');
+  const key = input.value.trim();
+  if (!key) return;
+  geminiApiKey = key;
+  localStorage.setItem('sakane_gemini_key', key);
+  input.classList.add('saved');
+  const status = document.getElementById('apikey-bar-status');
+  status.classList.add('visible');
+  setTimeout(() => status.classList.remove('visible'), 2000);
+  if (chatHistory.length === 0) initChat();
+}
+
+function initApiKeyBar() {
+  const input = document.getElementById('apikey-bar-input');
+  if (!input) return;
+  if (geminiApiKey) {
+    input.value = geminiApiKey.slice(0, 4) + '••••••••••••';
+    input.classList.add('saved');
+  }
+  input.addEventListener('focus', () => {
+    if (geminiApiKey) { input.value = ''; input.classList.remove('saved'); }
+  });
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') saveApiKeyBar();
+  });
+}
+
+// ─────────────────────────────────────────────
+// CHAT RESIZE
+// ─────────────────────────────────────────────
+function initChatResize() {
+  const handle = document.getElementById('chat-resize-handle');
+  const messages = document.getElementById('inline-messages');
+  if (!handle || !messages) return;
+
+  let isDragging = false;
+  let startY = 0;
+  let startHeight = 0;
+
+  handle.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    startY = e.clientY;
+    startHeight = messages.offsetHeight;
+    document.body.style.cursor = 'ns-resize';
+    document.body.style.userSelect = 'none';
+    e.preventDefault();
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    const delta = e.clientY - startY;
+    const newHeight = Math.min(Math.max(startHeight + delta, 120), window.innerHeight * 0.7);
+    messages.style.height = newHeight + 'px';
+    messages.scrollTop = messages.scrollHeight;
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    document.body.style.cursor = '';
+    document.body.style.userSelect = '';
+  });
+
+  // Touch support
+  handle.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    startY = e.touches[0].clientY;
+    startHeight = messages.offsetHeight;
+    e.preventDefault();
+  }, { passive: false });
+
+  document.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    const delta = e.touches[0].clientY - startY;
+    const newHeight = Math.min(Math.max(startHeight + delta, 120), window.innerHeight * 0.7);
+    messages.style.height = newHeight + 'px';
+    messages.scrollTop = messages.scrollHeight;
+  }, { passive: true });
+
+  document.addEventListener('touchend', () => { isDragging = false; });
 }
 
 // ─────────────────────────────────────────────
@@ -1059,7 +1292,11 @@ async function sendChat() {
 // ─────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   setLang(currentLang);
-  document.getElementById('chat-input').placeholder = currentLang === 'ja' ? '坂根さんについて質問する...' : 'Ask about Sakane...';
+  const inp = document.getElementById('chat-input');
+  if (inp) inp.placeholder = CHAT_PLACEHOLDER[currentLang] || CHAT_PLACEHOLDER.ja;
+  initChatResize();
+  initApiKeyBar();
+  initChat();
 });
 </script>
 
