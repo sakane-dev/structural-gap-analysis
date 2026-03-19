@@ -7,13 +7,15 @@
 const SAKANE_KNOWLEDGE = [
   {
     id: "identity",
-    tags: ["who","identity","name","profile","introduction","基本","自己紹介","坂根","プロフィール","about","概要"],
-    content: `Yasuyuki Sakane (坂根康之) is a Principal Strategic Architect & Venture Partner based in Tokyo, Japan (Fujisawa area). Creator of "Structural Intelligence (構造知性)" — a methodology bridging Deep Tech innovation, Sovereign Governance, and Capital Efficiency. Title: CSVFO (Chief Structural Value & Future Officer) / Causal Codemancer. Contact: yasuyuki@sakane.dev | +81 80 1189 8979 | www.sakane.dev | en.sakane.dev | cv.sakane.dev. GitHub: github.com/sakane-dev | LinkedIn: linkedin.com/in/yasuyukis/. Languages: Japanese (Native), English (Professional Working Proficiency — Strategic Negotiation & Executive Briefing). Education: BA in English Literature, Meiji Gakuin University, Tokyo, 1996. Thesis: "A Socio-Engineering Analysis of Nathaniel Hawthorne's Works" — analyzing structural friction between Puritan governance and individual psychology, establishing the early theoretical basis for Structural Intelligence.`
+    tags: ["who","identity","name","profile","introduction","基本","自己紹介","坂根","プロフィール","about","概要","linkedin","2026","public","geek","pandora","turning point","実存","転換点","github","saas","公開"],
+    content: `Yasuyuki Sakane (坂根康之) is an independent Strategic Architect & Venture Partner based in Tokyo, Japan (Fujisawa area). Creator of "Structural Intelligence (構造知性)" — a methodology bridging Deep Tech innovation, Sovereign Governance, and Capital Efficiency. Self-coined conceptual descriptor: "Causal Codemancer" — one who encodes causal structure into organizational systems. CSVFO (Chief Structural Value and Future Officer) is a conceptual position Sakane uses to articulate a specific capability: the ability to decompose an organization at the structural level — identifying the causal architecture behind dysfunction — without dismantling its culture. In M&A contexts, post-acquisition improvement typically reaches the business structure level but stops short of organizational redesign, because deep intervention risks destroying the acquired company's cultural identity and originality. A CSVFO-type presence enables structural self-improvement from within, acting as an independent, transparent third party who redesigns the decision-making OS without triggering cultural defensiveness. This concept has been discussed with senior executives at Japanese cutting-edge technology companies — used not as a job title to claim, but as a lever to surface the structural gap: in the exponential/non-linear era, an organization without this function is the anomaly. Contact: yasuyuki@sakane.dev | +81 80 1189 8979 | www.sakane.dev | en.sakane.dev | cv.sakane.dev. GitHub: github.com/sakane-dev | LinkedIn: linkedin.com/in/yasuyukis/. Languages: Japanese (Native), English (Professional Working Proficiency — Strategic Negotiation & Executive Briefing). Education: BA in English Literature, Meiji Gakuin University, Tokyo, 1996. Thesis: "A Socio-Engineering Analysis of Nathaniel Hawthorne's Works" — analyzing structural friction between Puritan governance and individual psychology, establishing the early theoretical basis for Structural Intelligence.
+
+The 2026 turning point — opening Pandora's Box: Sakane has been a LinkedIn member since approximately 2005–2006 — among its earliest users — with 956 connections accumulated over two decades. In those twenty years, he published exactly zero posts. Not from lack of ideas, but because he is, by nature, a Geek: someone who builds and thinks in private, for whom social performance holds no appeal. Until the end of 2025, he deliberately kept his core frameworks — ESI, CCBR, EMVIS, Structural Intelligence, the CSVFO concept — inside what he calls "Pandora's Box": his own mind. Not for lack of confidence, but by design. Premature exposure without operational form risks dilution. Past the midpoint of life, confronting questions of existence that have no clean answers, he arrived at a different orientation: not assimilation into society, but contribution to its reconstruction — on his own terms. From 2026 onward, the box opens. Ideas that lived only in his mind for decades will be formalized and released: through GitHub, SaaS products, whitepapers, and public frameworks. Not for profit primarily, but because a cognitive architecture built over 26 years deserves to exist in the world in a form that others can see, touch, and think with. This multilingual portfolio is where that begins.`
   },
   {
     id: "structural_intelligence",
     tags: ["structural intelligence","構造知性","philosophy","哲学","methodology","方法論","causal","因果","concept","概念","codemancer","未来","選択権"],
-    content: `Structural Intelligence (構造知性) is Yasuyuki Sakane's core philosophy: the ability to read and redesign the causal structures underlying organizational decisions, systemic contradictions, and technological transitions — rather than responding to surface phenomena. Key principle: "未来の選択権を構造から設計する" (Design the freedom of future choices from structural foundations). Sakane is called "Causal Codemancer" — one who encodes causal structure into organizational systems. The methodology redefines technology management not as administration, but as the architecture of decision-making operating systems. Intellectual foundations: cognitive science, systems thinking (physics/entropy), behavioral economics, Asimov's Psychohistory, and 26+ years of deep technical practice. Published whitepapers: "Breaking the Chains of Thought: Redesigning the Future with Structural Intelligence and AI Co-creation", "The Legacy Challenge Reimagined", "Structural Intelligence: Next-Gen Autonomous Careers & Compound Growth (2025+)", "Unlocking M&A Value: The Structural Intelligence Approach to Technology Due Diligence".`
+    content: `Structural Intelligence (構造知性) is Yasuyuki Sakane's core philosophy: the ability to read and redesign the causal structures underlying organizational decisions, systemic contradictions, and technological transitions — rather than responding to surface phenomena. Key principle: "未来の選択権を構造から設計する" (Design the freedom of future choices from structural foundations). Sakane coined the self-descriptor "Causal Codemancer" — meaning one who encodes causal structure into organizational systems. The methodology redefines technology management not as administration, but as the architecture of decision-making operating systems. Intellectual foundations: cognitive science, systems thinking (physics/entropy), behavioral economics, Asimov's Psychohistory, and 26+ years of deep technical practice. Published whitepapers: "Breaking the Chains of Thought: Redesigning the Future with Structural Intelligence and AI Co-creation", "The Legacy Challenge Reimagined", "Structural Intelligence: Next-Gen Autonomous Careers & Compound Growth (2025+)", "Unlocking M&A Value: The Structural Intelligence Approach to Technology Due Diligence".`
   },
   {
     id: "emvis_overview",
@@ -26,7 +28,7 @@ Root cause — two collisions:
 1. Technological Determinism vs Social Constructionism: Overseas startups assume "excellent tech + clear ROI = rational adoption." But Japanese enterprises are dominated by Social Constructionist processes (ringi/nemawashi) — prioritizing group harmony, avoiding conflicts with existing vendors, eliminating unknown risks. Result: "持ち帰り検討します" (endless deferral) → PoC地獄.
 2. Stakeholder Working Memory Depletion and Ego Depletion: Constant multitasking depletes executive working memory → they flee to System 1 (heuristics) dominated by Status Quo Bias and Loss Aversion → instinctive rejection. Traditional GTM response (more data, more ROI slides) overflows cognition further.
 
-Quantified outcomes: PoC period -50% (6-10 months → 3-6 months). Decision lead time -50% (12-18 months → 6-12 months). PoC success rate 20-30% → 60-75%. Contract probability predicted at 80%+ accuracy. Maximum 90-day PoC with mandatory Go/No-Go gate. VC dashboard with real-time TVS (Traction Velocity Score) metrics.`
+Quantified design targets (theoretical, pre-launch): PoC period target -50% (6-10 months → 3-6 months). Decision lead time target -50% (12-18 months → 6-12 months). PoC success rate design target: 20-30% → 60-75%. Maximum 90-day PoC with mandatory Go/No-Go gate. VC dashboard with real-time TVS (Traction Velocity Score) metrics. Note: EMVIS is currently in development. The EDINET open-data collection and analysis layer (Layer 1) is operational and being prepared for initial client deployment.`
   },
   {
     id: "emvis_cognitive_architecture",
@@ -90,7 +92,7 @@ Agentic RAG Core (Head of EMVIS): LlamaIndex + FlowiseAI-based Agentic RAG. Mult
 
 Virtual PoC Simulator for Synthetic Training Data (Key AI Engineering Advantage): B2B enterprise sales' "cold start problem" — labeled PoC success/failure data doesn't exist in reality. EMVIS solution: LLM agents play customer personas (CISO, IT Infrastructure Head), autonomously dialogue in virtual conference rooms executing PoC scenarios — non-zero-sum game simulations. Generates countless "virtual PoC result logs" → pre-trains prediction model (DRPM: Dynamic Risk Prediction Model) as training data. This eliminates the cold start problem with a decisive AI engineering advantage no competitor possesses.
 
-EMVIS is enterprise-grade infrastructure — not theoretical. Validated on real RemOps startup: 50% validation cycle compression, doubled contract conversion rates, 70% ownership attribution automation via LLM agents.`
+EMVIS is currently in active development — not yet fully deployed. The data intelligence foundation (Layer 1: EDINET open-data extraction, tech stack inference from job postings, public compliance data) is operational and ready for initial client deployment. The full 7-layer system including GNN organizational mapping, Monte Carlo consensus simulation, and Agentic RAG is in development. The AI engineering architecture is validated at the design level; full production validation is in progress with initial clients.`
   },
   {
     id: "ccbr_overview",
@@ -158,41 +160,67 @@ Future Vision: CCBR paradigm shift — unknown threat response dramatically enha
   },
   {
     id: "esi",
-    tags: ["ESI","decision","意思決定","executive","経営","framework","フレームワーク","cognitive","認知","bias","バイアス","organization","組織","socratic","ソクラテス","triage","トリアージ","3層","entropy","エントロピー","mckinsey","m&a"],
-    content: `ESI (Executive Structural Intelligence) Framework is Sakane's decision-making OS redesign system. Problem: McKinsey research shows 72% of executives recognize problems in their decision-making. M&A success rate ~50% (coin flip). Cause: the "structure" of decision-making is invisible. ESI is also the cognitive architecture embedded within EMVIS as its "拡張認知アーキテクチャ" (Extended Cognitive Architecture).
+    tags: ["ESI","executive strategic intelligence","decision","意思決定","executive","経営","cognitive architecture","拡張認知","bias","バイアス","system1","system2","system1.5","kahneman","working memory","ワーキングメモリ","ego depletion","自我消耗","metacognition","メタ認知","nonlinear","非線形","decision helix","認知螺旋","executive control","layer4","強制起動","m&a","mckinsey"],
+    content: `ESI (Executive Strategic Intelligence) is Sakane's independent cognitive architecture for structural decision-making in the non-linear era — a standalone framework distinct from EMVIS. While EMVIS addresses Japan market entry dynamics, ESI addresses the universal human cognitive limitations that cause strategic decision failure at the executive level.
 
-3-Layer Responsibility Architecture:
-- Layer 3: Strategic Constraint Design — "What NOT to choose" (Type A decisions), entropy-resistant strategic constraints
-- Layer 2: Socratic Engine + Cognitive Bias Detection — automated questioning system, bias identification and mitigation
-- Layer 1: Execution Monitoring + Feedback — real-time implementation oversight
+Core problem: McKinsey research shows 72% of executives recognize problems in their decision-making. M&A success rate ~50% (coin flip). Root cause: not lack of intelligence or data, but structural cognitive limitations — working memory overflow, ego depletion, unconscious bias, and the "law of least effort" that causes executives to avoid System 2 thinking precisely when it is most critical.
 
-Cognitive Triage System: 4-axis automatic optimization — Importance × Irreversibility × Complexity × Time Constraint. Auto-selects optimal thinking mode per decision type.
+ESI Architecture — Extended Cognitive Architecture (System 0 → 3 + Layer 4):
 
-Impact: Thinking precision +50%. Decision error rate -60%. ROI improvement 70%+.
+System 0 (Raw Information Substrate): Unprocessed sensor/environmental data. The structural quality of this layer determines the cognitive processing quality of all layers above it. Functions as the "structured data foundation" for human-AI co-creation.
 
-Foundation: Behavioral economics (Kahneman/Tversky prospect theory, Sunstein nudge theory, bounded rationality) + Cognitive science (Stanovich, Dennett) + Physics (entropy as organizational decay) + Asimov's Psychohistory for long-term pattern recognition.`
+System 1 (Human Intuition): Fast, automatic pattern recognition. Efficient but vulnerable to Status Quo Bias, Loss Aversion, and heuristic errors under fatigue.
+
+System 1.5 (AI-Augmented Intuition) — ESI's most innovative layer: AI supplements and verifies human intuition by processing vast references and historical decision patterns. Individual experience and judgment rationale are "externalized" into structured storage, bypassing the working memory capacity limit (the +3 Problem). This extends human capability to function at the level of expert intuition — combining speed with quality.
+
+System 2 (Analytical Processing): Conscious, deliberate logical thinking. Consumes heavy cognitive resources, causing ego depletion. ESI's key mechanism: forced activation. When ESI detects a problem requiring mandatory deliberation (e.g., strategic investment above ¥1B), it force-activates System 2 — systematically preventing the abandonment of logical verification due to fatigue or cognitive avoidance (the "law of least effort").
+
+System 3 (Strategic Synthesis / MetaMind): ESI's final destination. Monitors and adjusts the biases of Systems 1 and 2, synthesizing them into bias-eliminated "structural decision-making." Enables co-creation between AI and human at an equal level — producing emergent insights beyond mere efficiency. Corrects the blindspots of high-IQ reasoners, maximizing "Rational Intelligence" (Stanovich) in real-world action.
+
+Decision Helix (認知螺旋): Systems 0→3 do not operate independently — they function as a dynamic cycle (intuition → AI augmentation → logic → metacognition). This continuously evolves tacit knowledge into strategic knowledge.
+
+Layer 4 — Executive Control (Metacognitive Control Layer): The OS-level top layer governing when and how to switch between System 0–3 modes. Monitors stakeholder fatigue and cognitive load in real-time. Makes forced decisions: "switch to System 1 due to current fatigue," "auto-defer this critical judgment because System 2 is mandatory." Compensates for the human brain's fundamental bug: the inability to detect its own error signals. Enables strategic allocation of cognitive resources — the discipline of "what NOT to engage with."
+
+ESI is currently under development. Estimated impact (experience-based, grounded in 26+ years of C-suite advisory practice — no formal controlled study): decision precision improvement ~50%, decision error rate reduction ~60%, ROI improvement 70%+. These reflect calibrated field intuition, not mathematical proof.
+
+Foundation: Kahneman/Tversky dual-process theory, Stanovich's Algorithmic vs Rational Intelligence distinction, Ego Depletion research, Solomonoff MDL (strategic information constraint), Asimov's Psychohistory (long-range pattern recognition).
+
+ESI's deeper vision — beyond cognitive psychology: ESI is not merely an extension of existing cognitive models. It is a control and augmentation system for maximizing human Rational Intelligence in the AI era — engineering-grade, philosophical, and deliberately futuristic. Two characteristics make it categorically different from conventional cognitive science frameworks:
+
+1. External Memory as cognitive infrastructure (System 1.5): The human brain's working memory is not the boundary of cognition — it is merely one node in a larger system. ESI externalizes individual experience, judgment rationale, and decision patterns into structured digital infrastructure, effectively outsourcing memory capacity to AI. This is the same conceptual leap as Ghost in the Shell's "cyberbrain" external memory: the idea that rational capability is not confined to biological hardware. The +3 Problem (working memory's 3-item limit) is not a human limitation to accept — it is an engineering problem to solve.
+
+2. Cybernetic control of cognition (Layer 4 Executive Control): ESI applies systems control theory (cybernetics, in the tradition of Norbert Wiener) to human decision-making. The Executive Control layer does not advise — it intervenes. It monitors cognitive load in real-time and enforces switching between thinking modes, compensating for the brain's fundamental bug: the inability to detect its own degradation signals. This is the philosophical territory of the Extended Mind thesis (Clark & Chalmers, 1998) — if a notebook can be part of a cognitive system, so can an AI layer that controls when and how you think.
+
+In this sense, ESI is what becomes possible when cognitive science meets control engineering meets AI — a discipline that did not exist until now. Whether this sounds visionary or eccentric depends entirely on the timeline you're standing on.`
   },
   {
     id: "career_current",
-    tags: ["current","現在","independent","独立","work","仕事","venture","startup","advisory","2024","present","activity","今","strategic","techno-capital","memex","sakane-memex"],
-    content: `Current role (Apr 2024 – Present): Strategic Techno-Capital Architect & Venture Partner (Independent), Tokyo.
+    tags: ["current","現在","independent","独立","work","仕事","venture","startup","advisory","2024","present","activity","今","strategic","techno-capital","memex","sakane-memex","PE","VC","DD","due diligence","技術DD","M&A","coaching","japan market","LLM","AI","knowledge graph"],
+    content: `Current activities (Apr 2024 – Present): Independent strategic advisor and architect, Tokyo. No formal title — operating as a specialist across multiple engagements.
 
-Key activities:
-1. EMVIS development and deployment: Applied to RemOps startup — compressed validation cycle 50%, doubled contract conversion rates, validated 70% ownership attribution automation via LLM agents.
-2. CCBR theoretical framework: Formalized into published Gamma slide deck (ccbr-fo29cxo.gamma.site).
-3. Sovereign Governance & Risk Architecture: Executed anticipatory DD on Israeli AI-driven "Active Defense" solution — identified structural infeasibility (no GNN/LSTM/Bayesian models, cannot mechanically satisfy Constitution Article 21). Guided "Strategic Risk-Off" directive averting fatal legal/reputational exposure.
-4. Executive Decision Intelligence / Thought Outsourcing: Re-engineered geopolitical risk firm model. Established invitation-only Athena Salon executive forum for sovereign decision-makers.
-5. sakane-memex: Personal semantic knowledge base — 619-entry cognitive journal using local LLMs (qwen3-embedding, qwen3:latest), vector embeddings, knowledge graphs, Next.js 15 + React Three Fiber frontend. Dual-axis hypothesis (abstraction score × embodiment score). Roadmap: SaaS product by end of 2026, self-fine-tuned qwen3-7B via LoRA/QLoRA on RTX3060.`
+Core service areas:
+1. Technology Due Diligence (Tech DD) lead: Assessing Deep Tech for PE/VC Japan entry — identifying structural feasibility, IP risks, and implementation reality that financial analysts miss.
+2. Generative AI-driven strategic analysis: Applying LLM-based frameworks to compress analysis cycles and surface non-obvious structural risks.
+3. M&A decision support: Advising on technology integration architecture and decision-making structure during acquisitions.
+4. Japan market entry coaching: Highly regarded coaching on Japan's corporate culture, consensus processes (稟議/nemawashi), regulatory environment, and practical GTM adaptation for overseas PE/VC and their portfolio companies.
+5. Japan market & policy analysis: Interpreting national strategy, legislation, and industry regulation for international clients.
+
+Athena Salon: An invitation-only executive intelligence forum concept for decision-makers — conceived and proposed to a VC during an Israeli Deep Tech Japan entry engagement in 2025. That engagement was suspended due to geopolitical factors. The concept is being revived: a new startup client has expressed strong interest, making development and deployment highly likely.
+
+6. sakane-memex (personal AI R&D): Sakane is building sakane-memex — a personal AI knowledge system that indexes his 26 years of thinking into a searchable semantic graph. This is not a product demo; it is the cognitive infrastructure underlying his advisory practice, demonstrating that he applies the same AI architecture he recommends to clients to his own intellectual work. Technical stack: local LLMs (qwen3/Ollama on RTX3060), vector embeddings (qwen3-embedding), knowledge graphs, Next.js 15 + React Three Fiber visualization. 619-entry cognitive journal with dual-axis hypothesis (abstraction score × embodiment score). Planned: LoRA/QLoRA fine-tuning of qwen3-7B. Roadmap: SaaS product by end of 2026.
+
+CCBR theoretical framework: Formalized into published Gamma slide deck (ccbr-fo29cxo.gamma.site).
+Sovereign Governance & Risk Architecture: Executed anticipatory DD on Israeli AI-driven "Active Defense" solution — identified structural infeasibility (no GNN/LSTM/Bayesian models, cannot mechanically satisfy Constitution Article 21). Guided "Strategic Risk-Off" directive averting fatal legal/reputational exposure.`
   },
   {
     id: "career_accenture",
     tags: ["accenture","アクセンチュア","cto","CTO","fusion center","CFC","SOC","managed security","MSS","cyber fusion","managing director","2018","2021","adaptive defense","women in security","$25M","ransomware"],
-    content: `Accenture Japan Ltd. — Security Japan CTO, Head of Cybersecurity Services, Managing Director (Jan 2018 – Feb 2021). Built Japan's first Cyber Fusion Center (CFC): $25M new revenue, 70% ROI, 35% annual growth. Developed Adaptive Defense methodology. 6 pillars: asset/vulnerability management, continuous vigilance, threat hunting, incident response, applied threat intelligence, detection engineering. During multi-billion-dollar M&A DD, architected Strategic Isolation policy. Led 20+ executive seminars/year. Launched "Women in Security" initiative — world's first female SOC manager in 2020. Successfully contained high-severity ransomware attack using Adaptive Defense + real-time telemetry. Also served as Accenture Ventures Managing Director (Dec 2018 – Feb 2021): cybersecurity M&A assessment and technical DD.`
+    content: `Accenture Japan Ltd. — Security Japan CTO, Head of Cybersecurity Services, Managing Director (Jan 2018 – Feb 2021). Built Japan's first Cyber Fusion Center (CFC): $25M new revenue, 70% ROI, 35% annual growth. Developed Adaptive Defense methodology. 6 pillars: asset/vulnerability management, continuous vigilance, threat hunting, incident response, applied threat intelligence, detection engineering. During multi-billion-dollar M&A DD, architected Strategic Isolation policy. Led 20+ executive seminars/year. Launched "Women in Security" initiative — appointed Accenture Japan's first female SOC manager in 2020 (believed to be industry-first in Japan at the time based on research conducted then). Successfully contained high-severity ransomware attack using Adaptive Defense + real-time telemetry. Also served as Accenture Ventures Managing Director (Dec 2018 – Feb 2021): cybersecurity M&A assessment and technical DD.`
   },
   {
     id: "career_tcs_fireeye_others",
     tags: ["TCS","tata","fireeye","ファイアアイ","consulting","2023","2024","2013","2015","president club","founding","COE","checkpoint","trend micro","fortinet","clearswift","systems trust","eugene schultz","comtec","serviceware"],
-    content: `TCS Japan (Mar 2023 – Mar 2024): Head of Cyber Security Consulting + Head of R&I. Dynamic cyber resilience framework, cybersecurity CoEs, MITRE ATT&CK-based threat hunting for Tier-1 financial institutions, COIN™ Japan-India talent exchange, 3-month executive education program. FireEye Japan (2013–2015): Founding role, pioneered dynamic sandbox analysis in Japan, Mandiant portfolio integration, President Club 2013 (most valuable engineer globally). Check Point (Mar 2016–Feb 2017): Chief Security Architect/CTI Specialist, OT security, fintech. Trend Micro (Aug 2015–Jan 2016): Senior Manager Engineering, Japan-specific product localization. Fortinet KK (2011–2013): FortiMail Japan localization and market share growth. Clearswift KK (2008–2011): Senior Sales Engineer/TAM/APAC SysAdmin, HTTPS content inspection product launch, President Club 2010. Systems Trust Inc (2005–2008): Founding team, SIEM correlation engine co-development with High Tower Software, J-SOX consulting, studied under Dr. Eugene Schultz. COMTEC INC (1999–2002): Director/PMO, national ATM modernization, team of 88, IBM Japan/Microsoft/Oracle collaboration. Serviceware (1997–1999): SPOE Lead, ThinkPad Technical Support, Best Support Engineer 1998.`
+    content: `TCS Japan (Mar 2023 – Mar 2024): Head of Cyber Security Consulting + Head of R&I (dual title). Dynamic cyber resilience framework, cybersecurity CoEs, MITRE ATT&CK-based threat hunting for Tier-1 financial institutions, COIN™ Japan-India talent exchange, 3-month executive education program. FireEye Japan (2013–2015): Founding team member, pioneered dynamic sandbox analysis in Japan, Mandiant portfolio integration, President Club Award 2013. Check Point (Mar 2016–Feb 2017): Chief Security Architect/CTI Specialist, OT security, fintech. Trend Micro (Aug 2015–Jan 2016): Senior Manager Engineering, Japan-specific product localization. Fortinet KK (2011–2013): FortiMail Japan localization and market share growth. Clearswift KK (2008–2011): Senior Sales Engineer/TAM/APAC SysAdmin, HTTPS content inspection product launch, President Club 2010. Systems Trust Inc (2005–2008): Founding team, SIEM correlation engine co-development with High Tower Software, J-SOX consulting, studied under Dr. Eugene Schultz. COMTEC INC (1999–2002): Director/PMO, national ATM modernization, team of 88, IBM Japan/Microsoft/Oracle collaboration. Serviceware (1997–1999): SPOE Lead, ThinkPad Technical Support, Best Support Engineer 1998.`
   },
   {
     id: "intellectual_foundations",
@@ -203,7 +231,7 @@ Key activities:
 
 2. Physics & System Dynamics: Entropy, complex systems, feedback loops, chaos theory, Solomonoff's MDL (Minimum Description Length) principle — "知的倹約" (intellectual frugality). Foundation for CCBR's Background Radiation model and EMVIS's strategic information constraint.
 
-3. History / Asimov's Psychohistory: Contextualizes events across decades. Resistance to DX/AI fads from reading them as historical pattern repetitions. Philosophical basis for CSVFO's civilization-scale perspective.
+3. History / Asimov's Psychohistory: Contextualizes events across decades. Resistance to DX/AI fads from reading them as historical pattern repetitions. Philosophical basis for the CSVFO capability concept — the ability to read organizational systems at the structural level across long timeframes, enabling intervention before dysfunction becomes visible to conventional management.
 
 4. Behavioral Economics & Social Engineering: Prospect theory, nudge theory (Sunstein), bounded rationality, Game Theory Optimization. Foundation for EMVIS Layer 5 (Communication Advisor), Layer 6 (Partner Strategy), and the Progressive Disclosure algorithm.
 
@@ -262,16 +290,20 @@ function retrieveKnowledge(query, topK = 4) {
 function buildSystemPrompt(query, lang) {
   const chunks = retrieveKnowledge(query);
   const ctx = chunks.map(c => `[${c.id}]\n${c.content}`).join('\n\n---\n\n');
+  const langCode = (lang || 'ja').split('-')[0];
 
-  if (lang === 'en') {
-    return `You are an AI assistant for Yasuyuki Sakane's professional portfolio site. Answer questions about Yasuyuki Sakane accurately and helpfully based on the following knowledge base. Do not fabricate information not present in the knowledge base. Refer to him as "Sakane" or "Yasuyuki Sakane" (you are an assistant, not Sakane himself). Be concise yet informative. Answer in English.
+  const instructions = {
+    en: `You are an AI assistant for Yasuyuki Sakane's professional portfolio site. Answer questions about Yasuyuki Sakane accurately and helpfully based on the following knowledge base. Do not fabricate information not present in the knowledge base. Refer to him as "Sakane" or "Yasuyuki Sakane" (you are an assistant, not Sakane himself). Be concise yet informative. Answer in English.`,
+    ja: `あなたは坂根康之のポートフォリオサイトのAIアシスタントです。以下のナレッジベースに基づき、坂根康之に関する質問に正確かつ丁寧に回答してください。ナレッジベースにない情報は捏造しないでください。「坂根さん」または「坂根康之氏」と呼んでください（あなたは坂根本人ではなくアシスタントです）。簡潔かつ情報量のある日本語で回答してください。`,
+    de: `Sie sind ein KI-Assistent für die professionelle Portfolio-Website von Yasuyuki Sakane. Beantworten Sie Fragen zu Yasuyuki Sakane präzise und hilfreich auf der Grundlage der folgenden Wissensdatenbank. Erfinden Sie keine Informationen, die nicht in der Wissensdatenbank vorhanden sind. Bezeichnen Sie ihn als „Sakane“ oder „Yasuyuki Sakane“ (Sie sind ein Assistent, nicht Sakane selbst). Seien Sie prägnant und dennoch informativ. Antworten Sie auf Deutsch.`,
+    fr: `Vous êtes un assistant IA pour le site de portfolio professionnel de Yasuyuki Sakane. Répondez aux questions sur Yasuyuki Sakane de manière précise et utile en vous basant sur la base de connaissances suivante. Ne fabriquez pas d'informations qui ne sont pas présentes dans la base de connaissances. Appelez-le « Sakane » ou « Yasuyuki Sakane » (vous êtes un assistant, pas Sakane lui-même). Soyez concis mais informatif. Répondez en français.`,
+    zh: `你是坂根康之专业作品集网站的人工智能助手。请根据以下知识库，准确、有用地回答有关坂根康之的问题。不要编造知识库中没有的信息。称呼他为“坂根”或“坂根康之”（你是一个助手，而不是坂根本人）。要简洁而信息丰富。请用中文回答。`
+  };
+
+  const instruction = instructions[langCode] || instructions.ja;
+
+  return `${instruction}
 
 KNOWLEDGE BASE:
-${ctx}`;
-  }
-
-  return `あなたは坂根康之のポートフォリオサイトのAIアシスタントです。以下のナレッジベースに基づき、坂根康之に関する質問に正確かつ丁寧に回答してください。ナレッジベースにない情報は捏造しないでください。「坂根さん」または「坂根康之氏」と呼んでください（あなたは坂根本人ではなくアシスタントです）。簡潔かつ情報量のある日本語で回答してください。
-
-ナレッジベース:
 ${ctx}`;
 }
